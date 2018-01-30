@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>满满套路的flask商品</title>
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap-theme.min.css ') }}"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="{{ url_for('static',filename='js/bootstrap.min.js ') }}"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <style>
+        ul {
+            list-style: none;
+        }
+    </style>
+    {% block head %}{% endblock %}
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <!-- 顶部导航条区域 -->
+        <div class="col-md-12">
+            <div id="shortcut">
+                <div class="w">
+                    <ul class="fr" style="float: right">
+                        <li class="fore1 dorpdown" id="ttbar-login">
+                            <a target="_blank" href="#" class="link-login">你好，请登录</a>
+                            <a href="#" class="link-regist style-red">免费注册</a>
+                            <a target="_blank" href="#">我的订单</a>
+                            <a target="_blank" href="#">我的账户</a>
+                            <a target="_blank" href="#">网站会员</a>
+                            <a href="#">客户服务</a>
+                            <a href="#">网站导航</a>
+                            <a href="#">手机购物</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- 页面板块导航区域 -->
+        <div class="col-md-12">
+            <!--搜索框 购物车-->
+            <div class="col-md-12">
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div>
+            <!--板块-->
+            <div class="col-md-12">
+
+            </div>
+        </div>
+        <div class="col-md-12">
+            <!--分类区域-->
+            <div class="col-md-2 offset-l2">
+
+            </div>
+            <!--轮播图-->
+            <div class="col-md-6">
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+{% block script %}{% endblock %}
+</html>
