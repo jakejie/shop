@@ -16,7 +16,7 @@ class Config():
     HOST = '59.110.230.99'
     # HOST = '127.0.0.1'
     PORT = 3306
-    DATABASE = 'movie'
+    DATABASE = 'shopping'
 
     SQLALCHEMY_DATABASE_URI = "{}+{}://{}:{}@{}:{}/{}?charset=utf8".format(
         DIALECT, DRIVER, USERNAME, PASSWORD, HOST, PORT, DATABASE
