@@ -7,7 +7,7 @@ from app import create_app, db
 # 引入数据库数据表模型
 from flask_migrate import upgrade
 from app.model import User, Orders, Goods, Address, \
-    TagList, Tag
+    TagList, Tags, Tag
 
 app = create_app()
 manager = Manager(app)
@@ -21,13 +21,14 @@ app.jinja_env.globals['Goods'] = Goods
 app.jinja_env.globals['Address'] = Address
 app.jinja_env.globals['TagList'] = TagList
 app.jinja_env.globals['Tag'] = Tag
+app.jinja_env.globals['Tags'] = Tags
 
 
 def make_shell_context():
     return dict(db=db, User=User,
                 Orders=Orders, Goods=Goods,
                 Address=Address, TagList=TagList,
-                Tag=Tag,
+                Tag=Tag, Tags=Tags,
                 )
 
 
@@ -39,6 +40,54 @@ def deploy():
     # 创建所需数据表
     db.create_all()
     upgrade()
+
+
+@manager.command
+def one():
+    import requests
+    from lxml import etree
+    url = "https://chuanke.baidu.com/?mod=search&act=course&do=nav"
+    response = requests.get(url)
+    tree = etree.HTML(response.text)
+    categ_m = tree.xpath('//div[@class="categ_m"]')
+    for categ in categ_m:
+        tag = "".join(categ.xpath('h3/a/text()'))
+        i = TagList(
+            name=tag,
+        )
+        try:
+            db.session.add(i)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            print(e)
+        dls = categ.xpath('dl')
+        for dl in dls:
+            namess = "".join(dl.xpath('dt/a/text()')).replace('\u3000\u3000', '').replace('\u3000', '')
+            t = Tags(
+                f_name=tag,
+                name=namess,
+            )
+            try:
+                db.session.add(t)
+                db.session.commit()
+            except Exception as e:
+                db.session.rollback()
+                print(e)
+
+            infos = dl.xpath('dd/a')
+            for info in infos:
+                dd = "".join(info.xpath('text()'))
+                s = Tag(
+                    t_name=namess,
+                    name=dd,
+                )
+                try:
+                    db.session.add(s)
+                    db.session.commit()
+                except Exception as e:
+                    db.session.rollback()
+                    print(e)
 
 
 @app.before_first_request
