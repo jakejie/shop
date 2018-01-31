@@ -1,0 +1,82 @@
+{% extends 'home/user_base.html' %}
+
+{% block title %}
+    个人中心 {{ current_user.username }} {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="panel panel-warning">
+        <div class="panel-heading">
+            <h3 class="panel-title"><span class="glyphicon glyphicon-map-marker"></span>&nbsp;会员中心</h3>
+        </div>
+        <div class="panel-body">
+            {% for msg in get_flashed_messages(category_filter=["err"]) %}
+                <p class="login-box-msg" style="color: red">{{ msg }}</p>
+            {% endfor %}
+            {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                <p class="login-box-msg" style="color: green">{{ msg }}</p>
+            {% endfor %}
+            <form role="form" method="post" enctype="multipart/form-data">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="input_name"><span
+                                class="glyphicon glyphicon-user"></span>&nbsp;{{ form.username.label }}</label>
+                        {{ form.username }}
+                    </div>
+                    {% for err in form.username.errors %}
+                        <div class="col-md-12"></div>
+                        <font style="color: red">{{ err }}</font>
+                    {% endfor %}
+                    <div class="form-group">
+                        <label for="input_email"><span
+                                class="glyphicon glyphicon-envelope"></span>&nbsp;{{ form.email.label }}</label>
+                        {{ form.email }}
+                    </div>
+                    {% for err in form.email.errors %}
+                        <div class="col-md-12"></div>
+                        <font style="color: red">{{ err }}</font>
+                    {% endfor %}
+                    <div class="form-group">
+                        <label for="input_phone"><span
+                                class="glyphicon glyphicon-phone"></span>&nbsp;{{ form.phone.label }}</label>
+                        {{ form.phone }}
+                    </div>
+                    {% for err in form.phone.errors %}
+                        <div class="col-md-12"></div>
+                        <font style="color: red">{{ err }}</font>
+                    {% endfor %}
+                    <div class="form-group">
+                        <label for="input_face"><span
+                                class="glyphicon glyphicon-picture"></span>&nbsp;头像</label>
+                        {{ form.image }}
+                        {% if user.image %}
+                            <img src="{{ url_for('static',filename='uploads/face/'+user.image) }}"
+                                 class="img-responsive img-rounded" style="width: 100px">
+                        {% else %}
+                            <img data-src="holder.js/100x100" class="img-responsive img-rounded">
+                        {% endif %}
+                    </div>
+                    {% for err in form.image.errors %}
+                        <div class="col-md-12"></div>
+                        <font style="color: red">{{ err }}</font>
+                    {% endfor %}
+                    <div class="form-group">
+                        <label for="input_info"><span
+                                class="glyphicon glyphicon-edit"></span>&nbsp;{{ form.info.label }}</label>
+                        {{ form.info }}
+                    </div>
+                    {% for err in form.info.errors %}
+                        <div class="col-md-12"></div>
+                        <font style="color: red">{{ err }}</font>
+                    {% endfor %}
+
+                    {{ form.csrf_token }}
+                    {{ form.submit }}
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+

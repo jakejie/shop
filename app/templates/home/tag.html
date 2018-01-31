@@ -1,12 +1,15 @@
 {% extends 'home/home_base.html' %}
+{% block title %}
+    {{ super() }}
+    {{ title }}
+{% endblock %}
 
 {% block header %}
     <div style="height: 40px;width: 100%"></div>
 <section id="movielist">
     <div class="container">
-        <div class="row wow fadeIn" data-wow-delay="10.6s">
+        <div class="row wow fadeIn" data-wow-delay="0.1s">
             <div class="col-md-12 table-responsive">
-
                 <table class="table text-left table-bordered" id="movietags">
                     {% for foo in tags %}
                         <tr>
@@ -38,7 +41,8 @@
                             <span >￥66.66 <del>$99.99</del></span>
                         </div>
                     </div>
-                    <a href="#" class="btn btn-primary" target="_blank" role="button"><span class="glyphicon glyphicon-play"></span>&nbsp;查看详情</a>
+                    <a href="{{ url_for('home.detail',goods_id= '1') }}" class="btn btn-primary" target="_blank" role="button">
+                        <span class="glyphicon glyphicon-play"></span>&nbsp;查看详情</a>
                 </div>
             </div>
             {% endfor %}

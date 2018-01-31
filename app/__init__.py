@@ -14,7 +14,7 @@ bootstrap = Bootstrap()
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'
 # 指定默认的登陆页面
-login_manager.login_view = 'auth.login'
+login_manager.login_view = 'home.login'
 
 
 # static_folder = '',, static_url_path=''
@@ -28,6 +28,10 @@ def create_app():
     bootstrap.init_app(app)
     # moment.init_app(app)
     login_manager.init_app(app)
+
+    # 登陆提示信息
+    login_manager.login_message = u'对不起，您还没有登录'
+    login_manager.login_message_category = 'info'
 
     from .home import home as home_blueprint
     app.register_blueprint(home_blueprint)

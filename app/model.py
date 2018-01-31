@@ -12,8 +12,9 @@ class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)  # 序号
     email = db.Column(db.String(64), unique=True, index=True)  # 邮箱
     phone = db.Column(db.String(11), unique=True)  # 手机号码
-    username = db.Column(db.String(64), unique=True, index=True)  # 用户名
+    username = db.Column(db.String(128), unique=True, index=True)  # 用户名
     password = db.Column(db.String(256))  # 密码
+    pwd = db.Column(db.String(256))
     password_hash = db.Column(db.String(128), unique=True)  # 密码 哈希
     avatar_hash = db.Column(db.String(32))
     image = db.Column(db.TEXT)  # 图像
@@ -24,8 +25,11 @@ class User(UserMixin, db.Model):
     info = db.Column(db.Text)  # 个性简介
     member_grade = db.Column(db.String(4), default="0")  # 会员等级
     account_point = db.Column(db.Integer, default=0)  # 会员积分
+    uuid = db.Column(db.String(1024))
     # （设置外键的第二步）
     address = db.relationship('Address', backref='user')  # 会员收货地址外键关系关联
+    comment_user = db.relationship('Comment', backref='user')  # 会员评论信息外键关系关联
+    user_logs = db.relationship('UserLog', backref='user')  # 会员登陆日志信息外键关系关联
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -37,16 +41,16 @@ class User(UserMixin, db.Model):
         db.session.add(user)
         db.session.commit()
 
-    @property
-    def password(self):
-        raise AttributeError('password is not a readable attribute')
-
-    @password.setter
-    def password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def verify_password(self, password):
-        return check_password_hash(self.password_hash, password)
+    # @property
+    # def password(self):
+    #     raise AttributeError('password is not a readable attribute')
+    #
+    # @password.setter
+    # def password(self, password):
+    #     self.password_hash = generate_password_hash(password)
+    #
+    # def verify_password(self, password):
+    #     return check_password_hash(self.password_hash, password)
 
     def __init__(self, **kwargs):
         super(User, self).__init__(**kwargs)
@@ -55,18 +59,14 @@ class User(UserMixin, db.Model):
                 self.email.encode('utf-8')).hexdigest()
 
     def gravatar(self, size=40, default='identicon', rating='g'):
-        # if request.is_secure:
-        #     url = 'https://secure.gravatar.com/avatar'
-        # else:
-        #     url = 'http://www.gravatar.com/avatar'
-        url = 'http://gravatar.duoshuo.com/avatar'
-        hash = self.avatar_hash or hashlib.md5(
-            self.email.encode('utf-8')).hexdigest()
-        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(
-            url=url, hash=hash, size=size, default=default, rating=rating)
+        pass
+
+    def check_pwd(self, password):  # 检验密码
+        from werkzeug.security import check_password_hash
+        return check_password_hash(self.password, password)
 
 
-# 登陆的钩子
+# 登陆的钩子  用户认证的回调函数
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -77,17 +77,73 @@ class Orders(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)  # 序号
     add_time = db.Column(db.DATETIME, default=datetime.now())
+    orderId = db.Column(db.Integer, unique=True)  # 订单id
     address = db.Column(db.Integer, db.ForeignKey('address.id'))  # 绑定外键 对应哪个地址的订单
     good = db.Column(db.Integer, db.ForeignKey('goods.id'))  # 绑定外键 对应哪个商品的订单
-    user = db.Column(db.Integer, db.ForeignKey('user.id'))  # 绑定外键 对应哪个用户的订单
+    user = db.Column(db.Integer, db.ForeignKey('user.username'))  # 绑定外键 对应哪个用户的订单
+
+
+# 订单里面的商品列表 一个订单有多个商品
+class Detail(db.Model):
+    __tablename__ = 'detail'
+    id = db.Column(db.Integer, primary_key=True)
+    goods_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 该订单对应的商品id
+    goods_name = db.Column(db.Integer, db.ForeignKey('goods.name'))  # 该订单对应的商品名称
+    order_id = db.Column(db.Integer, db.ForeignKey('orders.orderId'))  # 该订单的id
+    user = db.Column(db.String(128), db.ForeignKey('user.username'))  # 哪个用户购买了该商品
 
 
 # 商品列表
 class Goods(db.Model):
     __tablename__ = 'goods'
     id = db.Column(db.Integer, primary_key=True)  # 序号
+    good_id = db.Column(db.Integer, unique=True)  # 商品id
     name = db.Column(db.String(512), unique=True)  # 商品名称
+    good_tag = db.Column(db.String(128), db.ForeignKey('tag.name'))  # 商品所属分类
+    chap_num = db.Column(db.Integer)  # 该课程章节数
+    price = db.Column(db.String(512))  # 现价
+    old_price = db.Column(db.String(512))  # 原价
+    start = db.Column(db.Integer)  # 星级>>>1-5星
+    discount = db.Column(db.String(4))  # 折扣
+    ad_time = db.Column(db.DATETIME, default=datetime.now())  # 上架时间
     view_num = db.Column(db.Integer, unique=True, default=1)  # 浏览次数
+    comment_num = db.Column(db.Integer)  # 评论数量
+    course_info = db.Column(db.Text)  # 商品介绍
+    # 外键关联第二步===好像可以不需要
+    comment_good = db.relationship('Comment', backref='goods')
+
+
+
+# 购物车
+class BuyCar(db.Model):
+    __tablename__ = 'buycar'
+    id = db.Column(db.Integer, primary_key=True)
+    add_time = db.Column(db.DATETIME, default=datetime.now())  # 加入购物车时间
+    goods = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 购物车商品名称
+    goods_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 购物车商品名称
+    users = db.Column(db.String(128), db.ForeignKey('user.username'))  # 哪个用户购物车里的商品
+
+
+# 用户收藏商品列表
+class Collect(db.Model):
+    __tablename__ = 'collect'
+    id = db.Column(db.Integer, primary_key=True)
+    add_time = db.Column(db.DATETIME, default=datetime.now())  # 收藏时间
+    goods = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 收藏商品名称
+    good_id = db.Column(db.String(512), db.ForeignKey('goods.good_id'))  # 收藏商品ID
+    users = db.Column(db.String(128), db.ForeignKey('user.username'))  # 哪个用户收藏的商品
+
+
+# 评论列表
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    id = db.Column(db.Integer, primary_key=True)  # 序号
+    content = db.Column(db.Text)  # 评论内容
+    add_time = db.Column(db.DATETIME, default=datetime.now())  # 评论时间
+    fab = db.Column(db.Integer, default=0)  # 点赞数
+    replay = db.Column(db.Text)  # 回复
+    comment_good_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 所评论的商品的id
+    users = db.Column(db.String(128), db.ForeignKey('user.username'))  # 评论用户
 
 
 # 收货地址列表
@@ -104,6 +160,65 @@ class Address(db.Model):
     users = db.Column(db.String(128), db.ForeignKey('user.username'))
 
 
+# 大分类列表==一级
+class TagList(db.Model):
+    __tablename__ = 'tag_list'
+    id = db.Column(db.Integer, primary_key=True)  # 序号
+    name = db.Column(db.String(128), unique=True)
+    # 外键第二步
+    f_name = db.relationship("Tags", backref='tag_list')  # 底下分类所属分类外键关联关系
+    # one_name = db.relationship("Tag", backref='tag_list')  # 底下分类所属分类外键关联关系
+
+
+# 小分类==二级
+class Tags(db.Model):
+    __tablename__ = "tags"
+    id = db.Column(db.Integer, primary_key=True)  # 序号
+    name = db.Column(db.String(128), unique=True)
+    # 外键第一步====绑定tag list
+    f_name = db.Column(db.String(128), db.ForeignKey('tag_list.name'))  # 一级名称
+    # 外键第二步
+    t_name = db.relationship("Tag", backref='tags')  # 底下分类所属分类外键关联关系
+
+
+# 再小分类==三级
+class Tag(db.Model):
+    __tablename__ = "tag"
+    id = db.Column(db.Integer, primary_key=True)  # 序号
+    name = db.Column(db.String(128), unique=True)  # 三级分类
+    # 外键第一步  绑定tag list
+    t_name = db.Column(db.String(128), db.ForeignKey('tags.name'))  # 二级分类
+    good_tag = db.relationship("Goods", backref='tag')  # 底下分类所属分类外键关联关系
+
+
+# 页面统计数据
+class Count(db.Model):
+    __tablename__ = 'count'
+    id = db.Column(db.Integer, primary_key=True)  # 序号
+    days = db.Column(db.Integer, default=1)  # 运行天数
+    view = db.Column(db.Integer)  # 浏览次数
+    goods_num = db.Column(db.Integer)  # 商品总数
+    user_num = db.Column(db.Integer)  # 当前会员总数
+    today_goods = db.Column(db.Integer)  # 今日新上架商品
+    today_views = db.Column(db.Integer)  # 今日浏览次数
+    local_people = db.Column(db.Integer)  # 当前在线人数
+    max_people = db.Column(db.Integer)  # 最大同时在线人数
+    max_people_time = db.Column(db.DATETIME, default=datetime.now())  # 最大同时在线人数日期
+
+
+# 登陆日志
+class UserLog(db.Model):
+    __tablename__ = 'log'
+    id = db.Column(db.Integer, primary_key=True)
+    ip_add = db.Column(db.String(32))  # 登陆IP地址
+    add_time = db.Column(db.DATETIME, default=datetime.now())  # 记录时间
+    user_logs = db.Column(db.String(128), db.ForeignKey('user.username'))  # 登陆用户
+
+
+if __name__ == "__main__":
+    # db.create_all()
+    # db.upgrade()
+    pass
 """
 {"tag": 'IT/互联网/计算机', "name": '编程语言', "detail": 'C/C++'}
 {"tag": 'IT/互联网/计算机', "name": '编程语言', "detail": 'VC/MFC'}
@@ -423,54 +538,3 @@ class Address(db.Model):
 {"tag": '公开课学术学科', "name": '应用科学', "detail": '土木工程'}
 {"tag": '公开课学术学科', "name": '应用科学', "detail": '软件工程'}
 """
-
-
-# 大分类列表==一级
-class TagList(db.Model):
-    __tablename__ = 'tag_list'
-    id = db.Column(db.Integer, primary_key=True)  # 序号
-    name = db.Column(db.String(128),unique=True)
-    # 外键第二步
-    f_name = db.relationship("Tags", backref='tag_list')  # 底下分类所属分类外键关联关系
-    # one_name = db.relationship("Tag", backref='tag_list')  # 底下分类所属分类外键关联关系
-
-
-# 小分类==二级
-class Tags(db.Model):
-    __tablename__ = "tags"
-    id = db.Column(db.Integer, primary_key=True)  # 序号
-    name = db.Column(db.String(128),unique=True)
-    # 外键第一步====绑定tag list
-    f_name = db.Column(db.String(128), db.ForeignKey('tag_list.name'))  # 一级名称
-    # 外键第二步
-    t_name = db.relationship("Tag", backref='tags')  # 底下分类所属分类外键关联关系
-
-
-# 再小分类==三级
-class Tag(db.Model):
-    __tablename__ = "tag"
-    id = db.Column(db.Integer, primary_key=True)  # 序号
-    name = db.Column(db.String(128),unique=True)  # 三级分类
-    # 外键第一步  绑定tag list
-    t_name = db.Column(db.String(128), db.ForeignKey('tags.name'))  # 二级分类
-
-
-# 页面统计数据
-class Count(db.Model):
-    __tablename__ = 'count'
-    id = db.Column(db.Integer, primary_key=True)  # 序号
-    days = db.Column(db.Integer, default=1)  # 运行天数
-    view = db.Column(db.Integer)  # 浏览次数
-    goods_num = db.Column(db.Integer)  # 商品总数
-    user_num = db.Column(db.Integer)  # 当前会员总数
-    today_goods = db.Column(db.Integer)  # 今日新上架商品
-    today_views = db.Column(db.Integer)  # 今日浏览次数
-    local_people = db.Column(db.Integer)  # 当前在线人数
-    max_people = db.Column(db.Integer)  # 最大同时在线人数
-    max_people_time = db.Column(db.DATETIME, default=datetime.now())  # 最大同时在线人数日期
-
-
-if __name__ == "__main__":
-    # db.create_all()
-    # db.upgrade()
-    pass

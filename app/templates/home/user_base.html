@@ -1,0 +1,46 @@
+{% extends 'home/home_base.html' %}
+
+{% block header %}
+    <!--内容-->
+    <div class="container" style="margin-top:76px">
+        <div style="height: 60px"></div>
+        <div class="col-md-3">
+            <div class="list-group">
+                <a href="{{ url_for('home.user') }}" class="list-group-item active">
+                    <span class="glyphicon glyphicon-user"></span>&nbsp;会员中心
+                </a>
+                <a href="{{ url_for('home.change_pwd') }}" class="list-group-item">
+                    <span class="glyphicon glyphicon-lock"></span>&nbsp;修改密码
+                </a>
+                <a href="{{ url_for('home.comment') }}" class="list-group-item">
+                    <span class="glyphicon glyphicon-comment"></span>&nbsp;评论记录
+                </a>
+                <a href="{{ url_for('home.log') }}" class="list-group-item">
+                    <span class="glyphicon glyphicon-calendar"></span>&nbsp;登录日志
+                </a>
+                <a href="{{ url_for('home.collect') }}" class="list-group-item">
+                    <span class="glyphicon glyphicon-heart"></span>&nbsp;收藏商品
+                </a>
+                <a href="{{ url_for('home.order_list') }}" class="list-group-item">
+                    <span class="glyphicon glyphicon-heart"></span>&nbsp;历时订单
+                </a>
+                <a href="{{ url_for('home.buy') }}" class="list-group-item">
+                    <span class="glyphicon glyphicon-heart"></span>&nbsp;购物车
+                </a>
+                <a href="{{ url_for('home.address') }}" class="list-group-item">
+                    <span class="glyphicon glyphicon-heart"></span>&nbsp;收货地址
+                </a>
+            </div>
+        </div>
+        <div class="col-md-9">
+        <!--个人中心页面模板接口-->
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </div>
+    <!--内容-->
+{% endblock %}
+
+
+

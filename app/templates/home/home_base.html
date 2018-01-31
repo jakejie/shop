@@ -57,18 +57,27 @@
                 <li>
                     <a class="curlink" href="#"><span class="glyphicon glyphicon-film"></span>&nbsp;商城</a>
                 </li>
+                {% if current_user.is_authenticated%}
+                <li>
+                    <a class="curlink" href="{{ url_for('home.user') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;欢迎：{{ current_user.username }}</a>
+                </li>
+                <li>
+                    <a class="curlink" href="{{ url_for('home.user') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;会员中心</a>
+                </li>
+                 <li>
+                    <a class="curlink" href="{{ url_for('home.buy') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;购物车</a>
+                </li>
+                <li>
+                    <a class="curlink" href="{{ url_for('home.logout') }}"><span class="glyphicon glyphicon-log-out"></span>&nbsp;退出</a>
+                </li>
+                {% else %}
                 <li>
                     <a class="curlink" href="{{ url_for('home.login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a>
                 </li>
                 <li>
                     <a class="curlink" href="{{ url_for('home.register') }}"><span class="glyphicon glyphicon-plus"></span>&nbsp;注册</a>
                 </li>
-                <li>
-                    <a class="curlink" href="{{ url_for('home.logout') }}"><span class="glyphicon glyphicon-log-out"></span>&nbsp;退出</a>
-                </li>
-                <li>
-                    <a class="curlink" href="{{ url_for('home.user') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;会员</a>
-                </li>
+                {% endif %}
             </ul>
         </div>
         <!--导航-->
