@@ -98,6 +98,12 @@
                 <p>
                     ©&nbsp;2017&nbsp;微商城&nbsp;京ICP备 88888888号-2  联系方式：136 8888 8888
                 </p>
+                {% for foo in Count.query.all() %}
+                <div>浏览次数：{{ foo.view }}</div>
+                <div>商品数量：{{ foo.goods_num }}</div>
+                <div>会员数量：{{ foo.user_num }}</div>
+                {% endfor %}
+
             </div>
         </div>
     </div>

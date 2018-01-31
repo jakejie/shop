@@ -1,4 +1,4 @@
-from flask_wtf import FlaskForm
+from flask_wtf import Form as FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, FileField, TextAreaField,IntegerField
 from wtforms.validators import DataRequired, ValidationError, EqualTo, Email, Regexp
 from app.model import User
@@ -223,3 +223,9 @@ class CommentForm(FlaskForm):
         '提交评论',
         render_kw={"class": "btn btn-success  ", }
     )
+
+
+#购物车选中商品去结算
+class Buy(FileField):
+
+    pass

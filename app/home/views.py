@@ -5,7 +5,6 @@ from app.model import TagList, Tags, Tag, Goods, User, UserLog, Comment, Address
 from app import db
 from app.home.form import LoginForm, RegistForm, UserDetailForm, CommentForm
 from werkzeug.security import generate_password_hash
-from functools import wraps
 import uuid, os, datetime
 from flask_login import login_required, logout_user, login_user
 # 获取当前登录用户对象
@@ -203,16 +202,20 @@ def address():
     return render_template('home/address.html', addres=addres)
 
 
-# 购物车页
-@home.route('/buy')
+# ----需要ajax----
+# 提交订单页面 也可以是购物车页面 生成订单号
+# 购物车页 可以选择商品直接去结算 点击按钮 去结算 自动根据用户id+时间戳生成订单号
+@home.route('/buy', methods=["POST", "GET"])
+@home.route('/refer', methods=["POST", "GET"])
 @login_required
 def buy():
     username = current_user.username
     buy_s = Address.query.filter_by(users=username).all()
-    return render_template('home/buy.html', buys=buy_s)
+    if request.method == "GET":
+        return render_template('home/buy.html', buys=buy_s)
 
 
-# 订单详情页==对商品添加评论=ok
+# 查看订单详情页==并且可以对购买过的商品添加评论=ok
 @home.route('/order/<int:order_id>', methods=["POST", "GET"])
 @login_required
 def order_detail(order_id=None):
@@ -241,8 +244,8 @@ def order_detail(order_id=None):
         return render_template('home/order_detail.html', info=info, goods=goods)
 
 
-# 我的订单
-@home.route('/order_list')
+# 我的订单 查看所有的历史订单信息
+@home.route('/order_list/')
 @login_required
 def order_list():
     username = current_user.username
@@ -250,13 +253,25 @@ def order_list():
     return render_template('home/order_list.html', orders=orders, Detail=Detail)
 
 
-# 收藏商品列表
-@home.route('/collect')
+# 收藏商品列表 查看所有收藏过的商品 以及 点击收藏之后 接收post请求 收藏
+@home.route('/collect', methods=["POST", "GET"])
 @login_required
 def collect():
     username = current_user.username
     collects = Collect.query.filter_by(users=username).all()
-    return render_template('home/collect.html', collects=collects)
+    if request.method == "GET":
+        return render_template('home/collect.html', collects=collects)
+    else:
+        good_id = request.form.get('goods_id')
+        goods = request.form.get('goods')
+        inf = Collect(
+            users=username,
+            good_id=good_id,
+            goods=goods,
+        )
+        db.session.add(inf)
+        db.session.commit()
+        flash("收藏成功 可以在收藏列表查看所有收藏的商品")
 
 
 # 联系我们

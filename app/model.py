@@ -76,11 +76,12 @@ def load_user(user_id):
 class Orders(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)  # 序号
-    add_time = db.Column(db.DATETIME, default=datetime.now())
-    orderId = db.Column(db.Integer, unique=True)  # 订单id
+    add_time = db.Column(db.DATETIME, default=datetime.now())  # 提交订单时间
+    orderId = db.Column(db.Integer, unique=True)  # 订单id 根据user id + 时间戳生成
     address = db.Column(db.Integer, db.ForeignKey('address.id'))  # 绑定外键 对应哪个地址的订单
     good = db.Column(db.Integer, db.ForeignKey('goods.id'))  # 绑定外键 对应哪个商品的订单
     user = db.Column(db.Integer, db.ForeignKey('user.username'))  # 绑定外键 对应哪个用户的订单
+    num = db.Column(db.Integer)  # 购买该商品的数量
 
 
 # 订单里面的商品列表 一个订单有多个商品
@@ -88,7 +89,7 @@ class Detail(db.Model):
     __tablename__ = 'detail'
     id = db.Column(db.Integer, primary_key=True)
     goods_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 该订单对应的商品id
-    goods_name = db.Column(db.Integer, db.ForeignKey('goods.name'))  # 该订单对应的商品名称
+    goods_name = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 该订单对应的商品名称
     order_id = db.Column(db.Integer, db.ForeignKey('orders.orderId'))  # 该订单的id
     user = db.Column(db.String(128), db.ForeignKey('user.username'))  # 哪个用户购买了该商品
 
@@ -113,7 +114,6 @@ class Goods(db.Model):
     comment_good = db.relationship('Comment', backref='goods')
 
 
-
 # 购物车
 class BuyCar(db.Model):
     __tablename__ = 'buycar'
@@ -130,7 +130,7 @@ class Collect(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 收藏时间
     goods = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 收藏商品名称
-    good_id = db.Column(db.String(512), db.ForeignKey('goods.good_id'))  # 收藏商品ID
+    good_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 收藏商品ID
     users = db.Column(db.String(128), db.ForeignKey('user.username'))  # 哪个用户收藏的商品
 
 
