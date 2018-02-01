@@ -2,7 +2,7 @@ from . import admin
 from app import db
 from flask import render_template, flash, redirect, request, session, url_for
 from flask_login import login_required, current_user
-from app.model import Count, Goods
+from app.model import Count, Goods, Tag, Tags, TagList
 from .form import AddGoodsForm
 import time
 
@@ -16,7 +16,12 @@ def index():
         info = Count.query.first()
         return render_template('admin/index.html', count=info)
     else:
-        pass
+        tag_list = TagList.query.all()
+        tags = Tags.query.all()
+        tag = Tag.query.all()
+        shops = Goods.query.all()
+        return render_template('home/index.html', tag_list=tag_list,
+                               shops=shops, tags=tags, tag=tag)
 
 
 # 商品添加页面
@@ -29,11 +34,10 @@ def add_good():
         if username != "admin":
             flash("该用户为普通用户")
             flash("请使用admin管理员账号登陆！")
-            return ""
+            return redirect(url_for('auth.login'))
         else:
             return render_template('admin/add_goods.html', form=form)
     if form.validate_on_submit():
-        print("OK啊")
         inf = Goods(
             good_id=int(time.time()),
             name=form.name.data,

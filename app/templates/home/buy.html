@@ -9,7 +9,7 @@
         <div class="span12">
             <div class="widget-box">
                 <div class="widget-title"><span class="icon"> <i class="icon-th"></i> </span>
-                    <h5>我的操作记录</h5>
+                    <h5>我的购物车</h5>
                 </div>
                 <div class="widget-content nopadding">
                     <table class="table table-bordered table-striped">
@@ -62,9 +62,33 @@
 
                         </tbody>
                     </table>
-                    <button >去结算</button>
+                    <button id="jiesuan">去结算</button>
                 </div>
             </div>
         </div>
+
+{% endblock %}
+<!--购物车结算 进行post请求 以及其他页面添加到购物车 都是ajax请求 -->
+{% block script %}
+    <script>
+    document.getElementById("jiesuan").onclick=function () {
+        //发送数据 并生成订单页面
+        var request = new XMLHttpRequest();
+        request.open("POST",url_for('home.jiesuan'));
+        var data = "id=" + document.getElementById("good").value;
+        //一定要加上这一段 不然报错
+        request.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        request.send(data);
+        request.onreadystatechange = function () {
+            if (request.readyState ===4){
+                if (request.status === 200){
+                    document.getElementById("Result").innerHTML = request.responseText;
+                }else {
+                    alert("订单生成失败！")
+                }
+            }
+        }
+    };
+    </script>
 
 {% endblock %}
