@@ -4,6 +4,38 @@ import hashlib
 from datetime import datetime
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask import current_app
+
+
+# 大分类列表==一级
+class TagList(db.Model):
+    __tablename__ = 'tag_list'
+    id = db.Column(db.Integer, primary_key=True)  # 序号
+    name = db.Column(db.String(128), unique=True)
+    # 外键第二步
+    f_name = db.relationship("Tags", backref='tag_list')  # 底下分类所属分类外键关联关系
+
+
+# 小分类==二级
+class Tags(db.Model):
+    __tablename__ = "tags"
+    id = db.Column(db.Integer, primary_key=True)  # 序号
+    name = db.Column(db.String(128), unique=True)
+    # 外键第一步====绑定tag list
+    f_name = db.Column(db.String(128), db.ForeignKey('tag_list.name'))  # 一级名称
+    # 外键第二步
+    t_name = db.relationship("Tag", backref='tags')  # 底下分类所属分类外键关联关系
+
+
+# 再小分类==三级
+class Tag(db.Model):
+    __tablename__ = "tag"
+    id = db.Column(db.Integer, primary_key=True)  # 序号
+    name = db.Column(db.String(128), unique=True)  # 三级分类
+    # 外键第一步  绑定tag list
+    t_name = db.Column(db.String(128), db.ForeignKey('tags.name'))  # 二级分类
+    good_tag = db.relationship("Goods", backref='tag')  # 底下分类所属分类外键关联关系
 
 
 # 用户表
@@ -28,8 +60,12 @@ class User(UserMixin, db.Model):
     uuid = db.Column(db.String(1024))
     # （设置外键的第二步）
     address = db.relationship('Address', backref='user')  # 会员收货地址外键关系关联
+    user_order = db.relationship('Orders')  # 订单信息外键关系关联
     comment_user = db.relationship('Comment', backref='user')  # 会员评论信息外键关系关联
     user_logs = db.relationship('UserLog', backref='user')  # 会员登陆日志信息外键关系关联
+    user_car = db.relationship('BuyCar', backref='user')  # 购物车外键关系关联
+    detail_user = db.relationship('Detail')  # 订单商品购买人 外键关系关联
+    col_user = db.relationship('Collect', backref='user')  # 收藏商品对应用户
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -66,10 +102,19 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password, password)
 
 
-# 登陆的钩子  用户认证的回调函数
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
+# 收货地址列表
+class Address(db.Model):
+    __tablename__ = 'address'
+    id = db.Column(db.Integer, primary_key=True)
+    province = db.Column(db.String(512), unique=True)  # 省份
+    city = db.Column(db.String(512), unique=True)  # 城市
+    area = db.Column(db.String(512), unique=True)  # 地区
+    address = db.Column(db.String(512), unique=True)  # 街道等详细位置
+    phone = db.Column(db.String(20), unique=True)  # 收货电话
+    name = db.Column(db.String(128))  # 收货人姓名
+    remarks = db.Column(db.String(512))
+    # 外键第二步
+    users = db.Column(db.String(128), db.ForeignKey('user.username'))
 
 
 # 订单列表
@@ -77,21 +122,10 @@ class Orders(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)  # 序号
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 提交订单时间
-    orderId = db.Column(db.Integer, unique=True)  # 订单id 根据user id + 时间戳生成
-    address = db.Column(db.Integer, db.ForeignKey('address.id'))  # 绑定外键 对应哪个地址的订单
-    good = db.Column(db.Integer, db.ForeignKey('goods.id'))  # 绑定外键 对应哪个商品的订单
-    user = db.Column(db.Integer, db.ForeignKey('user.username'))  # 绑定外键 对应哪个用户的订单
-    num = db.Column(db.Integer)  # 购买该商品的数量
-
-
-# 订单里面的商品列表 一个订单有多个商品
-class Detail(db.Model):
-    __tablename__ = 'detail'
-    id = db.Column(db.Integer, primary_key=True)
-    goods_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 该订单对应的商品id
-    goods_name = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 该订单对应的商品名称
-    order_id = db.Column(db.Integer, db.ForeignKey('orders.orderId'))  # 该订单的id
-    user = db.Column(db.String(128), db.ForeignKey('user.username'))  # 哪个用户购买了该商品
+    order_id = db.Column(db.Integer, unique=True)  # 订单id 根据user id + 时间戳生成
+    address = db.Column(db.String(512))  # 绑定外键 对应哪个地址的订单
+    user = db.Column(db.Integer, db.ForeignKey('user.id'))  # 绑定外键 对应哪个用户的订单
+    user_detail = db.relationship("Detail", backref='orders')  # 该订单对应的商品 外键关联
 
 
 # 商品列表
@@ -102,16 +136,33 @@ class Goods(db.Model):
     name = db.Column(db.String(512), unique=True)  # 商品名称
     good_tag = db.Column(db.String(128), db.ForeignKey('tag.name'))  # 商品所属分类
     chap_num = db.Column(db.Integer)  # 该课程章节数
-    price = db.Column(db.String(512))  # 现价
-    old_price = db.Column(db.String(512))  # 原价
+    price = db.Column(db.FLOAT(16))  # 现价
+    old_price = db.Column(db.FLOAT(16))  # 原价
     start = db.Column(db.Integer)  # 星级>>>1-5星
-    discount = db.Column(db.String(4))  # 折扣
+    discount = db.Column(db.FLOAT(32))  # 折扣
     ad_time = db.Column(db.DATETIME, default=datetime.now())  # 上架时间
-    view_num = db.Column(db.Integer, unique=True, default=1)  # 浏览次数
-    comment_num = db.Column(db.Integer)  # 评论数量
+    view_num = db.Column(db.Integer, default=1)  # 浏览次数
+    comment_num = db.Column(db.Integer,default=0)  # 评论数量
     course_info = db.Column(db.Text)  # 商品介绍
+    target = db.Column(db.Integer, default=1)  # 商品是否上架 0表示未上架 1表示已经上架 默认直接上架商品
     # 外键关联第二步===好像可以不需要
     comment_good = db.relationship('Comment', backref='goods')
+    goods_id = db.relationship('Detail', backref='goods')
+    car_id = db.relationship('BuyCar', backref='goods')
+    col_id = db.relationship('Collect', backref='goods')
+
+
+# 订单里面的商品列表 一个订单有多个商品
+class Detail(db.Model):
+    __tablename__ = 'detail'
+    id = db.Column(db.Integer, primary_key=True)
+    add_time = db.Column(db.DATETIME, default=datetime.now())
+    goods_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 该订单对应的商品id
+    # goods_name = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 该订单对应的商品名称
+    num = db.Column(db.Integer)  # 购买该商品的数量
+    orderId = db.Column(db.Integer, db.ForeignKey('orders.order_id'))  # 该订单的id
+    user = db.Column(db.String(128), db.ForeignKey('user.username'))  # 哪个用户购买了该商品
+    price = db.Column(db.String(32))  # 该订单对应金额
 
 
 # 购物车
@@ -119,7 +170,7 @@ class BuyCar(db.Model):
     __tablename__ = 'buycar'
     id = db.Column(db.Integer, primary_key=True)
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 加入购物车时间
-    goods = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 购物车商品名称
+    # goods = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 购物车商品名称
     goods_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 购物车商品名称
     users = db.Column(db.String(128), db.ForeignKey('user.username'))  # 哪个用户购物车里的商品
 
@@ -129,7 +180,7 @@ class Collect(db.Model):
     __tablename__ = 'collect'
     id = db.Column(db.Integer, primary_key=True)
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 收藏时间
-    goods = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 收藏商品名称
+    # goods = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 收藏商品名称
     good_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 收藏商品ID
     users = db.Column(db.String(128), db.ForeignKey('user.username'))  # 哪个用户收藏的商品
 
@@ -146,61 +197,23 @@ class Comment(db.Model):
     users = db.Column(db.String(128), db.ForeignKey('user.username'))  # 评论用户
 
 
-# 收货地址列表
-class Address(db.Model):
-    __tablename__ = 'address'
-    id = db.Column(db.Integer, primary_key=True)
-    province = db.Column(db.String(512), unique=True)  # 省份
-    city = db.Column(db.String(512), unique=True)
-    area = db.Column(db.String(512), unique=True)
-    address = db.Column(db.String(512), unique=True)
-    phone = db.Column(db.String(20), unique=True)
-    remarks = db.Column(db.String(512))
-    # 外键第二步
-    users = db.Column(db.String(128), db.ForeignKey('user.username'))
-
-
-# 大分类列表==一级
-class TagList(db.Model):
-    __tablename__ = 'tag_list'
-    id = db.Column(db.Integer, primary_key=True)  # 序号
-    name = db.Column(db.String(128), unique=True)
-    # 外键第二步
-    f_name = db.relationship("Tags", backref='tag_list')  # 底下分类所属分类外键关联关系
-    # one_name = db.relationship("Tag", backref='tag_list')  # 底下分类所属分类外键关联关系
-
-
-# 小分类==二级
-class Tags(db.Model):
-    __tablename__ = "tags"
-    id = db.Column(db.Integer, primary_key=True)  # 序号
-    name = db.Column(db.String(128), unique=True)
-    # 外键第一步====绑定tag list
-    f_name = db.Column(db.String(128), db.ForeignKey('tag_list.name'))  # 一级名称
-    # 外键第二步
-    t_name = db.relationship("Tag", backref='tags')  # 底下分类所属分类外键关联关系
-
-
-# 再小分类==三级
-class Tag(db.Model):
-    __tablename__ = "tag"
-    id = db.Column(db.Integer, primary_key=True)  # 序号
-    name = db.Column(db.String(128), unique=True)  # 三级分类
-    # 外键第一步  绑定tag list
-    t_name = db.Column(db.String(128), db.ForeignKey('tags.name'))  # 二级分类
-    good_tag = db.relationship("Goods", backref='tag')  # 底下分类所属分类外键关联关系
-
-
 # 页面统计数据
 class Count(db.Model):
     __tablename__ = 'count'
     id = db.Column(db.Integer, primary_key=True)  # 序号
     days = db.Column(db.Integer, default=1)  # 运行天数
     view = db.Column(db.Integer)  # 浏览次数
-    goods_num = db.Column(db.Integer)  # 商品总数
-    user_num = db.Column(db.Integer)  # 当前会员总数
+
+    today_order = db.Column(db.Integer)  # 今日订单数
     today_goods = db.Column(db.Integer)  # 今日新上架商品
-    today_views = db.Column(db.Integer)  # 今日浏览次数
+    today_views = db.Column(db.Integer)  # 今日浏览次数 今日访客
+    today_vip = db.Column(db.Integer)  # 今日新增注册会员
+
+    order_num = db.Column(db.Integer)  # 订单总数
+    goods_num = db.Column(db.Integer)  # 商品总数
+    view_num = db.Column(db.Integer)  # 历时浏览次数
+    user_num = db.Column(db.Integer)  # 当前会员总数
+
     local_people = db.Column(db.Integer)  # 当前在线人数
     max_people = db.Column(db.Integer)  # 最大同时在线人数
     max_people_time = db.Column(db.DATETIME, default=datetime.now())  # 最大同时在线人数日期
@@ -213,11 +226,46 @@ class UserLog(db.Model):
     ip_add = db.Column(db.String(32))  # 登陆IP地址
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 记录时间
     user_logs = db.Column(db.String(128), db.ForeignKey('user.username'))  # 登陆用户
+    remark = db.Column(db.String(512))  # 操作内容 标记备注
+
+
+# 登陆的钩子  用户认证的回调函数
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+# 登陆用户需要进行邮箱验证方可正常进行登陆
+def generate_confirmation_token(self, expiration=3600):
+    # 这个函数需要两个参数，一个密匙，从配置文件获取，一个时间，这里1小时
+    s = Serializer(current_app.config['SECRET_KEY'], expiration)
+    # 为ID生成一个加密签名，然后再对数据和签名进行序列化，生成令牌版字符串（就是一长串乱七八糟的东西）,然后返回
+    return s.dumps({'confirm': self.id})
+
+
+def confirm(self, token):
+    # 激活
+    s = Serializer(current_app.config['SECRET_KEY'])
+    # 传入和刚才一样的密匙，解码要用
+    try:
+        data = s.loads(token)  # 解码
+    except:
+        return False
+    if data.get('confirm') != self.id:
+        return False
+    self.confirmed = True  # 解的码和已经登录的账号ID相等时操作数据库改变User.confirmed的值为True
+    db.session.add(self)
+    return True  # 激活成功返回True
 
 
 if __name__ == "__main__":
     # db.create_all()
     # db.upgrade()
+    # python manage.py db migrate
+    # python manage.py db upgrade
+    # python manage.py deploy
+    #
+
     pass
 """
 {"tag": 'IT/互联网/计算机', "name": '编程语言', "detail": 'C/C++'}

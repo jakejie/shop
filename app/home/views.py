@@ -1,14 +1,14 @@
 from flask import render_template, flash, session, redirect, request, url_for
 from . import home
 from app.model import TagList, Tags, Tag, Goods, User, UserLog, Comment, Address, \
-    Orders, Count, Collect, Detail
+    Orders, Collect, Detail
 from app import db
-from app.home.form import LoginForm, RegistForm, UserDetailForm, CommentForm
-from werkzeug.security import generate_password_hash
+from app.home.form import UserDetailForm, CommentForm
 import uuid, os, datetime
-from flask_login import login_required, logout_user, login_user
+from flask_login import login_required
 # 获取当前登录用户对象
 from flask_login import current_user
+from werkzeug.utils import secure_filename
 
 
 # 轮播图嵌套页面 传递5个热门资源作为参数
@@ -24,6 +24,7 @@ def index():
     tags = Tags.query.all()
     tag = Tag.query.all()
     shops = Goods.query.all()
+    print(type(request.remote_addr))
     return render_template('home/index.html', tag_list=tag_list,
                            shops=shops, tags=tags, tag=tag)
 
@@ -54,6 +55,8 @@ def detail(goods_id):
     comments = Comment.query.filter_by(comment_good_id=goods_id).all()  # 该商品评论信息
     who_buy = Detail.query.filter_by(goods_id=goods_id).all()  # 谁购买过该商品
     who_col = Collect.query.filter_by(good_id=goods_id).all()  # 谁收藏过该商品
+    if info == None:
+        return render_template('home/detail.html',info=info)
     return render_template('home/detail.html', title=info.name, comments=comments,
                            buys=who_buy, cols=who_col, info=info)
 
@@ -71,104 +74,25 @@ def search():
     return ""
 
 
-# 登录页=ok
-@home.route('/login', methods=["POST", "GET"])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        data = form.data
-        user = User.query.filter_by(username=data['username']).first()
-        if not user.check_pwd(data['password']):
-            flash('密码错误', 'err')
-            return redirect(url_for('home.login'))
-        session['user'] = user.username
-        session['user_id'] = user.id
-        # 记录用户的登录状态
-        login_user(user, True)
-        """
-        login_user函数的第一个参数是需要登录的用户对象，
-        第二个参数是bool值，如果为False，
-        那么关闭浏览器后用户会话就会中断，
-        下次用户访问时需要重新登录。
-        如果为True，那么会在浏览器中写入一个长期有效的cookie，
-        使用该cookie可以复原用户会话。
-        """
-        # userlog = UserLog(
-        #     user=user.username,
-        #     ip_add=request.remote_addr
-        # )
-        # db.session.add(userlog)
-        # db.session.commit()
-        return redirect(url_for('home.user'))
-    return render_template("home/login.html", form=form)
-
-
-# 注册页=ok
-@home.route('/register', methods=["POST", "GET"])
-def register():
-    form = RegistForm()
-    if form.validate_on_submit():
-        data = form.data
-        user = User(
-            username=data['username'],
-            email=data['email'],
-            phone=data['phone'],
-            password=generate_password_hash(data['password']),
-            uuid=uuid.uuid4().hex
-        )
-        db.session.add(user)
-        db.session.commit()
-        flash('注册成功', 'ok')
-        # 注册成功后 跳转到登陆页面
-        return redirect(url_for('home.login'))
-    return render_template('home/register.html', form=form)
-
-
-# 退出登陆=ok
-@home.route('/logout')
-@login_required
-def logout():
-    session.pop("user", None)
-    session.pop("user_id", None)
-    logout_user()
-    return redirect(url_for("home.login"))
-
-
-# 个人中心
-@home.route('/user')
+# 个人中心 修改图像 修改个人简介
+@home.route('/user', methods=["POST", "GET"])
 @login_required
 def user():
     form = UserDetailForm()
     uuid = current_user.id
     if uuid == None or uuid == "":
-        return redirect(url_for('home.login'))
+        return redirect(url_for('auth.login'))
     user = User.query.filter_by(id=uuid).first()
     # GET方法 获取个人信息数据
     if request.method == 'GET':
-        user = User.query.filter_by(id=uuid).first()
         return render_template('home/user.html', user=user, form=form)
     # POST方法 修改个人信息
     if form.validate_on_submit():
-        data = form.data
-        name_count = User.query.filter_by(name=data['name']).count()
-        if data['name'] != user.name and name_count == 1:
-            flash('昵称已经存在', 'err')
-            return redirect(url_for('home.user'))
-
-        phone_count = User.query.filter_by(phone=data['phone']).count()
-        if data['phone'] != user.phone and phone_count == 1:
-            flash('手机号码已经存在', 'err')
-            return redirect(url_for('home.user'))
-
-        email_count = User.query.filter_by(email=data['email']).count()
-        if data['email'] != user.email and email_count == 1:
-            flash('邮箱已经存在', 'err')
-            return redirect(url_for('home.user'))
-
-        user.name = data['name']
-        user.email = data['email']
-        user.phone = data['phone']
-        user.info = data['info']
+        file = form.image.data
+        filename = user.username + '-' + file.filename.replace(' ', '').replace('/', '').replace('\\', '')
+        file.save('app/static/image/user/' + filename)
+        user.info = form.data['info']
+        user.image = filename
         db.session.add(user)
         db.session.commit()
         flash('修改成功', 'ok')
@@ -327,4 +251,4 @@ def map():
 @home.route('/pwd')
 @login_required
 def change_pwd():
-    return "修改密码"
+    return render_template('home/change_pwd.html')

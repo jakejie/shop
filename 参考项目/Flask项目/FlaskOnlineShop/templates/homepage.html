@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+<div id="wrapper">
+	<h1 class="important">
+		"Hello and Woezor to my online shop setup!"
+	</h1><br>
+	{% include 'banner.html' %}<br>
+	<div id="category">
+		<h2>Category</h2>
+			{% for category in categories %}
+
+				{{category.id}}
+				{{category.name}} <br>
+
+			{% endfor %}
+	</div>
+	<div id="product">
+		<h2>Products</h2>
+
+			{% for product in  products %}
+				{{product.name}}
+				{{product.id}}
+				({{product.category_id}}) <br>
+			{% endfor %}
+	</div>
+</div>
+{% endblock %}

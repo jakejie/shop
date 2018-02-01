@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %} Edit Category {% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1 class="important">
+		"Hello Page for {{Admin}}"
+	</h1>
+
+	<form method="POST">
+	  <div class="form-group">
+	    <label for="categoryName">Category Name</label>
+	    <input type="text" name="name" class="form-control" placeholder="{{category.name}}" required="">
+	  </div>
+	  
+	  <textarea rows="4" cols="50" name="description" class="form-control" required="">{{category.description}}</textarea><br>
+
+  	  <button type="submit" class="btn btn-primary">Edit</button>
+	</form>
+{% endblock %}

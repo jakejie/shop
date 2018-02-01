@@ -1,0 +1,447 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>我的账户</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Place favicon.ico in the root directory -->
+<link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
+<!-- google fonts -->
+<link href='https://fonts.googleapis.com/css?family=Lato:400,900,700,300' rel='stylesheet'
+	type='text/css'>
+<!-- all css here -->
+<!-- bootstrap v3.3.6 css -->
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+<!-- animate css -->
+<link rel="stylesheet" href="/static/css/animate.css">
+<!-- jquery-ui.min css -->
+<link rel="stylesheet" href="/static/css/jquery-ui.min.css">
+<!-- meanmenu css -->
+<link rel="stylesheet" href="/static/css/meanmenu.min.css">
+<!-- RS slider css -->
+<link rel="stylesheet" type="text/css" href="/static/lib/rs-plugin/css/settings.css" media="screen" />
+<!-- owl.carousel css -->
+<link rel="stylesheet" href="/static/css/owl.carousel.css">
+<!-- font-awesome css -->
+<link rel="stylesheet" href="/static/css/font-awesome.min.css">
+<!-- style css -->
+<link rel="stylesheet" href="/static/css/style.css">
+<!-- responsive css -->
+<link rel="stylesheet" href="/static/css/responsive.css">
+<!-- modernizr css -->
+<script src="/static/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<h1>{% if get_flashed_messages()[0] %}
+        <script language="javascript"> //JavaScript脚本标注
+        alert("{{get_flashed_messages()[0]}}");//在页面上弹出上联
+        </script>
+     {%endif %}
+</h1><br>
+<body>
+<!--[if lt IE 8]>
+		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+<!-- Add your site or application content here -->
+<div class="header-top-area hidden-xs">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-4">
+				<div class="welcome">
+					<span class="phone">热销电话: +1234567890</span> <span class="hidden-sm">/</span>
+					<span class="email hidden-sm">邮箱: kuailaimai@domain.com</span>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-8">
+				<div class="top-menu">
+					<ul>
+						<li><a href="{{ url_for('logged') }}">登陆</a></li>
+                        <li><a href="{{ url_for('.index') }}">返回</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- header-top-area end -->
+<div class="sticky-wrapper">
+	<div class="sticky-wrapper">
+		<header>
+			<!-- header-bottom-area start -->
+			<div class="header-bottom-area">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+							<div class="logo">
+								<a href="index.html"><img src="/static/img/logo/logo.png" alt="" /></a>
+							</div>
+						</div>
+						<div class="col-lg-6 col-md-5 col-sm-5 col-xs-6 hidden-xs">
+							<div class="header-search">
+								<select>
+									<option value="0">全部</option>
+									<option value="1">图书</option>
+									<option value="2">CD</option>
+								</select>
+								<input type="text" placeholder="搜索" />
+								<button><i class="fa fa-search"></i></button>
+							</div>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 float-right account-wrap">
+							<!-- Header shopping cart -->
+							<div class="my-account-holder float-right">
+								<div class="total-cart my-account-title" data-toggle="my-cart">
+									<div class="user-icon float-left">
+										<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+									</div>
+									<div class="float-left cart-link">
+										<a href="#">购物车</a>
+									</div>
+									<div class="clearfix"></div>
+									<ul>
+										<li>
+											<div class="subtotal-text">总价: </div>
+											<div class="subtotal-price">￥00</div>
+										</li>
+										<li>
+											<a href="#" class="button float-right">去结算</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- Header shopping cart -->
+							<div class="my-account-holder float-right">
+								<div class="my-account-title">
+									<div class="user-icon float-left">
+										<i class="fa fa-heart" aria-hidden="true"></i>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+							<div class="my-account-holder float-right">
+								<div class="my-account-title">
+									<div class="user-icon float-left">
+										<i class="fa fa-exchange" aria-hidden="true"></i>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- header-bottom-area end -->
+			<!-- main-menu-area start -->
+			<div class="main-menu-area hidden-xs">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12">
+							<div class="main-menu">
+								<nav>
+									<ul>
+                                        <li><a href="{{ url_for('.index') }}">主页</a></li>
+									<li><a href="{{ url_for('.about') }}">关于我们</a></li>
+									<li><a href="{{ url_for('.contact') }}">联系我们</a></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- main-menu-area end -->
+			<!-- mobile-menu-area start -->
+			<div class="mobile-menu-area visible-xs">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12">
+							<div class="mobile-menu">
+								<nav id="dropdown">
+									<ul>
+									<li><a href="{{ url_for('.index') }}">主页</a></li>
+									<li><a href="{{ url_for('.about') }}">关于我们</a></li>
+									<li><a href="{{ url_for('.contact') }}">联系我们</a></li>
+									</ul>
+								</nav>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- mobile-menu-area end -->
+		</header>
+	</div>
+</div>
+<!-- HOME SLIDER -->
+<!-- register start -->
+<div class="features-area pad-60">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="product-tab">
+					<!-- Nav tabs -->
+					<ul class="tab-menu" role="tablist">
+						<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+							data-toggle="tab">买家注册</a></li>
+						<li role="presentation"><a href="#men" aria-controls="men" role="tab" data-toggle="tab">
+							卖家注册</a></li>
+					</ul>
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="home">
+							<div class="row">
+								<div class="col-md-6 col-md-offset-3">
+                                    <div class="heading"><h2>创建买家用户</h2></div>
+                                    <form name="form" id="ff2" method="post" action="/customer_register">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="姓名 :" name="username" id="username" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" placeholder="邮箱 :" name="email" id="email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="tel" class="form-control" placeholder="地址 :" name="address" id="address" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="tel" class="form-control" placeholder="电话 :" name="phone" id="phone" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input name="sex" id="gender" type="radio" value="男"> 男 <input name="sex" id="gender" type="radio" value="女"> 女
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" placeholder="密码 :" name="password" id="password" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" placeholder="确认密码:" name="repassword" id="repassword" required>
+                                        </div>
+                                        <div class="form-group">
+                                        <input name="check" id="check" type="checkbox" value="1"> 我同意该网站所有协议。
+                                        </div>
+                                        <button type="submit" class="btn btn-1">注册</button>
+                                    </form>
+                                </div>
+							</div>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="men">
+							<div class="row">
+								<div class="col-md-6 col-md-offset-3">
+                                    <div class="heading"><h2>创建卖家用户</h2></div>
+                                    <form name="form" id="ff2" method="post" action="/seller_register">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="姓名 :" name="username" id="username" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" class="form-control" placeholder="邮箱 :" name="email" id="email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="tel" class="form-control" placeholder="电话 :" name="phone" id="phone" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input name="sex" id="gender" type="radio" value="男"> 男 <input name="sex" id="gender" type="radio" value="女"> 女
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" placeholder="密码 :" name="password" id="password" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" placeholder="确认密码:" name="repassword" id="repassword" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="tel" class="form-control" placeholder="满减情况(如:200-20):此打折情况注册之后不能更改" name="full_sub" id="full_sub" required>
+                                        </div>
+                                        <div class="form-group">
+                                        <input name="check" id="check" type="checkbox" value="1"> 我同意该网站所有协议。
+                                        </div>
+                                        <button type="submit" class="btn btn-1">注册</button>
+                                    </form>
+                                </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{#<div id="page-content" class="single-page">#}
+{#	<div class="container">#}
+{#		<div class="row">#}
+{#			<div class="col-md-6 col-md-offset-3">#}
+{#				<div class="heading"><h2>创建新用户</h2></div>#}
+{#				<form name="form" id="ff2" method="post" action="/customer_register">#}
+{#					<div class="form-group">#}
+{#						<input type="text" class="form-control" placeholder="姓名 :" name="username" id="username" required>#}
+{#					</div>#}
+{#					<div class="form-group">#}
+{#						<input type="email" class="form-control" placeholder="邮箱 :" name="email" id="email" required>#}
+{#					</div>#}
+{#					<div class="form-group">#}
+{#						<input type="tel" class="form-control" placeholder="地址 :" name="address" id="address" required>#}
+{#					</div>#}
+{#					<div class="form-group">#}
+{#						<input type="tel" class="form-control" placeholder="电话 :" name="phone" id="phone" required>#}
+{#					</div>#}
+{#					<div class="form-group">#}
+{#						<input name="sex" id="gender" type="radio" value="男"> 男 <input name="sex" id="gender" type="radio" value="女"> 女#}
+{#					</div>#}
+{#					<div class="form-group">#}
+{#						<input type="password" class="form-control" placeholder="密码 :" name="password" id="password" required>#}
+{#					</div>#}
+{#					<div class="form-group">#}
+{#						<input type="password" class="form-control" placeholder="确认密码:" name="repassword" id="repassword" required>#}
+{#					</div>#}
+{#                    <div class="form-group">#}
+{#                        <label>类&nbsp&nbsp&nbsp别：</label>#}
+{#                        <select id="loginType" name="select">#}
+{#                            <option>买家</option>#}
+{#                            <option>卖家</option>#}
+{#                        </select>#}
+{#					</div>#}
+{#					<div class="form-group">#}
+{#					<input name="check" id="check" type="checkbox" value="1"> 我同意该网站所有协议。#}
+{#					</div>#}
+{#					<button type="submit" class="btn btn-1">注册</button>#}
+{#				</form>#}
+{#			</div>#}
+{#		</div>#}
+{#	</div>#}
+{#</div>#}
+<!-- register  end -->
+<!-- footer start -->
+<footer>
+	<!-- footer-top-area start -->
+	<div class="footer-top-area">
+		<div class="container">
+			<div class="row">
+				<!-- footer-widget start -->
+				<div class="col-lg-3 col-md-3 col-sm-4">
+					<div class="footer-widget">
+						<img src="/static/img/logo/logo.png" alt="" />
+						<p>易购网致力于给广大用户提供最优质的服务和最良好的用户体验。</p>
+						<div class="widget-icon">
+							<a href="#"><i class="fa fa-facebook"></i></a>
+							<a href="#"><i class="fa fa-twitter"></i></a>
+							<a href="#"><i class="fa fa-linkedin"></i></a>
+							<a href="#"><i class="fa fa-google-plus"></i></a>
+						</div>
+					</div>
+				</div>
+				<!-- footer-widget end -->
+				<!-- footer-widget start -->
+				<div class="col-lg-3 col-md-3 hidden-sm">
+					<div class="footer-widget">
+						<h3>服务</h3>
+						<ul class="footer-menu">
+							<li><a href="#">消费者保障</a></li>
+							<li><a href="#">新手指南</a></li>
+							<li><a href="#">付款方式</a></li>
+							<li><a href="#">联系我们</a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- footer-widget end -->
+				<!-- footer-widget start -->
+				<div class="col-lg-3 col-md-3 hidden-sm">
+					<div class="footer-widget">
+						<h3>服务</h3>
+						<ul class="footer-menu">
+							<li><a href="#">网站特色</a></li>
+						</ul>
+					</div>
+				</div>
+				<!-- footer-widget end -->
+				<!-- footer-widget start -->
+				<div class="col-lg-3 col-md-3 col-sm-4">
+					<div class="footer-widget">
+						<h3>联系我们</h3>
+						<ul class="footer-contact">
+							<li>
+								<i class="fa fa-map-marker"> </i>
+								地址: 上海师范大学奉贤校区
+							</li>
+							<li>
+								<i class="fa fa-envelope"> </i>
+								邮箱: kuailaimai@themepure.net
+							</li>
+							<li>
+								<i class="fa fa-phone"> </i>
+								联系电话: +1234567890
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- footer-widget end -->
+			</div>
+		</div>
+	</div>
+	<!-- footer-top-area end -->
+	<!-- footer-bottom-area start -->
+	<div class="footer-bottom-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 col-md-6 col-sm-6">
+					<div class="copyright">
+						<p>Copyright &copy; 2017.Company name All rights reserved.</p>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-sm-6">
+					<div class="payment-img">
+						<img src="/static/img/payment.png" alt="" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer-bottom-area end -->
+</footer>
+<!-- footer end -->
+<!-- all js here -->
+<!-- jquery latest version -->
+<script src="/static/js/vendor/jquery-1.12.0.min.js"></script>
+<!-- bootstrap js -->
+<script src="/static/js/bootstrap.min.js"></script>
+<!-- owl.carousel js -->
+<script src="/static/js/owl.carousel.min.js"></script>
+<!-- jquery-ui js -->
+<script src="/static/js/jquery-ui.min.js"></script>
+<!-- RS-Plugin JS -->
+<script type="text/javascript" src="/static/lib/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+<script type="text/javascript" src="/static/lib/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+<script src="/static/lib/rs-plugin/rs.home.js"></script>
+<!-- meanmenu js -->
+<script src="/static/js/jquery.meanmenu.js"></script>
+<!-- wow js -->
+<script src="/static/js/wow.min.js"></script>
+<!-- Google Map js -->
+{#<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuU_0_uLMnFM-2oWod_fzC0atPZj7dHlU"></script>#}
+<script>
+	function initialize() {
+		var mapOptions = {
+			zoom: 15,
+			scrollwheel: false,
+			center: new google.maps.LatLng(21.167416, 72.8140269)
+		};
+
+		var map = new google.maps.Map(document.getElementById('googleMap'),
+			  mapOptions);
+
+
+		var marker = new google.maps.Marker({
+			position: map.getCenter(),
+			animation: google.maps.Animation.BOUNCE,
+			icon: 'img/map-marker.png',
+			map: map
+		});
+
+	}
+
+	google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
+<!-- plugins js -->
+<script src="/static/js/plugins.js"></script>
+<!-- main js -->
+<script src="/static/js/main.js"></script>
+
+
+</body>
+</html>

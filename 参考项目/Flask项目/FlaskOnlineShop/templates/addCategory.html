@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %} Add Category {% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1 class="important">
+		"Hello Page for {{Admin}}"
+	</h1>
+
+	<form method="POST">
+	  <div class="form-group">
+	    <label for="categoryName">Category Name</label>
+	    <input type="text" name="name" class="form-control" id="categoryName" placeholder="Enter Category Name" required="">
+	  </div>
+	  
+	  <textarea rows="4" cols="50" name="description" class="form-control" required="">Enter Description here ...</textarea><br>
+
+  	  <button type="submit" class="btn btn-primary">Add</button>
+	</form>
+{% endblock %}

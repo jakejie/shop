@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{%block content%}
+<div class="container">
+  <a href="{{ url_for('sell.sell') }}">
+    <div class="btn btn-primary btn-lg btn-block">
+      <h1>SELL</h1>
+    </div>
+  </a><br>
+  <a href="{{ url_for('add.addStock') }}">
+    <div class="btn btn-primary btn-lg btn-block">
+      <h1>ADD STOCK</h1>
+    </div>
+  </a><br>
+  <a href="{{ url_for('stock.viewStock') }}">
+    <div class="btn btn-primary btn-lg btn-block">
+      <h1>VIEW ALL</h1>
+    </div>
+  </a><br>
+  <a href="{{ url_for('report.display') }}">
+    <div class="btn btn-primary btn-lg btn-block">
+      <h1>REPORTS</h1>
+    </div>
+  </a><br>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "_layouts/base.html" %}
+
+{% block title %}
+Modificar | {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-8">
+			<h1 class="text-left">
+				Mi Perfil.
+			</h1>
+			<hr>
+			<div class="row">
+				<div class="col-md-3">
+					<img alt="Bootstrap Image Preview" src="{{user.imagen}}"/ width=200 height=200><br/>
+				</div>
+				<div class="col-md-7">
+					<div class="container-fluid">
+					<form name="modificar" method="POST" action="{{ url_for( 'mod_datos' ) }}">
+						<div>
+  <div class="form-group">
+    <label for="exampleInputName">Nombre</label>
+		{{ registroForm.nombre(class="form-control", id="userRegistro_nombre", value=saves.get('nombre', ''), required="required", placeholder="Nombre", type="text")}}
+	</div>
+  <div class="form-group">
+    <label for="exampleInputApellidos">Apellidos</label>
+		{{ registroForm.apellidos(class="form-control", id="userRegistro_apellidos", value=saves.get('apellidos', ''), required="required", placeholder="Apellidos", type="text")}}
+	</div>
+<div class="form-group">
+    <label for="exampleInputFecha">Fecha</label>
+		{{ registroForm.nacimiento(class="form-control", id="userRegistro_nacimiento", value=saves.get('nacimiento', ''), required="required", placeholder="Año Nacimiento", type="text")}}
+	</div>
+	<div class="form-group">
+    <label for="exampleInputDireccion">Direccion</label>
+		{{ registroForm.direccion(class="form-control", id="userRegistro_direccion", value=saves.get('direccion', ''), required="required", placeholder="Direccion", type="text")}}
+	</div>
+	<div class="form-group">
+    <label for="exampleInputTelefono">Telefono</label>
+		{{ registroForm.telefono(class="form-control", id="userRegistro_telefono", value=saves.get('telefono', ''), required="required", placeholder="Telefono", type="text")}}
+	</div>
+	<div class="form-group">
+    <label for="exampleInputEmail1">E-mail</label>
+		{{ registroForm.email(class="form-control", id="userLogin_email", value=saves.get('email', ' '), required="required", placeholder="Email", type="email") }}
+	</div>
+	</div>
+  <button type="submit" class="btn btn-default">Guardar Cambios</button></br>
+	<a href="/perfil/"></br><button class="btn btn-default">Cancelar</button></a>
+	</form>
+</div>
+
+{% endblock %}

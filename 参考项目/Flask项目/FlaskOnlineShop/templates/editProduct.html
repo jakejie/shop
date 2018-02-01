@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %} Add Product {% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1 class="important">
+		"Hello Page for {{Admin}}"
+	</h1>
+
+	<form method="POST">
+	  <div class="form-group">
+	    <label for="productName">Product Name</label>
+	    <input type="text" name="name" class="form-control" placeholder="{{product.name}}" required>
+
+	   	<label for="price">Price</label>
+	    <input type="text" name="price" class="form-control" placeholder="{{product.price}}" required>
+	    
+	    <label for="category">Category</label><br>
+
+	     <select name="category">
+	     	{% for category in categories %}
+
+		    	<option value="{{category.id}}">{{category.name}}</option>
+
+	     	{% endfor %}
+		 </select>
+	  	<br>
+	  
+	  <textarea rows="4" cols="50" name="description" class="form-control" placeholder="{{product.description}}" required=""></textarea><br>
+	</div>
+  	  <button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+{% endblock %}

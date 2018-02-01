@@ -1,0 +1,6 @@
+sulushop/__pycache__/reg_log.cpython-35.pyc
+sulushop/__pycache__/
+
+*.pyc
+
+**/*.pyc

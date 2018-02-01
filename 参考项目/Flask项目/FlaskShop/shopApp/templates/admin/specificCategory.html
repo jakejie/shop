@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %} {{category.name}} {% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1 class="important">
+		"Hello Page for {{category.name}}"
+	</h1>
+
+	<h2>Category</h2>
+
+		{{category.name}}
+
+	<h2>Products</h2>
+		{% for product in  products %}
+			
+			{{product.name}}
+			{{product.id}}
+			{{product.category_id}} <br>
+		{% endfor %}
+{% endblock %}

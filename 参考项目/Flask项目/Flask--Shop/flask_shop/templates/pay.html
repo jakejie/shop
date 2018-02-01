@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block content %}
+<form action="/order/pay" method="post">
+    <input type="hidden" name="order_id" value="{{ order.id }}">
+    <h2>Shipment address</h2><br>
+    Line 1:<br>
+    <input type="text" name="line1"><br>
+    Line 2:<br>
+    <input type="text" name="line2"><br>
+    Adress:<br>
+    <input type="text" name="address"><br>
+    Postal code:<br>
+    <input type="text" name="postal_code"><br>
+    City:<br>
+    <input type="text" name="city">
+    <select name="country">
+        <option value="PL">Poland</option>
+        <option value="UK">United Kingdom</option>
+        <option value="US">United States</option>
+    </select><br>
+    Phone:<br>
+    <input type="phone" name="phone"><br>
+
+    <h2>Payment</h2><br>
+    Total: {{ order.total()|format_currency }}<br>
+    Pay it to: PL12345 <br>    
+    <input type="submit" value="Pay">
+</form>
+{% endblock %}

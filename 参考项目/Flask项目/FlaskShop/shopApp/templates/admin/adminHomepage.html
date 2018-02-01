@@ -1,0 +1,32 @@
+{% extends "./base.html" %}
+{% block title %} Add Category {% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1 class="important">
+		"Hello Page for {{Admin}}"
+	</h1>
+
+	<a href="./addCategory/">Add new Category</a><br>
+	<a href="./addProduct/">Add new Product</a>
+
+	<div>
+		<h2>Category</h2>
+		{% for category in categories %}
+
+			{{category.categoryName}}<br>
+
+		{% endfor %}
+	</div>
+
+	<div>
+	<h2>Product</h2>
+		{% for product in products %}
+
+			{{product.product_name}}({{product.category_id}})<br>
+
+		{% endfor %}
+	</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Flask-Shop</title>
+        <link rel= "stylesheet" type= "text/css" href="{{ url_for('static', filename='login.css') }}" />
+        <meta charset="utf-8">
+    </head>
+    <body>
+        {% from "security/_macros.html" import render_field_with_errors, render_field %}
+        <div class="modal fade" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="loginmodal-container">
+                    <h1>{% block title %}{% endblock %}</h1>
+                    {% include "security/_messages.html" %}
+                    {% block form %}{% endblock %}
+                    {% include "security/_menu.html" %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

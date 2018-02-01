@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<!-- container-fluid -->
+	<head>
+		<title>{% block title %}后台管理{% endblock %}</title>
+		<meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='admin/bootstrap/css/bootstrap.min.css') }}" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='admin/bootstrap/css/bootstrap-responsive.min.css') }}" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='admin/bootstrap/css/fullcalendar.css') }}" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='admin/bootstrap/css/unicorn.main.css') }}" />
+		<link rel="stylesheet" href="{{ url_for('static',filename='admin/bootstrap/css/unicorn.grey.css') }}" class="skin-color" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+    {% block js %}
+    {% endblock %}
+	<body>
+        <div style="height: 50px"></div>
+        <!--左侧导航栏-->
+		<div id="sidebar">
+			<a href="#" class="visible-phone"><i class="icon icon-home"></i>  数据概览</a>
+			<ul>
+				<li class="active"><a href="{{ url_for('admin.index') }}"><i class="icon icon-home"></i> <span>数据概览</span></a></li>
+				<li class="submenu">
+					<a href="#"><i class="icon icon-th-list"></i> <span>商品管理</span> <span class="label">3</span></a>
+					<ul>
+						<li><a href="{{ url_for('admin.add_good') }}">添加商品</a></li>
+						<li><a href="{{ url_for('admin.wait_goods') }}">待上架商品</a></li>
+						<li><a href="{{ url_for('admin.sale_goods') }}">出售中</a></li>
+						<li><a href="{{ url_for('admin.goods_list') }}">所有商品</a></li>
+					</ul>
+				</li>
+				<li><a href="{{ url_for('admin.orders', order_id=None)}}"><i class="icon icon-tint"></i> <span>订单管理</span></a></li>
+				<li><a href="{{ url_for('admin.comments') }}"><i class="icon icon-pencil"></i> <span>所有评论</span></a></li>
+                <li class="submenu">
+					<a href="#"><i class="icon icon-file"></i> <span>会员中心</span> <span class="label"></span></a>
+					<ul>
+						<li><a href="{{ url_for('admin.vip') }}">会员信息</a></li>
+						<li><a href="{{ url_for('admin.vip_order') }}">会员订单</a></li>
+						<li><a href="{{ url_for('admin.vip_buy') }}">会员购物车</a></li>
+						<li><a href="{{ url_for('admin.vip_col') }}">会员收藏</a></li>
+						<li><a href="{{ url_for('admin.vip_com') }}">会员评论</a></li>
+						<li><a href="{{ url_for('admin.logs') }}">会员操作记录</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="{{ url_for('admin.count') }}"><i class="icon icon-signal"></i> <span>数据统计</span></a>
+				</li>
+
+			</ul>
+
+		</div>
+        <!--中间中文内容-->
+		<div id="content">
+			{% block content %}{% endblock %}
+		</div>
+            <script src="{{ url_for('static',filename='admin/bootstrap/js/excanvas.min.js') }}"></script>
+            <script src="{{ url_for('static',filename='admin/bootstrap/js/jquery.min.js') }}"></script>
+            <script src="{{ url_for('static',filename='admin/bootstrap/js/jquery.ui.custom.js') }}"></script>
+            <script src="{{ url_for('static',filename='admin/bootstrap/js/bootstrap.min.js') }}"></script>
+            <script src="{{ url_for('static',filename='admin/bootstrap/js/jquery.flot.min.js') }}"></script>
+            <script src="{{ url_for('static',filename='admin/bootstrap/js/jquery.flot.resize.min.js') }}"></script>
+            <script src="{{ url_for('static',filename='admin/bootstrap/js/jquery.peity.min.js') }}"></script>
+            <script src="{{ url_for('static',filename='admin/bootstrap/js/fullcalendar.min.js') }}"></script>
+            <script src="{{ url_for('static',filename='admin/bootstrap/js/unicorn.js') }}"></script>
+            <script src="{{ url_for('static',filename='admin/bootstrap/js/unicorn.dashboard.js') }}"></script>
+	</body>
+</html>

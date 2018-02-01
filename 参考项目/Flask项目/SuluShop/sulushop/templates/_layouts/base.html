@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="witdth=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="theme-color" content="#d43f3a"/>
+    <link rel="icon" href="">
+    <base href="/" target="" />
+    <title>{% block title %}SuluShop{% endblock %}</title>
+    {% block css %}
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/style.css" rel="stylesheet">
+    {% endblock %}
+  </head>
+  <body>
+    {% include "_modules/nav.html" %}
+    {% include "_modules/notifications.html" %}
+    {% block content %}
+    <h1>hello world</h1>
+    {% endblock %}
+    <footer class="footer">
+      {% include "_modules/footer.html" %}
+      {% block js %}
+      <script src="static/js/jquery-3.1.1.min.js"></script>
+      <script src="static/js/bootstrap.min.js"></script>
+      <script src="static/js/vendor/stars.js"></script>
+      {% endblock %}
+    </footer>
+  </body>
+</html>

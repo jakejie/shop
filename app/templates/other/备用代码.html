@@ -1,0 +1,45 @@
+<div class="form-group">
+    <label for="input_name"><span
+            class="glyphicon glyphicon-user"></span>&nbsp;{{ form.username.label }}</label>
+    {{ form.username }}
+</div>
+{% for err in form.username.errors %}
+    <div class="col-md-12"></div>
+    <font style="color: red">{{ err }}</font>
+{% endfor %}
+<div class="form-group">
+    <label for="input_email"><span
+            class="glyphicon glyphicon-envelope"></span>&nbsp;{{ form.email.label }}</label>
+    {{ form.email }}
+</div>
+{% for err in form.email.errors %}
+    <div class="col-md-12"></div>
+    <font style="color: red">{{ err }}</font>
+{% endfor %}
+<div class="form-group">
+    <label for="input_phone"><span
+            class="glyphicon glyphicon-phone"></span>&nbsp;{{ form.phone.label }}</label>
+    {{ form.phone }}
+</div>
+{% for err in form.phone.errors %}
+    <div class="col-md-12"></div>
+    <font style="color: red">{{ err }}</font>
+{% endfor %}
+
+
+
+
+
+
+
+
+<div class="form-group">
+    <label for="input_name"><span
+            class="glyphicon glyphicon-user"></span>&nbsp;{{ form.info.label }}
+    </label>
+    {{ form.info }}
+</div>
+{% for err in form.info.errors %}
+    <div class="col-md-12"></div>
+    <font style="color: red">{{ err }}</font>
+{% endfor %}

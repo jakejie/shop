@@ -1,0 +1,124 @@
+﻿{% extends "_layouts/base.html" %}
+
+{% block title %}
+Perfil | {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <h1 class="text-left">
+        Mi Perfil
+      </h1>
+      <hr>
+      <div class="row">
+
+        <div class="col-md-3">
+          <img alt="Bootstrap Image Preview" src="{{user.imagen}}"/ width=200 height=200><br/></br>
+          <form name="mod_img" method="POST" action="{{ url_for( 'mod_img' ) }}">
+            <div class="form-group">
+              {{ imgForm.imagen(class="form-control", id="user_imagen", placeholder="/url/Imagen/", type="url") }}
+            </div>
+            <button id="user_imga_but" name="user_imga_but" class="btn btn-default" type="submit">Cambiar imagen</button>
+          </form>
+
+        </div>
+        <div class="col-md-9">
+
+          <p><b>Nombre:</b><br>{{user.nombre}}<br></p>
+          <p><b>Apellidos:</b><br>{{user.apellidos}}<br></p>
+          <p><b>Fecha de nacimiento:</b><br>{{ user.fecha_nacimiento}}<br></p>
+          <p><b>Direccion:</b><br>{{ user.direccion }}<br></p>
+          <p><b>Telefono:</b><br>{{user.telefono}}<br></p>
+          <p><b>E-mail:</b><br>{{user.email}}<br></p>
+
+          <a href="/changePassword/"><button type="button" class="btn btn-default">Cambiar contrasena</button></a>
+            <a href="/mod_datos/"><button type="button" class="btn btn-default">Modificar datos</button></a>
+            <br/><a href="/deletUser/">Eliminar cuenta</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <!--ACTIVIDAD DEL USUARIO-->
+      <h3>
+        Actividad
+      </h3>
+      <hr>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>
+              Tipo
+            </th>
+            <th>
+              Fecha
+            </th>
+            <th>
+              Producto
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for object in action %}
+          <tr class="active">
+            <td>
+              <img src="static/img/{{ object.accion | lower }}.png" style="width: 25px;"/>
+            </td>
+            <td>
+              {{ object.fecha }}
+            </td>
+            <td>
+              {{ object[0].nombre }}
+              {{ object[0].accion}}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {% if favorites %}
+  <div class="container">
+    <h2>Lista de deseados</h2>
+    <strong>
+      <div class="row">
+        <div class="col-md-6">Producto</div>
+        <div class="col-md-3">Fecha</div>
+        <div class="col-md-3">Eliminar</div>
+      </div>
+      <hr style="height:3px;border:none;color:#eee;background-color:#eee;" />
+    </strong>
+    {% for producto in favorites %}
+    <form action="{{ url_for('delete_from_list') }}" class="form-inline" method="POST">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            {% if producto[0].picture %}
+            <div class="col-sm-2 hidden-xs"><img src="{{ producto[0].picture }}" alt="..." class="img-responsive"/></div>
+            {% endif %}
+            <div class="col-sm-100x10010">
+              <h4 class="nomargin">{{ producto[0].nombre }}</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          {{ producto.fecha}}
+        </div>
+        <div class="col-md-3">
+          {{ form.hidden_tag() }}
+          {{ form.pk(type="hidden", value=producto[0].id) }}
+          {{ form.name(type="hidden", value=producto[0].nombre) }}
+          <button class="btn btn-danger btn-sm" type="submit"><i class="glyphicon glyphicon-trash"></i></button>
+        </div>
+      </div>
+      <hr style="height:3px;border:none;color:#eee;background-color:#eee;" />
+    </form>
+    {% endfor  %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

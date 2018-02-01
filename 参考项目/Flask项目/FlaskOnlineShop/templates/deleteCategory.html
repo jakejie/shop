@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %} Delete Category {% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+	<h1 class="important">
+		"Hello Page for {{Admin}}"
+	</h1>
+
+	<form method="POST">
+	  <div class="form-group">
+
+	  	<h2>Are You Sure You Want to Delete {{category.name}}</h2>
+
+  	  <button type="submit" class="btn btn-primary">Delete</button>
+	</form>
+{% endblock %}

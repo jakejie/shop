@@ -1,0 +1,50 @@
+{% extends "_layouts/base.html" %}
+
+{% block title %}
+Lista de productos | {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+  <h1>Listado de productos</h1>
+
+  {% include "_modules/pagination.html" %}
+
+  <div class="jumbotron">
+    <div class="row">
+      {% for producto in productos.items %}
+      <div class="col-md-3">
+        <div class="thumbnail">
+          <a href="{{ url_for('details',name=producto.nombre, pk=producto.id) }}" class="">
+            {% if producto.picture %}
+            <img src="{{producto.picture}}" alt="imagen" style="height:167px; width:100%;">
+            {% endif %}
+          </a>
+          <div class="caption">
+            <a href="{{ url_for('details',name=producto.nombre, pk=producto.id) }}" class="">
+              <h4>{{producto.nombre}}</h4>
+              <h4>
+                {{producto.precio | round(2,'ceil')}}€
+              </h4>
+            </a>
+            <p>
+            <form action="{{ url_for('add_cart') }}" class="form-inline" method="POST">
+              {{ form.hidden_tag() }}
+              {{ form.pk(type="hidden", value=producto.id) }}
+              {{ form.name(type="hidden", value=producto.nombre) }}
+              {{ form.quantity(type="hidden", value=1) }}
+              <button class="btn btn-primary" type="submit"><i class="glyphicon glyphicon-shopping-cart"></i>Añadir al carrito</button>
+            </form>
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  {% include "_modules/pagination.html" %}
+
+</div>
+{% endblock %}

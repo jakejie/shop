@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{%block content%}
+<div class="container">
+  {%- for message in get_flashed_messages() %}
+  <div class="alert alert-success">
+    {{ message }}
+  </div>
+  {%- endfor %}
+  <legend>Product details</legend>
+  <div class="">
+  <div class="col-lg-6">
+    <table class="table table-striped">
+      <tr>
+        <td> <h3><b>Product id</b> </h3></td>
+        <td> <h4 style="color:blue">{{ item.id }} </h4></td>
+      </tr>
+      <tr>
+        <td> <h3><b>Product Name: </b></h3></td>
+        <td> <h4 style="color:blue"><b>{{ item.name }}</h4></b> </td>
+      </tr>
+      <tr>
+        <td> <h3><b>Quantity:</b> </h3></td>
+        <td> <h4 style="color:blue">{{ item.quantity }} </h4></td>
+      </tr>
+      <tr></h4>
+        <td> <h3> <b>Price:</b> </h3></td>
+        <td> <h4 style="color:blue">ksh {{ item.price }}  </h4></td>
+      </tr>
+    </table>
+  </div>
+  <div class="col-lg-12">
+    <a href="{{ url_for('stock.delete', item_id = item.id ) }}"><div class="alert alert-danger"> DELETE! </div></a>
+  </div>
+  <div class="col-lg-12">
+    <a href="{{ url_for('stock.update', item_id = item.id ) }}"><div class="alert alert-info"> UPDATE </div></a>
+  </div>
+  <div class="col-lg-12">
+    <a href="{{ url_for('stock.viewStock') }}"><div class="alert alert-info"> view all </div></a>
+  </div>
+</div>
+{% endblock %}

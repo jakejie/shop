@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd"
+	default-lazy-init="true">
+
+	<description>Shiro安全配置</description>
+
+	<!-- 本地运行时使用 -->
+	<bean id="userRealm" class="com.roncoo.adminlte.controller.realm.UserRealm" />
+
+	<!-- <bean id="userRealm" class="com.roncoo.adminlte.controller.realm.RoncooRealm" 
+		/> -->
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="userRealm" />
+		<property name="cacheManager" ref="shiroEhcacheManager" />
+	</bean>
+
+	<!-- Shiro 过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!-- Shiro的核心安全接口,这个属性是必须的 -->
+		<property name="securityManager" ref="securityManager" />
+		<!-- 身份认证失败，则跳转到登录页面的配置 -->
+		<property name="loginUrl" value="/login" />
+		<property name="successUrl" value="/certification" />
+		<property name="unauthorizedUrl" value="/error" />
+		<!-- Shiro连接约束配置,即过滤链的定义 -->
+		<property name="filterChainDefinitions">
+			<value>
+				/login = authc
+				/exit = anon
+				/admin/security/list=authcBasic,perms[admin:read]
+				/admin/security/save=authcBasic,perms[admin:insert]
+				/admin/security/update=authcBasic,perms[admin:update]
+				/admin/security/delete=authcBasic,perms[admin:delete]
+				/admin/role/list=authcBasic,perms[admin:read]
+				/admin/role/save=authcBasic,perms[admin:insert]
+				/admin/role/update=authcBasic,perms[admin:update]
+				/admin/role/delete=authcBasic,perms[admin:delete]
+				/admin/permission/list=authcBasic,perms[super:read]
+				/admin/permission/save=authcBasic,perms[super:insert]
+				/admin/permission/update=authcBasic,perms[super:update]
+				/admin/permission/delete=authcBasic,perms[super:delete]
+				/admin/permission/**=authcBasic,roles[super]
+				/admin/*/list = authcBasic,perms[user:read]
+				/admin/*/save = authcBasic,perms[user:insert]
+				/admin/*/update = authcBasic,perms[user:update]
+				/admin/*/delete = authcBasic,perms[user:delete]
+			</value>
+		</property>
+	</bean>
+
+	<!-- 用户授权信息Cache, 采用EhCache -->
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml" />
+	</bean>
+
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- AOP式方法级权限检查 -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+</beans>

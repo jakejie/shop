@@ -1,0 +1,91 @@
+
+{% extends "_layouts/base.html" %}
+
+{% block title %}
+{{product.nombre}} | {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<!--detalles de un producto-->
+<div class="container">
+  <!--pequeña descripcion-->
+  <div class="jumbotron">
+    <div class="container">
+      <div class="row">
+
+        <!--imagen de un producto-->
+        <div class="col-md-4">
+          <div class="thumbnail">
+            <img src="{{cover}}" alt="{{product.nombre}}" style="width:100%;">
+          </div>
+        </div>
+        <!--fin imagen de un producto-->
+        <!--caracteristicas-->
+        <div class="col-md-8">
+          <h2>
+            {{product.nombre}}
+          </h2>
+          <div class="row">
+            <div class="col-md-6">
+                <form action="{{ url_for('add_to_list') }}" class="form-inline" method="POST">
+                  {{ favorites.hidden_tag() }}
+                  {{ favorites.pk(type="hidden", value=product.id) }}
+                  {{ favorites.name(type="hidden", value=product.nombre) }}
+                  <button class="btn btn-sm btn-warning" type="submit" style="margin-top:0;"><i class="glyphicon glyphicon-star"></i> Añadir a favoritos</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+              <span id="hearts-existing" class="starrr" data-rating='{{score}}'></span>
+              <span id="count-existing">{{score}}</span> Estrellas
+            </div>
+          </div>
+          <p>
+          {{product.descripcion}}
+          </p>
+          <hr>
+          <div class="row">
+            <div class="col-md-4">
+              <h2 class="text-primary pull-right"style="margin-top:0;">
+                {{ product.precio | round(2,'ceil')}}
+                <span class="glyphicon glyphicon-euro"></span></h2>
+            </div>
+            <div class="col-md-8">
+              <div class="row">
+                <form action="{{ url_for('add_cart') }}" class="form-inline" method="POST">
+                  {{ form.hidden_tag() }}
+                  {{ form.pk(type="hidden", value=product.id) }}
+                  {{ form.name(type="hidden", value=product.nombre) }}
+                  <div class="input-group">
+                    {{ form.quantity(type="number", min="1", value="1", class="form-control") }}
+                    <div class="input-group-btn">
+                      <button class="btn btn-success navbar-btn" type="submit" style="margin-top:0;"><i class="glyphicon glyphicon-shopping-cart"></i> Añadir al carrito</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--fin caracteristicas-->
+
+      </div>
+    </div>
+  </div>
+  <!--fin pequeña descripcion-->
+
+  <!--gran descripcion-->
+  <h3>Detalles del producto</h3>
+  <hr>
+  <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading">Descripción</div>
+    <div class="panel-body">
+      <p>
+      {{product.detalles}}
+      </p>
+    </div>
+  </div>
+</div>
+<!--fin detalles de un producto-->
+{% endblock %}

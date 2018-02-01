@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="table-responsive">
+    <table class="table">
+    {% for product in products %}
+        <tr>
+            <td><img src="/product/pics/tn_{{ product.pic }}" alt="" width="100" height="100" /></td>
+            <td><a href="/product/{{ product.id }}">{{ product.name }}</a></td>
+            <td>{{ product.price|format_currency }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+</div>
+{% if max_page > 1 %}
+<div class="text-center">
+    <ul class="pagination">
+        {% for i in range(1, max_page+1) %}
+        <li {% if i == page %}class="active"{% endif %}><a href="/?page={{ i }}">{{ i }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block custom_content %}
+
+    <header class="page-header">
+        <h3>商城</h3>
+    </header>
+
+    <div class="contaniner fixed-contb">
+        <figure class="ban swiper-container">
+            <ul class="swiper-wrapper">
+                {% for adv in all_advs %}
+                    <li class="swiper-slide">
+                        <a href="{{ adv.link }}">
+                            <img src="{{ MEDIA_URL }}{{ adv.image }}"/>
+                        </a>
+                    </li>
+                {% endfor %}
+
+
+            </ul>
+        </figure>
+
+        {% for item in root_categorys %}
+            <section class="shop">
+                <h3>
+                    <a href="{% url 'goods_list' %}{{ '?cid=' }}{{ item.id }}">
+                        {{ item.name }}
+                        <span><img src="{% static 'images/right.png' %}"/></span>
+                    </a>
+                </h3>
+                <dl>
+                    {% for catetory in item.children.all %}
+                        <dd>
+                            <a href="{% url 'goods_list' %}">
+                                <img src="{{ MEDIA_URL }}{{ catetory.image }}"/>
+                                <b>{{ catetory.name }}</b>
+                            </a>
+                        </dd>
+                    {% endfor %}
+
+                </dl>
+            </section>
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

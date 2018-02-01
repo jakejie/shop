@@ -1,0 +1,41 @@
+{% extends "_layouts/base.html" %}
+
+{% block title %}
+Lista de productos | {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-8">
+			<h1 class="text-left">
+				Mi Perfil.
+			</h1>
+			<hr>
+			<div class="row">
+				<div class="col-md-3">
+					<img alt="Bootstrap Image Preview" src="http://lorempixel.com/140/140/"/ width=200 height=200><br/>
+				</div>
+				<div class="col-md-9">
+					<form action="{{ url_for('change') }}" method="POST" name="cambio">
+						<div class="form-group">
+							<label for="exampleInputName">Antigua contrasena</label>
+							{{ cambioForm.nombre(class="form-control", id="cambio_antigua", value=saves.get('oldpassword', ''), required="required", type="password")}}
+						</div>
+						<div class="form-group">
+							<label for="exampleInputApellidos">Nueva contrasena</label>
+							{{ cambioForm.nombre(class="form-control", id="cambio_nueva", value=saves.get('newpassword', ''), required="required", type="password")}}
+						</div>
+						<div class="form-group">
+							<label for="exampleInputFecha">Repetir nueva contrasena</label>
+							{{ cambioForm.nombre(class="form-control", id="cambio_repetir", value=saves.get('repeatpassword', ''), required="required", type="password")}}
+						</div>
+						<button type="submit" class="btn btn-primary">Guardar Cambios</button></br></br><button type="submit" class="btn btn-default">Cancelar</button></a>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

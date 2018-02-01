@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{%block content%}
+<div class="container">
+  <div class="col-lg-6">
+    <legend>Purchase report</legend>
+    <table class="table table-striped">
+      <thead class="thead thead-inverse">
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in purchase %}
+        <tr>
+          <td>{{ item.id }} </td>
+          <td>{{ item.name }} </td>
+          <td>{{ item.quantity }} </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+
+  <div class="col-lg-6">
+    <legend>Sell report</legend>
+    <table class="table table-striped">
+      <thead class="thead thead-inverse">
+        <tr>
+          <th>id</th>
+          <th>name</th>
+          <th>quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in sell %}
+        <tr>
+          <td>{{ item.id }} </td>
+          <td>{{ item.name }} </td>
+          <td>{{ item.quantity }} </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+
+</div>
+{% endblock %}

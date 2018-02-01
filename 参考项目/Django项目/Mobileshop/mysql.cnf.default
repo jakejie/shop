@@ -1,0 +1,6 @@
+[client]
+database = mobileshop
+user = root
+password = yourpassword
+port = 3306
+default-character-set = utf8

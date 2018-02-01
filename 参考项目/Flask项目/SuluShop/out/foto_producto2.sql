@@ -1,0 +1,12 @@
+insert into foto_producto (id, id_foto, id_producto) values (1001, 667, 606);
+insert into foto_producto (id, id_foto, id_producto) values (1002, 448, 606);
+insert into foto_producto (id, id_foto, id_producto) values (1003, 328, 606);
+insert into foto_producto (id, id_foto, id_producto) values (1004, 353, 752);
+insert into foto_producto (id, id_foto, id_producto) values (1005, 891, 752);
+insert into foto_producto (id, id_foto, id_producto) values (1006, 152, 752);
+insert into foto_producto (id, id_foto, id_producto) values (1007, 940, 752);
+insert into foto_producto (id, id_foto, id_producto) values (1008, 941, 369);
+insert into foto_producto (id, id_foto, id_producto) values (1009, 427, 369);
+insert into foto_producto (id, id_foto, id_producto) values (1010, 837, 369);
+insert into foto_producto (id, id_foto, id_producto) values (1011, 813, 369);
+insert into foto_producto (id, id_foto, id_producto) values (1012, 376, 369);

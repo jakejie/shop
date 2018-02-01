@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>{{ product.name }}</h2><br>
+<img src="/product/pics/{{ product.pic }}" /><br>
+{{ product.desc|nl2br }}<br>
+{% if current_user.has_role('buyer') %}
+<form action="/product/buy" method="post">
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    <div class="form-group">
+        <label for="quantity">Quantity</label><br>
+        <input type="number" name="quantity" id="quantity" min="1" value="1"><br>
+    </div>
+    <button type="submit" class="btn btn-default">Buy</button>
+</form>
+{% endif %}
+{% if product.seller_id == current_user.id %}
+<form action="/product/remove/{{ product.id }}">    
+    <button type="submit" class="btn btn-default">Remove from sale</button>
+</form>
+{% endif %}
+{% endblock %}

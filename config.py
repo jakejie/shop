@@ -8,13 +8,20 @@ class Config():
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_RECORD_QUERIES = True
+    # 验证邮箱配置
+    MAIL_SERVER = 'smtp.163.com'
+    MAIL_PORT = 465
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = "jakejie@163.com"
+    MAIL_PASSWORD = "zhujie165102"
+    FLASKY_MAIL_SUBJECT_PREFIX = '[Flask]'
+    FLASKY_MAIL_SENDER = 'jakejie@163.com'
+    # 数据库配置
     DIALECT = 'mysql'
     DRIVER = 'pymysql'
     USERNAME = 'root'
     PASSWORD = 'roottoor'
-    # PASSWORD = 'root'
     HOST = '59.110.230.99'
-    # HOST = '127.0.0.1'
     PORT = 3306
     DATABASE = 'shopping'
 

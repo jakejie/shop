@@ -19,42 +19,19 @@
             {% endfor %}
             <form role="form" method="post" enctype="multipart/form-data">
                 <fieldset>
-                    <div class="form-group">
-                        <label for="input_name"><span
-                                class="glyphicon glyphicon-user"></span>&nbsp;{{ form.username.label }}</label>
-                        {{ form.username }}
-                    </div>
-                    {% for err in form.username.errors %}
-                        <div class="col-md-12"></div>
-                        <font style="color: red">{{ err }}</font>
-                    {% endfor %}
-                    <div class="form-group">
-                        <label for="input_email"><span
-                                class="glyphicon glyphicon-envelope"></span>&nbsp;{{ form.email.label }}</label>
-                        {{ form.email }}
-                    </div>
-                    {% for err in form.email.errors %}
-                        <div class="col-md-12"></div>
-                        <font style="color: red">{{ err }}</font>
-                    {% endfor %}
-                    <div class="form-group">
-                        <label for="input_phone"><span
-                                class="glyphicon glyphicon-phone"></span>&nbsp;{{ form.phone.label }}</label>
-                        {{ form.phone }}
-                    </div>
-                    {% for err in form.phone.errors %}
-                        <div class="col-md-12"></div>
-                        <font style="color: red">{{ err }}</font>
-                    {% endfor %}
+                    <div> 用户名：{{ user.username }}</div>
+                    <div> 邮  箱：{{ user.email }}</div>
+                    <div> 手机号：{{ user.phone }}</div>
                     <div class="form-group">
                         <label for="input_face"><span
                                 class="glyphicon glyphicon-picture"></span>&nbsp;头像</label>
                         {{ form.image }}
                         {% if user.image %}
-                            <img src="{{ url_for('static',filename='uploads/face/'+user.image) }}"
+                            <img src="{{ url_for('static',filename='image/user/'+user.image) }}"
                                  class="img-responsive img-rounded" style="width: 100px">
                         {% else %}
-                            <img data-src="holder.js/100x100" class="img-responsive img-rounded">
+                            <img src="{{ url_for('static',filename='image/user/default.jpg') }}"
+                                 class="img-responsive img-rounded" style="width: 100px">
                         {% endif %}
                     </div>
                     {% for err in form.image.errors %}

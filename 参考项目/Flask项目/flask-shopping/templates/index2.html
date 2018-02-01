@@ -1,0 +1,835 @@
+﻿<!doctype html>
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<title>主页</title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Place favicon.ico in the root directory -->
+<link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
+<!-- google fonts -->
+<link href='https://fonts.googleapis.com/css?family=Lato:400,900,700,300' rel='stylesheet'
+	type='text/css'>
+<!-- all css here -->
+<!-- bootstrap v3.3.6 css -->
+<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+<!-- animate css -->
+<link rel="stylesheet" href="/static/css/animate.css">
+<!-- jquery-ui.min css -->
+<link rel="stylesheet" href="/static/css/jquery-ui.min.css">
+<!-- meanmenu css -->
+<link rel="stylesheet" href="/static/css/meanmenu.min.css">
+<!-- RS slider css -->
+<link rel="stylesheet" type="text/css" href="/static/lib/rs-plugin/css/settings.css" media="screen" />
+<!-- owl.carousel css -->
+<link rel="stylesheet" href="/static/css/owl.carousel.css">
+<!-- font-awesome css -->
+<link rel="stylesheet" href="/static/css/font-awesome.min.css">
+<!-- style css -->
+<link rel="stylesheet" href="/static/css/style.css">
+<!-- responsive css -->
+<link rel="stylesheet" href="/static/css/responsive.css">
+<!-- modernizr css -->
+<script src="/static/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<h1>{% if get_flashed_messages()[0] %}
+        <script language="javascript"> //JavaScript脚本标注
+        alert("{{get_flashed_messages()[0]}}");//在页面上弹出上联
+        </script>
+     {%endif %}
+</h1><br>
+<body>
+<!--[if lt IE 8]>
+		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+<!-- Add your site or application content here -->
+<!-- 黑色导航头开始 -->
+<div class="header-top-area hidden-xs">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 col-md-6 col-sm-4">
+				<div class="welcome">
+					<span class="phone">热销电话: +1234567890</span> <span class="hidden-sm">/</span>
+					<span class="email hidden-sm">邮箱: kuailaimai@domain.com</span>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-8">
+				<div class="top-menu">
+					<ul>welcome,{{ session.username }}
+						<li><a href="/customer_manage/user_name={{session.username}}">个人中心</a></li>
+						<li><a href="#">喜欢</a></li>
+						<li><a href="{{ url_for('.carted') }}">购物车</a></li>
+						<li><a href="{{ url_for('.index') }}">注销</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 黑色导航头结束 -->
+<!-- 白色导航条开始 -->
+<div class="sticky-wrapper">
+	<header>			
+		<!-- header-bottom-area start -->            
+		<div class="header-bottom-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+						<div class="logo">
+							<a href="index.html"><img src="/static/img/logo/logo.png" alt="" /></a>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-5 col-sm-5 col-xs-6 hidden-xs">
+						<div class="header-search">
+							<select>
+								<option value="0">全部</option>
+								<option value="1">图书</option>
+								<option value="2">CD</option>
+							</select>
+							<input type="text" placeholder="搜索" />
+							<button><i class="fa fa-search"></i></button>
+						</div>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 float-right account-wrap">
+						<!-- Header shopping cart -->
+						<div class="my-account-holder float-right">                
+							<div class="total-cart my-account-title" data-toggle="my-cart">
+								<div class="user-icon float-left">
+									<i class="fa fa-shopping-cart" aria-hidden="true"></i>
+								</div>
+								<div class="float-left cart-link">
+									<a href="{{ url_for('carted') }}">购物车</a>
+								</div>
+								<div class="clearfix"></div>  
+								<ul>
+                                    {% for data in session.basket_data %}
+                                        <li>
+                                            <div class="cart-img">
+                                                <a href="#"><img src="/static/img/product/{{ data[8] }}" alt="" /></a>
+                                            </div>
+                                            <div class="cart-info">
+                                                <h4><a href="#">{{data[5] }}</a></h4>
+                                                <span>￥{{ data[6] }} <span> x {{ data[2] }}</span></span>
+                                            </div>
+                                            <div class="del-icon">
+                                                <a href="/delete_from_basket/order_id={{data[0]}},item_id={{data[1]}},user_name={{session.username}}"><i class="fa fa-times-circle"></i></a>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+									<li>
+										<div class="subtotal-text">总价: </div>
+										<div class="subtotal-price">￥{{ session.total }}</div>
+									</li>
+									 <li>
+										<a href="{{ url_for('.carted') }}" class="button float-right">去结算</a>
+									</li>
+								</ul>                   
+							</div>
+						</div>
+						<!-- Header shopping cart -->
+						<div class="my-account-holder float-right">                
+							<div class="my-account-title">
+								<div class="user-icon float-left">
+									<i class="fa fa-heart" aria-hidden="true"></i>
+								</div>                                   
+								<div class="clearfix"></div>                     
+							</div>
+						</div>
+						 <div class="my-account-holder float-right">                
+							<div class="my-account-title">
+								<div class="user-icon float-left">
+									<i class="fa fa-exchange" aria-hidden="true"></i>
+								</div>                                   
+								<div class="clearfix"></div>                     
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- header-bottom-area end -->
+		<!-- main-menu-area start -->
+		<div class="main-menu-area hidden-xs">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12 col-md-12 col-sm-12">
+						<div class="main-menu">
+							<nav>
+								<ul>
+								    <li><a href="{{ url_for('.index2') }}">主页</a></li>
+									<li><a href="{{ url_for('.about') }}">关于我们</a></li>
+									<li><a href="{{ url_for('.contact') }}">联系我们</a></li>
+								</ul>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>            
+		<!-- main-menu-area end -->
+		<!-- mobile-menu-area start -->
+		<div class="mobile-menu-area visible-xs">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="mobile-menu">
+							<nav id="dropdown">
+								<ul>
+									<li><a href="index.html">主页</a></li>
+									<li><a href="about.html">关于我们</a></li>
+									<li><a href="contact.html">联系我们</a></li>
+								</ul>
+							</nav>
+						</div>					
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- mobile-menu-area end -->			
+	</header>
+</div>
+<!-- 白色导航条结束 -->
+<!-- 轮换主图片开始 -->
+<div class="slider-wrap">
+	<div class="fullwidthbanner-container">
+		<div class="fullwidthbanner">
+			<ul>
+				<li data-transition="fade" data-slotamount="7" data-masterspeed="300" data-saveperformance="on">
+					<!--MAIN IMAGE-->
+					<img src="/static/img/slider/slider1.png" alt="" data-bgposition="center top" data-duration=""
+						data-ease="Power0.easeInOut" data-bgfit="cover" data-bgrepeat="no-repeat" />
+					<!-- LAYER NR. -->
+					<div class="tp-caption skewfromrightshort skewtorightshort tp-resizeme" data-x="center"
+						data-hoffset="0" data-y="center" data-voffset="-150" data-speed="500" data-start="500"
+						data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0.01"
+						data-endelementdelay="0.1" data-endspeed="500" data-endeasing="Power4.easeIn"
+						style="z-index: 5; color: #fff; text-align: left !important; line-height: 100%;
+						font-size: 60px; letter-spacing: 6px; text-transform: uppercase; font-weight: 900;">
+						the best collection for 2017
+					</div>
+					<!-- LAYERS 3-->
+					<div class="tp-caption skewfromrightshort skewtorightshort tp-resizeme splitted"
+						data-x="center" data-hoffset="0" data-y="center" data-voffset="-30" data-speed="500"
+						data-start="1300" data-easing="Power4.easeInOut" data-splitin="chars" data-splitout="none"
+						data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="500" style="z-index: 4;
+						font-size: 35px; line-height: 30px; text-transform: none; font-weight: 400; letter-spacing: 4px;
+						color: #fff; text-align: right !important; max-width: auto; max-height: auto;
+						white-space: nowrap;">
+						Most interesting books and CDs
+					</div>
+					<div class="tp-caption tp-fade fadeout tp-resizeme" data-x="center" data-hoffset="0"
+						data-y="center" data-voffset="75" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
+						data-speed="500" data-start="1500" data-easing="Power3.easeInOut" data-splitin="none"
+						data-splitout="none" data-elementdelay="0.05" data-endelementdelay="0.1" data-endspeed="500"
+						style="z-index: 7;">
+						<a class="btn btn-default btn-icon" style="font-size: 15px; text-align: left !important;
+							padding: 12px 22px; font-weight: bold; color: #313131; text-transform: uppercase;
+							line-height: 24px;" href="#">Shop Now<i class="fa fa-long-arrow-right"></i></a>
+					</div>
+				</li>
+				<li data-transition="fade" data-slotamount="7" data-masterspeed="300" data-saveperformance="on">
+					<!--MAIN IMAGE-->
+					<img src="/static/img/slider/slider2.png" alt="" data-bgposition="center center" data-duration=""
+						data-ease="Power0.easeInOut" data-bgfit="cover" data-bgrepeat="no-repeat" />
+					<!-- LAYER NR. -->
+					<div class="tp-caption skewfromrightshort skewtorightshort tp-resizeme" data-x="center"
+						data-hoffset="0" data-y="center" data-voffset="-150" data-speed="500" data-start="500"
+						data-easing="Power4.easeOut" data-splitin="none" data-splitout="none" data-elementdelay="0.01"
+						data-endelementdelay="0.1" data-endspeed="500" data-endeasing="Power4.easeIn"
+						style="z-index: 5; color: #fff; text-align: left !important; line-height: 100%;
+						font-size: 60px; letter-spacing: 6px; text-transform: uppercase; font-weight: 900;">
+						Buy To Get more than 5% Discount
+					</div>
+					<!-- LAYERS 3-->
+					<div class="tp-caption skewfromrightshort skewtorightshort tp-resizeme splitted"
+						data-x="center" data-hoffset="0" data-y="center" data-voffset="-30" data-speed="500"
+						data-start="1300" data-easing="Power4.easeInOut" data-splitin="chars" data-splitout="none"
+						data-elementdelay="0.1" data-endelementdelay="0.1" data-endspeed="500" style="z-index: 4;
+						font-size: 35px; line-height: 30px; text-transform: none; font-weight: 400; letter-spacing: 4px;
+						color: #fff; text-align: right !important; max-width: auto; max-height: auto;
+						white-space: nowrap;">
+						fantastic books and CDs
+					</div>
+					<div class="tp-caption tp-fade fadeout tp-resizeme" data-x="center" data-hoffset="0"
+						data-y="center" data-voffset="65" data-customin="x:0;y:0;z:0;rotationX:0;rotationY:0;rotationZ:0;scaleX:0;scaleY:0;skewX:0;skewY:0;opacity:0;transformPerspective:600;transformOrigin:50% 50%;"
+						data-speed="500" data-start="1500" data-easing="Power3.easeInOut" data-splitin="none"
+						data-splitout="none" data-elementdelay="0.05" data-endelementdelay="0.1" data-endspeed="500"
+						style="z-index: 7;">
+						<a class="btn btn-default btn-icon" style="font-size: 15px; text-align: left !important;
+							padding: 12px 22px; font-weight: bold; color: #313131; text-transform: uppercase;
+							line-height: 24px;" href="#">Shop Now<i class="fa fa-long-arrow-right"></i></a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- 轮换主图片结束 -->
+<!-- 品牌图片开始 -->
+<div class="banner-area">
+	<div class="container">
+		<div class="row">
+			<!-- single-banner start -->
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<a href="#">
+					<div class="single-banner">
+						<img src="/static/img/banner/2.jpg" alt="" />
+						<div class="banner-details">
+							<div class="mask">                                    
+								<p>
+									最优质的书籍</p>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<!-- single-banner end -->
+			<!-- single-banner start -->
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<a href="#">
+					<div class="single-banner">
+						<img src="/static/img/banner/3.jpg" alt="" />
+						<div class="banner-details">
+							<div class="banner-details">
+								<div class="mask">                                       
+									<p>
+										最经典的CD</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<!-- single-banner end -->
+			<!-- single-banner start -->
+			<div class="col-lg-4 col-md-4 col-sm-4">
+				<a href="#">
+					<div class="single-banner">
+						<img src="/static/img/banner/5.jpg" alt="" />
+						<div class="banner-details">
+							<div class="mask">                                   
+								<p>
+									我们都有！</p>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<!-- single-banner end -->
+		</div>
+	</div>
+</div>
+<!-- 品牌图片结束 -->
+<!-- 服务广告开始 -->
+<div class="service-area pad-top">
+	<div class="container">
+		<div class="row">
+			<!-- single-service start -->
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<div class="single-service">
+					<div class="service-icon">
+						<i class="fa fa-comments"></i>
+					</div>
+					<div class="service-text">
+						<h2>
+							免费电话</h2>
+						<p>
+							联系我们：1234567890</p>
+					</div>
+				</div>
+			</div>
+			<!-- single-service end -->
+			<!-- single-service start -->
+			<div class="col-lg-4 col-md-4 col-sm-6">
+				<div class="single-service">
+					<div class="service-icon">
+						<i class="fa fa-truck"></i>                            
+					</div>
+					<div class="service-text">
+						<h2>
+							送货上门</h2>
+						<p>
+							提供24小时送货上门服务</p>
+					</div>
+				</div>
+			</div>
+			<!-- single-service end -->
+			<!-- single-service start -->
+			<div class="col-lg-4 col-md-4 hidden-sm">
+				<div class="single-service">
+					<div class="service-icon">
+						<i class="fa fa-money"></i>
+					</div>
+					<div class="service-text">
+						<h2>
+							价格公道</h2>
+						<p>
+							全网最低价，欢迎秒杀</p>
+					</div>
+				</div>
+			</div>
+			<!-- single-service end -->
+		</div>
+	</div>
+</div>
+<!-- 服务广告结束 -->
+<!-- 图书区域开始 -->
+<div class="features-area pad-60">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="section-title text-center">
+					<h2>
+						热销图书</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="product-tab">
+					<!-- Nav tabs -->
+					<ul class="tab-menu" role="tablist">
+						<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab"
+							data-toggle="tab">新品上架</a></li>
+						<li role="presentation"><a href="#men" aria-controls="men" role="tab" data-toggle="tab">
+							人文社科</a></li>
+						<li role="presentation"><a href="#women" aria-controls="women" role="tab" data-toggle="tab">
+							计算机</a></li>
+						<li role="presentation"><a href="#kids" aria-controls="kids" role="tab" data-toggle="tab">
+							教育</a></li>
+					</ul>
+					<!-- Tab panes -->
+					<div class="tab-content">
+						<div role="tabpanel" class="tab-pane active" id="home">
+							<div class="row">
+								<div class="product-curosel">
+									<!-- single-product start -->
+                                    {% for data in session.book_list_new %}
+									   <div class="col-lg-12">
+										<div class="single-product">
+											<div class="product-img">
+												<a href="single-product.html">
+													<img class="primary-img" src="/static/img/product/{{ data[5] }}" alt="" />
+													<img class="secondary-img" src="/static/img/product/{{ data[5] }}" alt="" />
+												</a><span class="sale">sale</span>
+												<div class="product-action">
+													<div class="pro-button-top">
+														<form id="form" action="/add_to_basket" method="post">
+                                                         <input type="hidden" name ="user_name" value="{{ session.username }}">
+                                                         <input type="hidden" name ="production_id" value="{{data[0]}}">
+                                                         <input type="submit"  class="btn btn-default" value="加入购物车">
+                                                        </form>
+													</div>
+													<div class="pro-button-bottom">
+														<a href="#"><i class="fa fa-heart"></i></a>
+                                                        <a href="#"><i class="fa fa-retweet"></i></a>
+                                                        <a href="/single_product/product_id={{ data[0] }}"><i class="fa fa-search-plus"></i></a>
+													</div>
+												</div>
+											</div>
+											<div class="product-info">
+												<h3><a href="#">{{ data[2] }}</a></h3>
+												<div class="pro-price">
+													<span class="normal">￥{{ data[3] }}</span> <span class="old">￥{{ data[3] }}</span>
+												</div>
+												<div class="pro-rating">
+													<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+														class="fa fa-star"></i><i class="fa fa-star"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+                                    {% endfor %}
+									<!-- single-product end -->
+								</div>
+							</div>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="men">
+							<div class="row">
+								<div class="product-curosel">
+									<!-- single-product start -->
+                                    {% for data in session.book_list_social %}
+									   <div class="col-lg-12">
+										<div class="single-product">
+											<div class="product-img">
+												<a href="#">
+													<img class="primary-img" src="/static/img/product/{{ data[5] }}" alt="" />
+													<img class="secondary-img" src="/static/img/product/{{ data[5] }}" alt="" />
+												</a><span class="sale">sale</span>
+												<div class="product-action">
+													<div class="pro-button-top">
+														<form id="form" action="/add_to_basket" method="post">
+                                                         <input type="hidden" name ="user_name" value="{{ session.username }}">
+                                                         <input type="hidden" name ="production_id" value="{{data[0]}}">
+                                                         <input type="submit"  class="btn btn-default" value="加入购物车">
+                                                        </form>
+{#                                                        <a href="/add_to_basket/user_name={{ session.username }},production_id={{ data[0] }}">Add to basket</a>#}
+													</div>
+													<div class="pro-button-bottom">
+														<a href="#"><i class="fa fa-heart"></i></a>
+                                                        <a href="#"><i class="fa fa-retweet"></i></a>
+                                                        <a href="/single_product/product_id={{ data[0] }}"><i class="fa fa-search-plus"></i></a>
+													</div>
+												</div>
+											</div>
+											<div class="product-info">
+												<h3>
+													<a href="#">{{ data[2] }}</a></h3>
+												<div class="pro-price">
+													<span class="normal">￥{{ data[3] }}</span> <span class="old">￥{{ data[3] }}</span>
+												</div>
+												<div class="pro-rating">
+													<i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+														class="fa fa-star"></i><i class="fa fa-star"></i>
+												</div>
+											</div>
+										</div>
+									</div>
+                                    {% endfor %}
+									<!-- single-product end -->
+								</div>
+							</div>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="women">
+							<div class="row">
+								<div class="product-curosel">
+                                    {% for data in session.book_list_computer %}
+                                        <!-- single-product start -->
+                                        <div class="col-lg-12">
+                                            <div class="single-product">
+                                                <div class="product-img">
+                                                    <a href="#">
+                                                        <img class="primary-img" src="/static/img/product/{{ data[5] }}" alt="" />
+                                                        <img class="secondary-img" src="/static/img/product/{{ data[5] }}" alt="" />
+                                                    </a><span class="sale">sale</span>
+                                                    <div class="product-action">
+                                                        <div class="pro-button-top">
+                                                            <form id="form" action="/add_to_basket" method="post">
+                                                             <input type="hidden" name ="user_name" value="{{ session.username }}">
+                                                             <input type="hidden" name ="production_id" value="{{data[0]}}">
+                                                             <input type="submit"  class="btn btn-default" value="加入购物车">
+                                                            </form>
+                                                        </div>
+                                                        <div class="pro-button-bottom">
+                                                            <a href="#"><i class="fa fa-heart"></i></a>
+                                                            <a href="#"><i class="fa fa-retweet"></i></a>
+                                                            <a href="/single_product/product_id={{ data[0] }}"><i class="fa fa-search-plus"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="product-info">
+                                                    <h3>
+                                                        <a href="#">{{ data[2] }}</a></h3>
+                                                    <div class="pro-price">
+                                                        <span class="normal">￥{{ data[3] }}</span> <span class="old">￥{{ data[3] }}</span>
+                                                    </div>
+                                                    <div class="pro-rating">
+                                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                                            class="fa fa-star"></i><i class="fa fa-star"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- single-product end -->
+                                    {% endfor %}
+								</div>
+							</div>
+						</div>
+						<div role="tabpanel" class="tab-pane" id="kids">
+							<div class="row">
+								<div class="product-curosel">
+                                   {% for data in session.book_list_education %}
+                                        <!-- single-product start -->
+                                        <div class="col-lg-12">
+                                            <div class="single-product">
+                                                <div class="product-img">
+                                                    <a href="#">
+                                                        <img class="primary-img" src="/static/img/product/{{ data[5] }}" alt="" />
+                                                        <img class="secondary-img" src="/static/img/product/{{ data[5] }}" alt="" />
+                                                    </a><span class="sale">sale</span>
+                                                    <div class="product-action">
+                                                        <div class="pro-button-top">
+                                                            <form id="form" action="/add_to_basket" method="post">
+                                                             <input type="hidden" name ="user_name" value="{{ session.username }}">
+                                                             <input type="hidden" name ="production_id" value="{{data[0]}}">
+                                                             <input type="submit"  class="btn btn-default" value="加入购物车">
+                                                            </form>
+                                                        </div>
+                                                        <div class="pro-button-bottom">
+                                                            <a href="#"><i class="fa fa-heart"></i></a>
+                                                            <a href="#"><i class="fa fa-retweet"></i></a>
+                                                            <a href="/single_product/product_id={{ data[0] }}"><i class="fa fa-search-plus"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="product-info">
+                                                    <h3>
+                                                        <a href="#">{{ data[2] }}</a></h3>
+                                                    <div class="pro-price">
+                                                        <span class="normal">￥{{ data[3] }}</span> <span class="old">￥{{ data[3] }}</span>
+                                                    </div>
+                                                    <div class="pro-rating">
+                                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                                            class="fa fa-star"></i><i class="fa fa-star"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- single-product end -->
+                                    {% endfor %}
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 图书区域结束 -->
+<!-- 热销CD开始-->
+<div class="new-product-area pad-bottom">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="section-title text-center">
+					<h2>
+						热销CD</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="product-curosel">
+                {%for disk in session.disk_list%}
+                    <!-- single-product start -->
+                    <div class="col-lg-12">
+                        <div class="single-product">
+                            <div class="product-img">
+                                <a href="#">
+                                    <img class="primary-img" src="/static/img/product/{{ disk[5] }}" alt="" />
+                                    <img class="secondary-img" src="/static/img/product/{{disk[5]}}" alt="" />
+                                </a><span class="sale">sale</span>
+                                <div class="product-action">
+                                    <div class="pro-button-top">
+                                        <form id="form" action="/add_to_basket" method="post">
+                                         <input type="hidden" name ="user_name" value="{{ session.username }}">
+                                         <input type="hidden" name ="production_id" value="{{disk[0]}}">
+                                         <input type="submit"  class="btn btn-default" value="加入购物车">
+                                        </form>
+                                        {#<a href="#">add to cart</a>#}
+                                    </div>
+                                    <div class="pro-button-bottom">
+                                        <a href="#"><i class="fa fa-heart"></i></a>
+                                        <a href="#"><i class="fa fa-retweet"></i></a>
+                                        <a href="/single_product/product_id={{ disk[0] }}"><i class="fa fa-search-plus"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h3>
+                                    <a href="#">{{disk[2]}}</a></h3>
+                                <div class="pro-price">
+                                    <span class="normal">￥{{ disk[3] }}</span> <span class="old">￥{{ disk[3] }}</span>
+                                </div>
+                                <div class="pro-rating">
+                                    <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+                                        class="fa fa-star"></i><i class="fa fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- single-product end -->
+                {% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 热销CD结束 -->
+
+<!-- 图书排行榜开始 -->
+<div class="brand-area pad-bottom">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="section-title text-center">
+					<h2>
+						图书排行榜
+					</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="brand-carousel">
+				<div class="col-lg-12">
+					<div class="single-brand">
+						<a href="#">
+							<img src="/static/img/brand/1.png" alt="人间失格（日本小说家太宰治的自传体小说）" />人间失格（日本小说家太宰治的自传体小说）</a>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="single-brand">
+						<a href="#">
+							<img src="/static/img/brand/2.png" alt="" />我喜欢生命本来的样子(周国平经典散文作品集)</a>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="single-brand">
+						<a href="#">
+							<img src="/static/img/brand/3.png" alt="" />雪落香杉树 (福克纳奖得主，全球畅销500万册)</a>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="single-brand">
+						<a href="#">
+							<img src="/static/img/brand/4.png" alt="" />解忧杂货店（东野圭吾）</a>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="single-brand">
+						<a href="#">
+							<img src="/static/img/brand/5.png" alt="" />九型人格 : 职场高品质沟通的艺术</a>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="single-brand">
+						<a href="#">
+							<img src="/static/img/brand/6.png" alt="" />这就是二十四节气（文津图书奖获奖绘本，共4册）</a>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="single-brand">
+						<a href="#">
+							<img src="/static/img/brand/7.png" alt="" />追风筝的人（[美]卡勒德·胡赛尼）</a>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="single-brand">
+						<a href="#">
+							<img src="/static/img/brand/8.png" alt="" />我的第一本地理启蒙书（郑利强）</a>
+					</div>
+				</div>
+				<div class="col-lg-12">
+					<div class="single-brand">
+						<a href="#">
+							<img src="/static/img/brand/9.png" alt="" />我不（大冰2017新作 再度突破当当预售新记录！）</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 图书排行版结束 -->
+<!-- 页尾广告开始 -->
+<footer>
+		<!-- footer-top-area start -->
+		<div class="footer-top-area">
+			<div class="container">
+				<div class="row">
+					<!-- footer-widget start -->
+					<div class="col-lg-3 col-md-3 col-sm-4">
+						<div class="footer-widget">
+							<img src="/static/img/logo/logo.png" alt="" />
+							<p>易购网致力于给广大用户提供最优质的服务和最良好的用户体验。</p>
+							<div class="widget-icon">
+								<a href="#"><i class="fa fa-facebook"></i></a>
+								<a href="#"><i class="fa fa-twitter"></i></a>
+								<a href="#"><i class="fa fa-linkedin"></i></a>
+								<a href="#"><i class="fa fa-google-plus"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- footer-widget end -->
+					<!-- footer-widget start -->
+					<div class="col-lg-3 col-md-3 hidden-sm">
+						<div class="footer-widget">
+							<h3>服务</h3>
+							<ul class="footer-menu">
+								<li><a href="#">消费者保障</a></li>
+								<li><a href="#">新手指南</a></li>
+								<li><a href="#">付款方式</a></li>
+								<li><a href="#">联系我们</a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- footer-widget end -->
+					<!-- footer-widget start -->
+					<div class="col-lg-3 col-md-3 hidden-sm">
+						<div class="footer-widget">
+							<h3>服务</h3>
+							<ul class="footer-menu">
+								<li><a href="#">网站特色</a></li>
+							</ul>
+						</div>
+					</div>
+					<!-- footer-widget end -->
+					<!-- footer-widget start -->
+					<div class="col-lg-3 col-md-3 col-sm-4">
+						<div class="footer-widget">
+							<h3>联系我们</h3>
+							<ul class="footer-contact">
+								<li>
+									<i class="fa fa-map-marker"> </i>
+									地址: 上海师范大学奉贤校区
+								</li>
+								<li>
+									<i class="fa fa-envelope"> </i>	
+									邮箱: kuailaimai@themepure.net
+								</li>
+								<li>
+									<i class="fa fa-phone"> </i>
+									联系电话: +1234567890
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- footer-widget end -->
+				</div>
+			</div>
+		</div>
+		<!-- footer-top-area end -->
+		<!-- footer-bottom-area start -->
+		<div class="footer-bottom-area">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<div class="copyright">
+							<p>Copyright &copy; 2017.Company name All rights reserved.</p>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<div class="payment-img">
+							<img src="/static/img/payment.png" alt="" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- footer-bottom-area end -->
+	</footer>
+<!-- 页尾广告结束-->
+<!-- 所以js 代码 -->
+<!-- jquery latest version -->
+<script src="/static/js/vendor/jquery-1.12.0.min.js"></script>
+<!-- bootstrap js -->
+<script src="/static/js/bootstrap.min.js"></script>
+<!-- owl.carousel js -->
+<script src="/static/js/owl.carousel.min.js"></script>
+<!-- jquery-ui js -->
+<script src="/static/js/jquery-ui.min.js"></script>
+<!-- RS-Plugin JS -->
+<script type="text/javascript" src="/static/lib/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+<script type="text/javascript" src="/static/lib/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+<script src="/static/lib/rs-plugin/rs.home.js"></script>
+<!-- meanmenu js -->
+<script src="/static/js/jquery.meanmenu.js"></script>
+<!-- wow js -->
+<script src="/static/js/wow.min.js"></script>
+<!-- plugins js -->
+<script src="/static/js/plugins.js"></script>
+<!-- main js -->
+<script src="/static/js/main.js"></script>
+</body>
+<!-- Mirrored from themepure.net/tf/tp-shop-preview/tp-shop/index.html by HTTrack Website Copier/3.x [XR&CO'2010], Wed, 13 Apr 2016 11:24:56 GMT -->
+</html>

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{%block content%}
+<div class="container">
+  {%- for message in get_flashed_messages() %}
+  <div class="alert alert-success">
+  {{ message }}
+  </div>
+  {%- endfor %}
+  <table class="table table-striped">
+    <thead class="thead thead-inverse">
+      <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>price</th>
+        <th>quantity</th>
+        <th>View / edit</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in stock %}
+      <tr>
+        <td>{{ item.id }} </td>
+        <td>{{ item.name }} </td>
+        <td>{{ item.price }} </td>
+        <td>{{ item.quantity }} </td>
+        <td><a href="{{ url_for('stock.viewItem', item_id = item.id ) }}"> edit {{ item.name }}</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{%block content%}
+<div class="container">
+  {% macro render_field(field, placeholder=None) %}
+  {% if field.errors %}
+  <div>
+  {% elif field.flags.error %}
+  <div>
+  {% else %}
+  <div>
+  {% endif %}
+      {% set css_class = 'form-control ' + kwargs.pop('class', '') %}
+      {{ field(class=css_class, placeholder=placeholder, **kwargs) }}
+  </div>
+  {% endmacro %}
+
+  <div>
+    <div class="col-lg-4 col-md-6 col-sm-8 col-lg-offset-1 col-md-offset-1 col-sm-offset-2">
+      <legend>Add Stock</legend>
+      {% with errors = get_flashed_messages(category_filter=["error"]) %}
+      {% if errors %}
+      <div>
+      {% for error in errors %}
+      {{ error }}<br>
+      {% endfor %}
+      </div>
+      {% endif %}
+      {% endwith %}
+
+      {% if form.errors %}
+      <div style="color:red;">
+        please enter :
+      {% for field, error in form.errors.items() %}
+      {% for e in error %}
+      {{ e }},
+      {% endfor %}
+      {% endfor %}
+    </div><br>
+      {% endif %}
+      <form method="POST" action="/add/stock/" class="form-horizontal" accept-charset="UTF-8" role="form">
+        {{ form.csrf_token }}
+        {{ render_field(form.name, placeholder="product name",autofocus="", class="form-contorl") }}
+        <br>
+        {{ render_field(form.price, placeholder="price", class="form-contorl") }}<br>
+        {{ render_field(form.quantity, placeholder="Quantity", class="form-contorl") }}<br>
+        <button type="submit" name="submit" class="btn btn-lg btn-primary btn-block">Submit</button>
+      </form>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

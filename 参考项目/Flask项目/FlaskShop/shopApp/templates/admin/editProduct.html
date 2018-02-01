@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %} Add Product {% endblock %}
+{% block head %}
+	{{ super() }}
+{% endblock %}
+
+{% block content %}
+    <h1>Edit An Existing Product</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <dl>
+            {{ form.product_name.label }}<br>
+            {{ form.product_name(size=50) }}
+        
+        <p>
+            {{ form.product_description.label }}<br>
+            {{ form.product_description(cols='100', rows='7') }}
+        </p>
+
+        <p>
+            {{ form.price.label }}<br>
+            {{ form.price(cols='100', rows='7') }}
+        </p>
+        <p>
+            {{ form.category_id.label }}<br>
+            {{ form.category_id(cols='100', rows='7') }}
+        </p>
+
+        </dl>
+
+        <p>
+        	{{ form.submit() }}
+    	</p>
+    </form>
+{% endblock %}

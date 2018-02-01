@@ -1,0 +1,31 @@
+<div class="text-center">
+  <ul class="pagination">
+    {% if productos.has_prev %}
+    <li>
+      <a href="{{ url_for('index', page=productos.prev_num) }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% endif %}
+
+    {% for page in productos.iter_pages() %}
+    {% if page %}
+    <li class="{% if page == productos.page %}active{% endif %}">
+      <a href="{{ url_for('index', page=page) }}">{{ page }}</a>
+    </li>
+    {% else %}
+    <li>
+      <span class=ellipsis>…</span>
+    </li>
+    {% endif %}
+    {% endfor %}
+
+    {% if productos.has_next %}
+    <li>
+      <a href="{{ url_for('index', page=productos.next_num) }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</div>

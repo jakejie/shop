@@ -1,0 +1,29 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}Shop{% endblock %}
+{% block navbar %}
+<nav class="navbar navbar-inverse navbar-static-top">
+     <div class="container">
+       <div class="navbar-header">
+         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+           <span class="sr-only">Toggle navigation</span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+           <span class="icon-bar"></span>
+         </button>
+         <a class="navbar-brand" href="{{ url_for('home.index') }}">MyShop</a>
+       </div>
+       <div id="navbar" class="navbar-collapse collapse">
+         <ul class="nav navbar-nav">
+           <li><a href="{{ url_for('home.index') }}"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+           <li><a href="{{ url_for('sell.sell') }}"><span class="glyphicon glyphicon-flag"></span> Sell</a></li>
+           <li><a href="{{ url_for('add.addStock') }}"><span class="glyphicon glyphicon-briefcase"></span> Add-stock</a></li>
+           <li><a href="{{ url_for('stock.viewStock') }}"><span class="glyphicon glyphicon-info-sign"></span> Stock</a></li>
+           <li><a href="{{ url_for('report.display') }}"><span class="glyphicon glyphicon-pencil"></span> Reports</a></li>
+         </ul>
+         </div>
+   </div>
+ </nav>
+{% endblock %}
+{% block content %}
+
+{% endblock %}

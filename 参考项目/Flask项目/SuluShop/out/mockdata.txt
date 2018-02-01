@@ -1,0 +1,2 @@
+mysql -u sulushop -p sulushop < producto.sql
+https://www.mockaroo.com/

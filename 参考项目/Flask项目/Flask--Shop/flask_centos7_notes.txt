@@ -1,0 +1,64 @@
+# CentOS 7 Python3
+sudo yum install -y epel-release
+sudo yum install -y python34 python34-devel python-pip
+pip install -U pip
+
+# Postgresql db
+sudo yum install -y postgresql-server postgresql-contrib
+sudo postgresql-setup initdb
+sudo systemctl enable postgresql
+sudo systemctl start postgresql
+sudo -u postgres psql
+
+# SQL:
+# create user shop_writer with nocreatedb nocreateuser encrypted password 'AbcD456'
+# create database shop;
+# grant all privileges on database shop to shop_writer;
+
+# Nginx
+sudo yum install -y nginx
+sudo mkdir -p /var/www/flask_shop
+cd /var/www/flask_shop
+git clone ...
+pip install virtualenv
+virtualenv -p python3 venv
+sudo chown -R nginx:nginx /var/www/flask_shop
+
+# uWSGI
+pip install uwsgi
+sudo mkdir -p /var/log/uwsgi
+sudo chown -R nginx:nginx /var/log/uwsgi
+
+# /var/www/flask_shop/flask_shop.ini:
+# [uwsgi]
+# base = /var/www/flask_shop
+# app = flask_shop
+# module = %(app)
+# home = %(base)/venv
+# pythonpath = %(base)
+# socket = /var/www/flask_shop/%n.sock
+# chmod-socket = 666
+# callable = app
+# logto = /var/log/uwsgi/%n.log
+
+
+#  /etc/nginx/conf.d/flash_shop.conf:
+# server {
+#     listen      5000;
+#     server_name localhost;
+#     charset     utf-8;
+#     client_max_body_size 1M;
+# 
+#     location / { try_files $uri @flask_shop; }
+#     location @flask_shop {
+#         include uwsgi_params;
+#         uwsgi_pass unix:/var/www/flask_shop/flask_shop.sock;
+#     }
+# }	
+
+uwsgi --ini /var/www/flask_shop/flask_shop.ini &
+sudo systemctl enable nginx
+sudo systemctl start nginx
+
+elinks http://localhost:5000
+

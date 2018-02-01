@@ -1,0 +1,78 @@
+{% extends "_layouts/base.html" %}
+
+{% block title %}
+Registro Login | {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+				<div class="row">
+					<!--inicio login-->
+					<div class=" col-md-6">
+						<div class="jumbotron">
+							<h3 class="panel-heading"><strong>Login</strong></h3>
+							<form name="login" method="POST" action="{{ url_for( 'login' ) }}">
+								<div class="form-group">
+									{{ loginForm.email(class="form-control", id="userLogin_email", value=saves.get('email', ' '), required="required", placeholder="Email", type="email") }}
+								</div>
+								<div class="form-group">
+									{{ loginForm.password(class="form-control", id="userLogin_password", value=saves.get('password', ' '), required="required", placeholder="Contraseña", type="password") }}
+								</div>
+								<div class="row btn btn-block center-block">
+									<div class="col-md-2 col-md-offset-3">
+										<button id="userLogin_login" class="btn btn-primary" name="userLogin[login]" type="submit">Entrar</button>
+									</div>
+									<div class="col-md-2">
+										<button  id="userLogin_restablecer" class="btn btn-primary" name="userLogin[restrablecer]" type="reset">Restablecer</button>
+									</div>
+
+								</div>
+							</form>
+
+						</div>
+					</div>
+					<!--fin login-->
+
+					<!--inicio registro-->
+					<div class="col-md-6 ">
+						<div class="jumbotron">
+							<h3 class="panel-heading"><strong>Registro</strong></h3>
+							<form name="registro" method="POST" action="{{ url_for( 'registro' ) }}">
+								<div>
+									<div class="form-group">
+										{{ registroForm.nombre(class="form-control", id="userRegistro_nombre", value=saves.get('nombre', ''), required="required", placeholder="Nombre", type="text")}}
+									</div>
+									<div class="form-group">
+										{{ registroForm.apellidos(class="form-control", id="userRegistro_apellidos", value=saves.get('apellidos', ''), required="required", placeholder="Apellidos", type="text")}}
+									</div>
+									<div class="form-group">
+										{{ registroForm.nacimiento(class="form-control", id="userRegistro_nacimiento", value=saves.get('nacimiento', ''), required="required", placeholder="Año Nacimiento", type="text")}}
+									</div>
+									<div class="form-group">
+										{{ registroForm.direccion(class="form-control", id="userRegistro_direccion", value=saves.get('userLogindireccion', ''), required="required", placeholder="Direccion", type="text")}}
+									</div>
+									<div class="form-group">
+										{{ registroForm.telefono(class="form-control", id="userRegistro_telefono", value=saves.get('telefono', ''), required="required", placeholder="Telefono", type="text")}}
+									</div>
+									<div class="form-group">
+										{{ registroForm.email(class="form-control", id="userLogin_email", value=saves.get('email', ' '), required="required", placeholder="Email", type="email") }}
+									</div>
+									<div class="form-group">
+										{{ registroForm.password(class="form-control", id="userLogin_password", value=saves.get('password', ' '), required="required", placeholder="Contraseña", type="password") }}
+									</div>
+
+								</div>
+								<div class="row btn btn-block center-block">
+									<div class="col-md-3 col-md-offset-3">
+										<button id="userRegistro_registro" class="btn btn-primary" name="userRegistro[registro]" type="submit" >Registrarse</button>
+									</div>
+									<div class="col-md-2">
+										<button id="userRegistro_restablecer" class="btn btn-primary" name="userRegistro[restrablecer]" type="reset">Restablecer</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+</div>
+{% endblock %}

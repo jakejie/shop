@@ -68,14 +68,14 @@
                     <a class="curlink" href="{{ url_for('home.buy') }}"><span class="glyphicon glyphicon-user"></span>&nbsp;购物车</a>
                 </li>
                 <li>
-                    <a class="curlink" href="{{ url_for('home.logout') }}"><span class="glyphicon glyphicon-log-out"></span>&nbsp;退出</a>
+                    <a class="curlink" href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-log-out"></span>&nbsp;退出</a>
                 </li>
                 {% else %}
                 <li>
-                    <a class="curlink" href="{{ url_for('home.login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a>
+                    <a class="curlink" href="{{ url_for('auth.login') }}"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a>
                 </li>
                 <li>
-                    <a class="curlink" href="{{ url_for('home.register') }}"><span class="glyphicon glyphicon-plus"></span>&nbsp;注册</a>
+                    <a class="curlink" href="{{ url_for('auth.register') }}"><span class="glyphicon glyphicon-plus"></span>&nbsp;注册</a>
                 </li>
                 {% endif %}
             </ul>

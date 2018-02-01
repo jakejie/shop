@@ -1,0 +1,67 @@
+{% extends "_layouts/base.html" %}
+
+{% block title %}
+Carrito | {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+  <strong>
+    <div class="row">
+      <div class="col-md-6">Producto</div>
+      <div class="col-md-2">Precio</div>
+      <div class="col-md-2">Cantidad</div>
+      <div class="col-md-2"></div>
+    </div>
+    <hr style="height:3px;border:none;color:#eee;background-color:#eee;" />
+  </strong>
+  <div class="container">
+    <!--Inicia bucle de items en el carrito-->
+    {% for producto in productos %}
+    <form action="{{ url_for('delete_cart') }}" class="form-inline" method="POST">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            {% if producto[0].picture %}
+            <div class="col-sm-2 hidden-xs"><img src="{{ producto[0].picture }}" alt="..." class="img-responsive"/></div>
+            {% endif %}
+            <div class="col-sm-100x10010">
+              <h4 class="nomargin">{{ producto[0].nombre }}</h4>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          {{ producto[0].total | round(2,'ceil')}}€
+        </div>
+        <div class="col-md-2">
+          {{ producto.cantidad }}
+        </div>
+        <div class="col-md-2">
+          {{ form.hidden_tag() }}
+          {{ form.pk(type="hidden", value=producto[0].id) }}
+          {{ form.name(type="hidden", value=producto[0].nombre) }}
+          <button class="btn btn-danger btn-sm" type="submit"><i class="glyphicon glyphicon-trash"></i></button>
+        </div>
+      </div>
+      <hr style="height:3px;border:none;color:#eee;background-color:#eee;" />
+    </form>
+    {% endfor  %}
+    <!--Fin bucle de items en el carrito-->
+
+    <div class="row">
+      <div class="col-md-6">
+        <a href="{{ url_for('index') }}" class="btn btn-warning"><i class="faa fa-angle-left"></i> Continuar comprando</a>
+      </div>
+      <div class="col-md-2 offset-md-3">
+        <strong>Total {{ total | round(2,'ceil') }}€</strong>
+      </div>
+      <div class="col-md-2 offset-md-3">
+        <form action="{{ url_for('delete_all_cart') }}" class="form-inline" method="POST">
+          <button class="btn btn-success btn-block">Comprar <i class="fa fa-angle-right"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

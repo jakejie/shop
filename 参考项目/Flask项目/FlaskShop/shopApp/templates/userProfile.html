@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>profile</title>
+</head>
+<body>
+	<h1>
+		"Hello to my online shop setup, This pages shows User Profile!"
+	</h1>
+
+	<div>
+        <p>hello login or logout</p>
+        <a href="{{ url_for('home.homepage') }}">Home</a>
+        {% if current_user.is_anonymous %}
+        <a href="{{ url_for('home.login') }}">Login</a>
+        {% else %}
+        <a href="{{ url_for('home.logout') }}">Logout</a>
+        {% endif %}
+    </div>
+</body>
+</html>
