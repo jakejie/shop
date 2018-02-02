@@ -5,181 +5,220 @@
     {{ super() }}
 {% endblock %}
 
+{% block css %}
+
+
+{% endblock %}
 
 {% block header %}
-<!--内容-->
-<div class="container" style="margin-top:76px">
-    <div class="row">
-        <div class="col-md-6">
-            <!--商品图片轮播-->
-            <div id="moviecontainer">
-                <img src="{{ url_for('static',filename='image/course.jpg') }}" alt="{{ info.name }}">
-            </div>
-        </div>
-        <div class="col-md-5" style="height:500px;">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp;商品介绍</h3>
-                </div>
-                <div class="panel-body" style="height:459px;">
-                    <table class="table">
-                        <tr>
-                            <td style="width:30%;color:#ccc;font-weight:bold;font-style:italic;">
-                                <span class="glyphicon glyphicon-film"></span>&nbsp;商品名称
-                            </td>
-                            <td>{{ info.name }}</td>
-                        </tr>
-                        <tr>
-                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                <span class="glyphicon glyphicon-tag"></span>&nbsp;标签
-                            </td>
-                            <td>{{ info.good_tag }}</td>
-                        </tr>
-                        <tr>
-                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                <span class="glyphicon glyphicon-time"></span>&nbsp;章节数量
-                            </td>
-                            <td>{{ info.chap_num }}</td>
-                        </tr>
-                        <tr>
-                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                <span class="glyphicon glyphicon-map-marker"></span>&nbsp;价格
-                            </td>
-                            <td>${{ info.price }} <small><del>${{ info.old_price }}</del></small> </td>
-                        </tr>
-                        <tr>
-                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                <span class="glyphicon glyphicon-star"></span>&nbsp;星级
-                            </td>
-                            <td>
-                                <div>
-                                    {% for i in range(info.start) %}
-                                    <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
-
-                                    {% endfor %}
-                                    {% for i in range(5 - info.start ) %}
-                                    <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
-
-                                    {% endfor %}
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                <span class="glyphicon glyphicon-calendar"></span>&nbsp;上架时间
-                            </td>
-                            <td>{{ info.ad_time }}</td>
-                        </tr>
-                        <tr>
-                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                <span class="glyphicon glyphicon-play"></span>&nbsp;浏览次数
-                            </td>
-                            <td>{{ info.view_num }}</td>
-                        </tr>
-                        <tr>
-                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                <span class="glyphicon glyphicon-comment"></span>&nbsp;评论数量
-                            </td>
-                            <td>{{ info.comment_num }}</td>
-                        </tr>
-                        <tr>
-                            <td style="color:#ccc;font-weight:bold;font-style:italic;">
-                                <span class="glyphicon glyphicon-picture"></span>&nbsp;课程介绍
-                            </td>
-                            <td>{{ info.course_info }}</td>
-                        </tr>
-                    </table>
-                <div>
-                    <a href="#" id="buy" class="btn btn-primary" role="button">
-                        <span class=""></span>加入购物车</a>
-                </div>
+    <!--内容-->
+    <div class="container" style="margin-top:76px">
+        <div class="row">
+            <div class="col-md-6">
+                <!--商品图片轮播-->
+                <div id="moviecontainer">
+                    <img src="{{ url_for('static',filename='image/course.jpg') }}" alt="{{ info.name }}">
                 </div>
             </div>
-        </div>
-        <div class="col-md-12" style="margin-top:6px;">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span>&nbsp;商品评论</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="alert alert-danger alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert">
-                            <span aria-hidden="true">×</span>
-                            <span class="sr-only">Close</span>
-                        </button>
-                        <strong>请先<a href="#" target="_blank" class="text-info">登录</a>，才可参与评论！</strong>
+            <div class="col-md-5" style="height:500px;">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-facetime-video"></span>&nbsp;商品介绍</h3>
                     </div>
-                    <ol class="breadcrumb" style="margin-top:6px;">
-                        <li>全部评论(5)</li>
-                    </ol>
-                    <form role="form" style="margin-bottom:6px;">
-                        <div class="form-group">
-                            <div>
-                                <label for="input_content">内容</label>
-                                <textarea id="input_content"></textarea>
-                            </div>
-                            <div class="col-xs-12" id="error_content"></div>
-                        </div>
-                        <a class="btn btn-success" id="btn-sub"><span class="glyphicon glyphicon-edit"></span>&nbsp;提交评论</a>
-                        &nbsp;
-                        <a class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏商品</a>
-                    </form>
-                    <ul class="commentList">
-                        {% for com in range(6) %}
-                        <li class="item cl">
-                            <a href="#">
-                                <i class="avatar size-L radius">
-                                    <img alt="50x50" src="{{ url_for('static',filename='main_banner/peo.png') }}" class="img-circle" width="50px" height="50px" style="border:1px solid #abcdef;">
-                                </i>
-                            </a>
-                            <div class="comment-main">
-                                <header class="comment-header">
-                                    <div class="comment-meta">
-                                        <a class="comment-author" href="#">xiaoli</a>
-                                        评论于
-                                        <time title="2016-12-07 09:12:51" datetime="2016-12-07 09:12:51">2017-03-01 09:12:51</time>
+                    <div class="panel-body" style="height:459px;">
+                        <table class="table">
+                            <tr>
+                                <td style="width:30%;color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-film"></span>&nbsp;商品名称
+                                </td>
+                                <td id="txtWord">{{ info.name }}</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-tag"></span>&nbsp;标签
+                                </td>
+                                <td>{{ info.good_tag }}</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-time"></span>&nbsp;章节数量
+                                </td>
+                                <td>{{ info.chap_num }}</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-map-marker"></span>&nbsp;价格
+                                </td>
+                                <td>${{ info.price }}
+                                    <small>
+                                        <del>${{ info.old_price }}</del>
+                                    </small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-star"></span>&nbsp;星级
+                                </td>
+                                <td>
+                                    <div>
+                                        {% for i in range(info.start) %}
+                                            <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+
+                                        {% endfor %}
+                                        {% for i in range(5 - info.start ) %}
+                                            <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+
+                                        {% endfor %}
                                     </div>
-                                </header>
-                                <div class="comment-body">
-                                    <p>这视频教程真好！</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-calendar"></span>&nbsp;上架时间
+                                </td>
+                                <td>{{ info.ad_time }}</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-play"></span>&nbsp;浏览次数
+                                </td>
+                                <td>{{ info.view_num }}</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-comment"></span>&nbsp;评论数量
+                                </td>
+                                <td>{{ info.comment_num }}</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#ccc;font-weight:bold;font-style:italic;">
+                                    <span class="glyphicon glyphicon-picture"></span>&nbsp;课程介绍
+                                </td>
+                                <td>{{ info.course_info }}</td>
+                            </tr>
+                        </table>
+                        <div>
+
+                            <button id="buttonSearch" onclick="addCart({{ info.id }},'我的商品')">加入购物车啊</button>
+                            <div id="Result"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" style="margin-top:6px;">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span>&nbsp;商品评论</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert alert-danger alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span aria-hidden="true">×</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <strong>请先<a href="#" target="_blank" class="text-info">登录</a>，才可参与评论！</strong>
+                        </div>
+                        <ol class="breadcrumb" style="margin-top:6px;">
+                            <li>全部评论(5)</li>
+                        </ol>
+                        <form role="form" style="margin-bottom:6px;">
+                            <div class="form-group">
+                                <div>
+                                    <label for="input_content">内容</label>
+                                    <textarea id="input_content"></textarea>
                                 </div>
+                                <div class="col-xs-12" id="error_content"></div>
                             </div>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    <div class="col-md-12 text-center">
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination">
-                                <li>
-                                    <a href="#" aria-label="First">
-                                        <span aria-hidden="true">首页</span>
+                            <a class="btn btn-success" id="btn-sub"><span class="glyphicon glyphicon-edit"></span>&nbsp;提交评论</a>
+                            &nbsp;
+                            <a class="btn btn-danger" id="btn-col"><span class="glyphicon glyphicon-heart"></span>&nbsp;收藏商品</a>
+                        </form>
+                        <ul class="commentList">
+                            {% for com in range(6) %}
+                                <li class="item cl">
+                                    <a href="#">
+                                        <i class="avatar size-L radius">
+                                            <img alt="50x50"
+                                                 src="{{ url_for('static',filename='main_banner/peo.png') }}"
+                                                 class="img-circle" width="50px" height="50px"
+                                                 style="border:1px solid #abcdef;">
+                                        </i>
                                     </a>
+                                    <div class="comment-main">
+                                        <header class="comment-header">
+                                            <div class="comment-meta">
+                                                <a class="comment-author" href="#">xiaoli</a>
+                                                评论于
+                                                <time title="2016-12-07 09:12:51" datetime="2016-12-07 09:12:51">
+                                                    2017-03-01 09:12:51
+                                                </time>
+                                            </div>
+                                        </header>
+                                        <div class="comment-body">
+                                            <p>这视频教程真好！</p>
+                                        </div>
+                                    </div>
                                 </li>
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true">上一页</span>
-                                    </a>
-                                </li>
-                                <li><a href="#">1&nbsp;/&nbsp;10</a></li>
-                                <li>
-                                    <a href="#" aria-label="Next">
-                                        <span aria-hidden="true">下一页</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" aria-label="Last">
-                                        <span aria-hidden="true">尾页</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                            {% endfor %}
+                        </ul>
+                        <div class="col-md-12 text-center">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <li>
+                                        <a href="#" aria-label="First">
+                                            <span aria-hidden="true">首页</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" aria-label="Previous">
+                                            <span aria-hidden="true">上一页</span>
+                                        </a>
+                                    </li>
+                                    <li><a href="#">1&nbsp;/&nbsp;10</a></li>
+                                    <li>
+                                        <a href="#" aria-label="Next">
+                                            <span aria-hidden="true">下一页</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#" aria-label="Last">
+                                            <span aria-hidden="true">尾页</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!--内容-->
+    <!--内容-->
 
 
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        function addCart(good_id, name) {
+            //发送数据 将商品加入购物车
+            var request = new XMLHttpRequest();
+            //request.open("POST", "/buy/");
+            var data = {"id": good_id, "name": name};
+            var names = document.getElementById("txtWord").innerText;
+            request.open("POST", "/car/product=" + good_id + "/num=" + names + "/");
+            //一定要加上这一段 不然报错
+            request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.send(data);
+            request.onreadystatechange = function () {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        document.getElementById("Result").innerHTML = request.responseText;
+                    } else {
+                        document.getElementById("Result").innerHTML = request.responseText;
+                    }
+                }
+            }
+        }
+    </script>
 {% endblock %}

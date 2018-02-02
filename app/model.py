@@ -134,6 +134,7 @@ class Goods(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # 序号
     good_id = db.Column(db.Integer, unique=True)  # 商品id
     name = db.Column(db.String(512), unique=True)  # 商品名称
+    image = db.Column(db.String(256), unique=True)  # 商品图片 文件名唯一
     good_tag = db.Column(db.String(128), db.ForeignKey('tag.name'))  # 商品所属分类
     chap_num = db.Column(db.Integer)  # 该课程章节数
     price = db.Column(db.FLOAT(16))  # 现价
@@ -141,9 +142,13 @@ class Goods(db.Model):
     start = db.Column(db.Integer)  # 星级>>>1-5星
     discount = db.Column(db.FLOAT(32))  # 折扣
     ad_time = db.Column(db.DATETIME, default=datetime.now())  # 上架时间
+    skull_num = db.Column(db.Integer, default=0)  # 库存
+    sales = db.Column(db.Integer, default=0)  # 销量
     view_num = db.Column(db.Integer, default=1)  # 浏览次数
-    comment_num = db.Column(db.Integer,default=0)  # 评论数量
+    comment_num = db.Column(db.Integer, default=0)  # 评论数量
     course_info = db.Column(db.Text)  # 商品介绍
+    share_link = db.Column(db.String(256))  # 分享链接
+    get_secure = db.Column(db.String(256))  # 提取密码
     target = db.Column(db.Integer, default=1)  # 商品是否上架 0表示未上架 1表示已经上架 默认直接上架商品
     # 外键关联第二步===好像可以不需要
     comment_good = db.relationship('Comment', backref='goods')
@@ -170,7 +175,8 @@ class BuyCar(db.Model):
     __tablename__ = 'buycar'
     id = db.Column(db.Integer, primary_key=True)
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 加入购物车时间
-    # goods = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 购物车商品名称
+    num = db.Column(db.Integer)  # 商品数量
+    price = db.Column(db.FLOAT(16))
     goods_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 购物车商品名称
     users = db.Column(db.String(128), db.ForeignKey('user.username'))  # 哪个用户购物车里的商品
 

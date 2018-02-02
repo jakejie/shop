@@ -27,6 +27,19 @@
             {% endfor %}
             <form role="form" method="post">
                 <fieldset>
+                <!--商品图片--->
+                    <div class="form-group">
+                        <label for="input_face"><span
+                                class="glyphicon glyphicon-picture"></span>&nbsp;头像</label>
+                        {{ form.image }}
+
+                    </div>
+                    {% for err in form.image.errors %}
+                        <div class="col-md-12"></div>
+                        <font style="color: red">{{ err }}</font>
+                    {% endfor %}
+
+
                     <!--商品标题--->
                     <div class="form-group">
                         <label for="input_name"><span
@@ -54,34 +67,46 @@
                         <label for="input_name"><span
                                 class="glyphicon glyphicon-user"></span>&nbsp;{{ form.chap_num.label }}
                         </label>
-                        {{ form.chap_num }}
+                        {{ form.chap_num }}注意输入整数
                     </div>
                     {% for err in form.chap_num.errors %}
                         <div class="col-md-12"></div>
                         <font style="color: red">{{ err }}</font>
                     {% endfor %}
-                    <!--商品原价--->
+                <!--商品折扣--->
                     <div class="form-group">
                         <label for="input_name"><span
-                                class="glyphicon glyphicon-user"></span>&nbsp;{{ form.price.label }}
+                                class="glyphicon glyphicon-user"></span>&nbsp;{{ form.discount.label }}
                         </label>
-                        {{ form.price }}
+                        {{ form.discount }} 如：<small>6.6</small>
                     </div>
-                    {% for err in form.price.errors %}
+                    {% for err in form.discount.errors %}
                         <div class="col-md-12"></div>
                         <font style="color: red">{{ err }}</font>
                     {% endfor %}
-                    <!--折扣价--->
+
+                    <!--商品原价--->
                     <div class="form-group">
                         <label for="input_name"><span
                                 class="glyphicon glyphicon-user"></span>&nbsp;{{ form.old_price.label }}
                         </label>
-                        {{ form.old_price }}
+                        {{ form.old_price }}原价
                     </div>
                     {% for err in form.old_price.errors %}
                         <div class="col-md-12"></div>
                         <font style="color: red">{{ err }}</font>
                     {% endfor %}
+{#                    <!--折扣价 现价--->#}
+{#                    <div class="form-group">#}
+{#                        <label for="input_name"><span#}
+{#                                class="glyphicon glyphicon-user"></span>&nbsp;{{ form.price.label }}#}
+{#                        </label>#}
+{#                        {{ form.price }}#}
+{#                    </div>#}
+{#                    {% for err in form.price.errors %}#}
+{#                        <div class="col-md-12"></div>#}
+{#                        <font style="color: red">{{ err }}</font>#}
+{#                    {% endfor %}#}
                     <!--星级--->
                     <div class="form-group">
                         <label for="input_name"><span
@@ -94,19 +119,17 @@
                         <font style="color: red">{{ err }}</font>
                     {% endfor %}
                     <!--简介--->
-                    <div class="form-group">
+                    <div class="form-group" style="width: ">
                         <label for="input_name"><span
                                 class="glyphicon glyphicon-user"></span>&nbsp;{{ form.info.label }}
                         </label>
-                         <script id="editor" type="text/plain">{{ form.info }}</script>
+                        {{ form.info }}
+                        <!--<script id="editor" type="text/plain"></script>-->
                     </div>
                     {% for err in form.info.errors %}
                         <div class="col-md-12"></div>
                         <font style="color: red">{{ err }}</font>
                     {% endfor %}
-
-
-
 
                     <!--是否上架--->
                     <div class="form-group">
@@ -119,6 +142,49 @@
                         <div class="col-md-12"></div>
                         <font style="color: red">{{ err }}</font>
                     {% endfor %}
+
+
+                            <!--库存数--->
+                    <div class="form-group">
+                        <label for="input_name"><span
+                                class="glyphicon glyphicon-user"></span>&nbsp;{{ form.skull_num.label }}
+                        </label>
+                        {{ form.skull_num }}注意输入整数
+                    </div>
+                    {% for err in form.skull_num.errors %}
+                        <div class="col-md-12"></div>
+                        <font style="color: red">{{ err }}</font>
+                    {% endfor %}
+
+
+
+                                 <!--分享链接--->
+                    <div class="form-group">
+                        <label for="input_name"><span
+                                class="glyphicon glyphicon-user"></span>&nbsp;{{ form.share_link.label }}
+                        </label>
+                        {{ form.share_link }}
+                    </div>
+                    {% for err in form.share_link.errors %}
+                        <div class="col-md-12"></div>
+                        <font style="color: red">{{ err }}</font>
+                    {% endfor %}
+
+
+                                <!--提取密码--->
+                    <div class="form-group">
+                        <label for="input_name"><span
+                                class="glyphicon glyphicon-user"></span>&nbsp;{{ form.get_secure.label }}
+                        </label>
+                        {{ form.get_secure }}
+                    </div>
+                    {% for err in form.get_secure.errors %}
+                        <div class="col-md-12"></div>
+                        <font style="color: red">{{ err }}</font>
+                    {% endfor %}
+
+
+
                     {{ form.csrf_token }}
                     {{ form.submit }}
                 </fieldset>
@@ -136,7 +202,7 @@
 {% endblock %}
 
 
+{% block script %}
 
 
-
-
+{% endblock %}

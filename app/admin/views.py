@@ -38,16 +38,20 @@ def add_good():
         else:
             return render_template('admin/add_goods.html', form=form)
     if form.validate_on_submit():
+        file = form.image.data
+        filename = username + '-' + file.filename.replace(' ', '').replace('/', '').replace('\\', '')
+        file.save('app/static/image/skull/' + filename)
+
         inf = Goods(
-            good_id=int(time.time()),
-            name=form.name.data,
-            good_tag=form.good_tag.data,
-            chap_num=form.chap_num.data,
-            price=form.price.data,
+            good_id=int(time.time()),  # 商品id
+            name=form.name.data,  # 商品名称
+            image=filename,  # 商品图片
+            good_tag=form.good_tag.data,  # 商品标签
+            chap_num=form.chap_num.data,  # 章节
+            price=form.price.data,  # 价格
             old_price=form.old_price.data,
             start=form.start.data,
-            discount=(float(form.price.data)
-                      / float(form.old_price.data)),
+            discount=form.discount.data,
             course_info=form.info.data,
             target=form.target.data,
         )

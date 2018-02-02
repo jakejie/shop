@@ -28,7 +28,14 @@
 
 
 
+function addCart(good_id) {
+alert("定义的函数");
+var data = {"productId": good_id};
+var success = function (response) {
 
+};
+$.post({{ url_for('home.buy') }}, data, success, "json");
+}
 
 
 

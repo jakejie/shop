@@ -63,5 +63,9 @@
             <script src="{{ url_for('static',filename='admin/bootstrap/js/fullcalendar.min.js') }}"></script>
             <script src="{{ url_for('static',filename='admin/bootstrap/js/unicorn.js') }}"></script>
             <script src="{{ url_for('static',filename='admin/bootstrap/js/unicorn.dashboard.js') }}"></script>
-	</body>
+        {% block script %}
+        {% endblock %}
+
+    </body>
+
 </html>

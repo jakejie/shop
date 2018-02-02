@@ -56,7 +56,7 @@ def detail(goods_id):
     who_buy = Detail.query.filter_by(goods_id=goods_id).all()  # 谁购买过该商品
     who_col = Collect.query.filter_by(good_id=goods_id).all()  # 谁收藏过该商品
     if info == None:
-        return render_template('home/detail.html',info=info)
+        return render_template('home/detail.html', info=info)
     return render_template('home/detail.html', title=info.name, comments=comments,
                            buys=who_buy, cols=who_col, info=info)
 
@@ -129,7 +129,7 @@ def address():
 # ----需要ajax----
 # 提交订单页面 也可以是购物车页面 生成订单号
 # 购物车页 可以选择商品直接去结算 点击按钮 去结算 自动根据用户id+时间戳生成订单号
-@home.route('/buy', methods=["POST", "GET"])
+@home.route('/buy/', methods=["POST", "GET"])
 @home.route('/refer', methods=["POST", "GET"])
 @login_required
 def buy():
@@ -137,6 +137,20 @@ def buy():
     buy_s = Address.query.filter_by(users=username).all()
     if request.method == "GET":
         return render_template('home/buy.html', buys=buy_s)
+    if request.method == "POST":
+        print(request.args.get('name'))
+        print(request.get_json())
+        print(type(request.get_data()))
+        print("哈哈哈：{}".format(request.data))
+        return "成功加入购物车！！！！！"
+
+
+@home.route('/car/product=<int:good_id>/num=<string:num>/', methods=["POST"])
+@login_required
+def car(good_id, num):
+    # 判断用户是否在购物车中已经存在该商品
+    print("商品：{} 数量：{}".format(good_id, num))
+    return "加入购物车成功！"
 
 
 # 查看订单详情页==并且可以对购买过的商品添加评论=ok

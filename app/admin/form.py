@@ -1,14 +1,22 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, IntegerField,FloatField ,\
+from wtforms import StringField, SubmitField, TextAreaField, IntegerField, FloatField, \
     SelectField, BooleanField
-
-from flask_wtf.file import FileAllowed, FileRequired, FileField, DataRequired
-
+from flask_wtf.file import FileAllowed, FileRequired, FileField
 from wtforms.validators import DataRequired
-from wtforms.validators import Required
 
 
+# 上传商品表单
 class AddGoodsForm(FlaskForm):
+    # 商品主页图片
+    image = FileField(
+        label="商品图片",
+        validators=[
+            DataRequired("请上传图片"),
+            FileAllowed(['jpg', 'png', 'jpeg', 'gif', 'bmp'], "只能上传图片！"),
+            FileRequired("文件未选择！"),
+        ],
+        description="图片",
+    )
     # 商品标题
     name = StringField(
         label="标题",
@@ -29,12 +37,17 @@ class AddGoodsForm(FlaskForm):
             DataRequired("请输入课程章节")
         ],
     )
-    # 折扣价
-    price = FloatField(
-        label="折扣价",
+    # 折扣
+    discount = FloatField(
+        label="折扣",
         validators=[
-            DataRequired("请输入课程价格")
+            DataRequired("请输入课程折扣")
         ],
+        render_kw={
+            "class": "form-control",
+            "rows": 10,
+            "id": "discount",
+        }
     )
     # 商品原价
     old_price = FloatField(
@@ -42,6 +55,22 @@ class AddGoodsForm(FlaskForm):
         validators=[
             DataRequired("请输入课程原价")
         ],
+        render_kw={
+            "class": "form-control",
+            "rows": 10,
+            "id": "old_price",
+        }
+    )
+    # 商品现价
+    price = FloatField(
+        label="实际售价 请勿修改",
+        validators=[
+        ],
+        render_kw={
+            "class": "form-control",
+            "rows": 10,
+            "id": "price",
+        }
     )
     # 星级
     start = SelectField(
@@ -61,13 +90,50 @@ class AddGoodsForm(FlaskForm):
         render_kw={
             "class": "form-control",
             "rows": 10,
-
+            "style": "width:100%;height:500px",
         }
     )
     # 是否上架
     target = BooleanField(
         label="是否上架",
     )
+    # 库存数
+    skull_num = IntegerField(
+        label="库存",
+        validators=[
+            DataRequired("请输入库存")
+        ],
+        description="库存",
+        render_kw={
+            "class": "form-control",
+            "rows": 10,
+        }
+    )
+    # 分享链接
+    share_link = IntegerField(
+        label="提取链接",
+        validators=[
+            DataRequired("请填写提取链接")
+        ],
+        description="链接",
+        render_kw={
+            "class": "form-control",
+            "rows": 10,
+        }
+    )
+    # 提取密码
+    get_secure = IntegerField(
+        label="提取密码",
+        validators=[
+            DataRequired("请填写提取密码")
+        ],
+        description="提取密码",
+        render_kw={
+            "class": "form-control",
+            "rows": 10,
+        }
+    )
+
     submit = SubmitField(
         '提交',
         render_kw={"class": "btn btn-success  ", }
