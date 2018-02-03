@@ -20,48 +20,34 @@
                             <th>商品名称</th>
                             <th>数量</th>
                             <th>价格</th>
+                            <th>添加时间</th>
+                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
+                        {% for buy in buys %}
                         <tr class="odd gradeX">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 4.0
+                            <td>{{ loop.index }}</td>
+                            <td><button>选择盒子</button></td>
+                            <td>{{ Goods.query.filter_by(good_id=buy.goods_id).first().name }}</td>
+                            <td class="center">{{ buy.num }}</td>
+                            <td class="center">{{ Goods.query.filter_by(good_id=buy.goods_id).first().price }}</td>
+                            <td>{{ buy.add_time }}</td>
+                            <td>
+                                <button>删除</button>
                             </td>
-                            <td>Win 95+</td>
-                            <td class="center"> 4</td>
-                            <td class="center">X</td>
                         </tr>
-                        <tr class="even gradeC">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 5.0
-                            </td>
-                            <td>Win 95+</td>
-                            <td class="center">5</td>
-                            <td class="center">C</td>
+                        {% endfor %}
+                        <tr>
+                            <td>商品数量：</td>
+                            <td>使用js计算统计</td>
+                            <td>商品总金额：</td>
+                            <td>使用js计算统计</td>
                         </tr>
-                        <tr class="odd gradeA">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 5.5
-                            </td>
-                            <td>Win 95+</td>
-                            <td class="center">5.5</td>
-                            <td class="center">A</td>
-                        </tr>
-                        <tr class="even gradeA">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 6
-                            </td>
-                            <td>Win 98+</td>
-                            <td class="center">6</td>
-                            <td class="center">A</td>
-                        </tr>
-
                         </tbody>
+
                     </table>
+
                     <button id="jiesuan">去结算</button>
                 </div>
             </div>

@@ -1,9 +1,6 @@
-import os
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-
-
 class Config():
+    # 分页数据显示
+    DATA_PER_PAGE = 10
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True

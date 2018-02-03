@@ -14,11 +14,13 @@ migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 # Global variables to jiajia2 environment:==设置为全局变量 在HTML里可以直接使用以下参数
 app.jinja_env.globals['Count'] = Count
-
+app.jinja_env.globals['Goods'] = Goods
+app.jinja_env.globals['BuyCar'] = BuyCar
+app.jinja_env.globals['Detail'] = Detail
+app.jinja_env.globals['Orders'] = Orders
 
 # app.jinja_env.globals['User'] = User
-# app.jinja_env.globals['Orders'] = Orders
-# app.jinja_env.globals['Goods'] = Goods
+
 # app.jinja_env.globals['Address'] = Address
 # app.jinja_env.globals['TagList'] = TagList
 # app.jinja_env.globals['Tag'] = Tag
@@ -108,7 +110,7 @@ if __name__ == '__main__':
     """
     线程1：正常运行程序
     线程2：运行统计数据
-    线程3：还没想好
+    线程3：邮件发送 发送资源链接
     """
     # p1 = multiprocessing.Process(target=worker_1, args=(2,))
     # p2 = multiprocessing.Process(target=worker_2, args=(3,))

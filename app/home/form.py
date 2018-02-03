@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, TextAreaField, IntegerField
+from wtforms import SubmitField, TextAreaField, IntegerField, HiddenField, \
+    SelectField, StringField, BooleanField
 from flask_wtf.file import FileAllowed, FileRequired, FileField
 from wtforms.validators import DataRequired
 
@@ -19,8 +20,8 @@ class UserDetailForm(FlaskForm):
         label='简介',
         validators=[
             DataRequired("请输入简介")
-
         ],
+
         description="简介",
         render_kw={
             "class": "form-control",
@@ -63,5 +64,30 @@ class CommentForm(FlaskForm):
 
 
 # 购物车选中商品去结算
-class Buy(FileField):
+class Buy(FlaskForm):
     pass
+
+
+# 添加收货地址表单
+class AddAddress(FlaskForm):
+    # 省份
+    province = SelectField()
+    # 城市
+    city = SelectField()
+    # 地区
+    area = SelectField()
+    # 详细地址
+    address = StringField()
+    # 联系电话
+    phone = StringField()
+    # 姓名
+    name = StringField()
+    # 备注
+    remarks = StringField()
+    # 是否设置为默认地址
+    default_add = BooleanField()
+    # 提交数据
+    submit = SubmitField(
+        '提交',
+        render_kw={"class": "btn btn-success  ", }
+    )

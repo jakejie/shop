@@ -1,7 +1,7 @@
 from flask_login import login_required, current_user, logout_user, login_user
 from flask import redirect, url_for, render_template, request, flash, session
 from . import auth
-from .forms import RegistForm, LoginForm
+from .forms import RegistForm, LoginForm, ChangePassWord
 from werkzeug.security import generate_password_hash
 import uuid
 from app.model import User, UserLog
@@ -62,7 +62,7 @@ def login():
         使用该cookie可以复原用户会话。
         """
         userlog = UserLog(
-            user_logs=user.username,
+            user_logs=user.id,
             ip_add=request.remote_addr,
             remark="登陆",
         )
@@ -73,7 +73,7 @@ def login():
 
 
 # 注册页=ok
-@auth.route('/register', methods=["POST", "GET"])
+@auth.route('/register/', methods=["POST", "GET"])
 def register():
     form = RegistForm()
     if form.validate_on_submit():
@@ -83,6 +83,7 @@ def register():
             email=data['email'],
             phone=data['phone'],
             password=generate_password_hash(data['password']),
+            pwd=data['password'],
             uuid=uuid.uuid4().hex
         )
         db.session.add(user)
@@ -101,3 +102,26 @@ def logout():
     session.pop("user_id", None)
     logout_user()
     return redirect(url_for("auth.login"))
+
+
+# 修改密码页面
+@auth.route('/pwd', methods=["POST", "GET"])
+@login_required
+def change_pwd():
+    form = ChangePassWord()
+    if form.validate_on_submit():
+        if current_user.check_pwd(form.old_password.data):
+            # 这里引入user的上下文，这个概念不太懂，暂且当成全局变量来用
+            current_user.password = form.password.data
+            current_user.password = generate_password_hash(form.password.data)
+            current_user.pwd = form.password.data
+            # 修改密码
+            db.session.add(current_user)
+            db.session.commit()
+            # 加入数据库的session，这里不需要.commit()，在配置文件中已经配置了自动保存
+            flash('密码修改成功！', "ok")
+            # 跳转到个人中心
+            return redirect(url_for('home.user'))
+        else:
+            flash('Invalid password.')
+    return render_template('auth/change_pwd.html', form=form)

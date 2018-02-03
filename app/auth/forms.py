@@ -126,3 +126,51 @@ class LoginForm(FlaskForm):
         '登录',
         render_kw={"class": "btn btn-lg btn-primary btn-block", }
     )
+
+
+# 修改密码表单
+class ChangePassWord(FlaskForm):
+    # 原始密码
+    old_password = PasswordField(
+        label="原始密码",
+        validators=[
+            DataRequired("请输入密码")
+        ],
+        description="密码",
+        render_kw={
+            "class": "form-control input-lg",
+            "placeholder": "请输入密码！",
+
+        }
+    )
+    # 新密码 第一次
+    password = PasswordField(
+        label="新密码",
+        validators=[
+            DataRequired("请输入密码")
+        ],
+        description="密码",
+        render_kw={
+            "class": "form-control input-lg",
+            "placeholder": "请输入密码！",
+
+        }
+    )
+    # 新密码第二次
+    repwd = PasswordField(
+        label="确认新密码",
+        validators=[
+            DataRequired("请输入确认密码"),
+            EqualTo('password', message='两次输入的密码不一致')
+        ],
+        description="确认密码",
+        render_kw={
+            "class": "form-control input-lg",
+            "placeholder": "请输入确认密码！",
+
+        }
+    )
+    submit = SubmitField(
+        '登录',
+        render_kw={"class": "btn btn-lg btn-primary btn-block", }
+    )

@@ -5,11 +5,11 @@
 
 
 {% block content %}
-    {% for i in range(1,4) %}
+    {% for order_info in Orders.query.filter_by(user=current_user.id).all() %}
         <div class="span12">
             <div class="widget-box">
                 <div class="widget-title"><span class="icon"> <i class="icon-th"></i> </span>
-                    <h5>订单号：{{ i }}</h5>
+                    <h5>订单号：{{ order_info.order_id }}</h5>
                 </div>
                 <div class="widget-content nopadding">
                     <table class="table table-bordered table-striped">
@@ -24,46 +24,27 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="odd gradeX">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 4.0
-                            </td>
-                            <td>Win 95+</td>
-                            <td class="center"> 4</td>
-                            <td class="center">X</td>
-                            <td class="center">X</td>
-                        </tr>
-                        <tr class="even gradeC">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 5.0
-                            </td>
-                            <td>Win 95+</td>
-                            <td class="center">5</td>
-                            <td class="center">C</td>
-                            <td class="center">C</td>
-                        </tr>
-                        <tr class="odd gradeA">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 5.5
-                            </td>
-                            <td>Win 95+</td>
-                            <td class="center">5.5</td>
-                            <td class="center">A</td>
-                            <td class="center">A</td>
-                        </tr>
-                        <tr class="even gradeA">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 6
-                            </td>
-                            <td>Win 98+</td>
-                            <td class="center">6</td>
-                            <td class="center">A</td>
-                            <td class="center">A</td>
-                        </tr>
+                        {% for foo in Detail.query.filter_by(orderId=order_info.order_id).all() %}
+                            <tr class="odd gradeX">
+                                <td>{{ loop.index }}</td>
+                                <td>
+                                    <a href="{{ url_for('home.detail',goods_id=foo.goods_id) }}">
+                                        {{ Goods.query.filter_by(good_id=foo.goods_id).first().name }}</a>
+                                </td>
+                                <td>{{ foo.num }}</td>
+                                <td class="center">{{ foo.add_time }}</td>
+                                <td class="center">{{ order_info.address }}</td>
+                                <td class="center">
+                                    <button>删除订单</button>
+                                    <button>
+                                        <a href="{{ url_for('home.order_detail',order_id=order_info.order_id) }}">
+                                            查看订单详情
+                                        </a></button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+
                         </tbody>
                     </table>
                 </div>

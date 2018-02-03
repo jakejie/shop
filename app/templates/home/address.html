@@ -1,4 +1,8 @@
 {% extends 'home/user_base.html' %}
+
+{% import "macro.html" as macros %}
+
+
 {% block title %}
     我的收货地址
     {{ super() }}
@@ -7,71 +11,57 @@
 
 {% block content %}
     <div class="span12">
-            <div class="widget-box">
-                <div class="widget-title"><span class="icon"> <i class="icon-th"></i> </span>
-                    <h5>我的收货地址</h5>
-                </div>
-                <div class="widget-content nopadding">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                        <tr>
-                            <th>序号</th>
-                            <th>省份</th>
-                            <th>城市</th>
-                            <th>详细地址</th>
-                            <th>电话</th>
-                            <th>收件人</th>
-                            <th>操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+        <div class="widget-box">
+            <div class="widget-title"><span class="icon"> <i class="icon-th"></i> </span>
+                <h5>我的收货地址</h5>
+                <button>新增收货地址</button>
+            </div>
+            <div class="widget-content nopadding">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>序号</th>
+                        <th>省份</th>
+                        <th>城市</th>
+                        <th>详细地址</th>
+                        <th>电话</th>
+                        <th>收件人</th>
+                        <th>是否默认地址</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for addr in address %}
                         <tr class="odd gradeX">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 4.0
+                            <td>{{ loop.index }}</td>
+                            <td>{{ addr.province }}</td>
+                            <td>{{ addr.city }}</td>
+                            <td class="center">{{ addr.address }}</td>
+                            <td class="center">{{ addr.phone }}</td>
+                            <td class="center">{{ addr.name }}</td>
+                            {% if addr.default_add == 1 %}
+                                <td class="center">默认地址</td>
+                            {% else %}
+                                <td class="center"></td>
+                            {% endif %}
+                            <td class="center">
+                                <button>删除</button>
+                                <button>设置为默认地址</button>
                             </td>
-                            <td>Win 95+</td>
-                            <td class="center"> 4</td>
-                            <td class="center">X</td>
-                            <td class="center">X</td>
-                            <td class="center">X</td>
                         </tr>
-                        <tr class="even gradeC">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 5.0
-                            </td>
-                            <td>Win 95+</td>
-                            <td class="center">5</td>
-                            <td class="center">C</td>
-                            <td class="center">C</td>
-                            <td class="center">C</td>
-                        </tr>
-                        <tr class="odd gradeA">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 5.5
-                            </td>
-                            <td>Win 95+</td>
-                            <td class="center">5.5</td>
-                            <td class="center">A</td>
-                            <td class="center">A</td>
-                            <td class="center">A</td>
-                        </tr>
-                        <tr class="even gradeA">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 6
-                            </td>
-                            <td>Win 98+</td>
-                            <td class="center">6</td>
-                            <td class="center">A</td>
-                            <td class="center">A</td>
-                            <td class="center">A</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                    {% endfor %}
+
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination">
+                {% if endpoint == '.index' %}
+                    {{ macros.pagination_widget(pagination, endpoint) }}
+                {% else %}
+                    {{ macros.pagination_widget(pagination, endpoint, id=id) }}
+                {% endif %}
             </div>
         </div>
+    </div>
 {% endblock %}

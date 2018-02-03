@@ -1,14 +1,14 @@
-from flask import render_template, flash, session, redirect, request, url_for
+from flask import render_template, flash, session, redirect, request, \
+    url_for, current_app
 from . import home
 from app.model import TagList, Tags, Tag, Goods, User, UserLog, Comment, Address, \
-    Orders, Collect, Detail
+    Orders, Collect, Detail, BuyCar
 from app import db
 from app.home.form import UserDetailForm, CommentForm
 import uuid, os, datetime
 from flask_login import login_required
 # 获取当前登录用户对象
 from flask_login import current_user
-from werkzeug.utils import secure_filename
 
 
 # 轮播图嵌套页面 传递5个热门资源作为参数
@@ -51,7 +51,7 @@ def theree_tag(tag, tags):
 # 详情页
 @home.route('/detail/goods=<string:goods_id>')
 def detail(goods_id):
-    info = Goods.query.filter_by(id=goods_id).first()
+    info = Goods.query.filter_by(good_id=goods_id).first()
     comments = Comment.query.filter_by(comment_good_id=goods_id).all()  # 该商品评论信息
     who_buy = Detail.query.filter_by(goods_id=goods_id).all()  # 谁购买过该商品
     who_col = Collect.query.filter_by(good_id=goods_id).all()  # 谁收藏过该商品
@@ -78,11 +78,10 @@ def search():
 @home.route('/user', methods=["POST", "GET"])
 @login_required
 def user():
-    form = UserDetailForm()
-    uuid = current_user.id
-    if uuid == None or uuid == "":
+    if current_user.id == None or current_user.id == "":
         return redirect(url_for('auth.login'))
-    user = User.query.filter_by(id=uuid).first()
+    user = User.query.filter_by(id=current_user.id).first()
+    form = UserDetailForm(info=user.info)
     # GET方法 获取个人信息数据
     if request.method == 'GET':
         return render_template('home/user.html', user=user, form=form)
@@ -91,20 +90,21 @@ def user():
         file = form.image.data
         filename = user.username + '-' + file.filename.replace(' ', '').replace('/', '').replace('\\', '')
         file.save('app/static/image/user/' + filename)
-        user.info = form.data['info']
+        user.info = form.data.get("info")
         user.image = filename
         db.session.add(user)
         db.session.commit()
         flash('修改成功', 'ok')
         return redirect(url_for('home.user'))
+    flash("修改失败！ 简介不能为空")
+    return render_template('home/user.html', user=user, form=form)
 
 
 # 评论记录
 @home.route('/comment')
 @login_required
 def comment():
-    username = current_user.username
-    comments = Comment.query.filter_by(users=username).all()
+    comments = Comment.query.filter_by(users=current_user.id).all()
     return render_template('home/comment.html', comments=comments)
 
 
@@ -112,18 +112,22 @@ def comment():
 @home.route('/log')
 @login_required
 def log():
-    username = current_user.username
-    logs = UserLog.query.filter_by(user_logs=username).all()
+    logs = UserLog.query.filter_by(user_logs=current_user.id).all()
     return render_template('home/logs.html', logs=logs)
 
 
-# 查看收货地址
-@home.route('/address')
+# 查看收货地址==分页完成
+@home.route('/address/')
 @login_required
 def address():
-    username = current_user.username
-    addres = Address.query.filter_by(users=username).all()
-    return render_template('home/address.html', addres=addres)
+    page = request.args.get('page', 1, type=int)
+    pagination = Address.query.filter_by(users_id=current_user.id). \
+        order_by(Address.id.desc()).paginate(
+        page, per_page=current_app.config['DATA_PER_PAGE'],
+        error_out=False)
+    address = pagination.items
+    return render_template('home/address.html', address=address,
+                           pagination=pagination, endpoint='home.address')
 
 
 # ----需要ajax----
@@ -133,8 +137,7 @@ def address():
 @home.route('/refer', methods=["POST", "GET"])
 @login_required
 def buy():
-    username = current_user.username
-    buy_s = Address.query.filter_by(users=username).all()
+    buy_s = BuyCar.query.filter_by(user_car=current_user.id).all()
     if request.method == "GET":
         return render_template('home/buy.html', buys=buy_s)
     if request.method == "POST":
@@ -160,10 +163,9 @@ def order_detail(order_id=None):
     form = CommentForm()
     if order_id == None:
         return redirect('home.order_list')
-    username = current_user.username
     if request.method == "GET":
-        info = Orders.query.filter_by(orderId=order_id, user=username).first()
-        goods = Detail.query.filter_by(order_id=order_id).all()
+        info = Orders.query.filter_by(order_id=order_id, user=current_user.id).first()
+        goods = Detail.query.filter_by(orderId=order_id).all()
         return render_template('home/order_detail.html', info=info, goods=goods)
     if form.validate_on_submit():
         data = form.data
@@ -172,38 +174,37 @@ def order_detail(order_id=None):
         com = Comment(
             content=content,
             comment_good_id=comment_good_id,
-            users=username,
+            users=current_user.id,
         )
         db.session.add(com)
         db.session.commit()
         # 提交评论之后 继续展示该订单信息
-        info = Orders.query.filter_by(orderId=order_id, user=username).first()
-        goods = Detail.query.filter_by(order_id=order_id).all()
+        info = Orders.query.filter_by(order_id=order_id, user=current_user.id).first()
+        goods = Detail.query.filter_by(orderId=order_id).all()
         return render_template('home/order_detail.html', info=info, goods=goods)
 
 
 # 我的订单 查看所有的历史订单信息
 @home.route('/order_list/')
+@home.route('/order/')
 @login_required
 def order_list():
-    username = current_user.username
-    orders = Orders.query.filter_by(user=username).all()
-    return render_template('home/order_list.html', orders=orders, Detail=Detail)
+    orders = Orders.query.filter_by(user=current_user.id).all()
+    return render_template('home/order_list.html', orders=orders)
 
 
 # 收藏商品列表 查看所有收藏过的商品 以及 点击收藏之后 接收post请求 收藏
 @home.route('/collect', methods=["POST", "GET"])
 @login_required
 def collect():
-    username = current_user.username
-    collects = Collect.query.filter_by(users=username).all()
+    collects = Collect.query.filter_by(users=current_user.id).all()
     if request.method == "GET":
         return render_template('home/collect.html', collects=collects)
     else:
         good_id = request.form.get('goods_id')
         goods = request.form.get('goods')
         inf = Collect(
-            users=username,
+            users=current_user.id,
             good_id=good_id,
             goods=goods,
         )
@@ -212,6 +213,7 @@ def collect():
         flash("收藏成功 可以在收藏列表查看所有收藏的商品")
 
 
+# --------------------------静态固定页面----------------------------------#
 # 联系我们
 @home.route('/connect')
 def connect():
@@ -259,10 +261,3 @@ def service():
 @home.route('/map')
 def map():
     return "网站地图"
-
-
-# 修改密码页面
-@home.route('/pwd')
-@login_required
-def change_pwd():
-    return render_template('home/change_pwd.html')

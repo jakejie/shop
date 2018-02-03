@@ -20,8 +20,21 @@
             <form role="form" method="post" enctype="multipart/form-data">
                 <fieldset>
                     <div> 用户名：{{ user.username }}</div>
-                    <div> 邮  箱：{{ user.email }}</div>
+                    <div> 邮 箱：{{ user.email }}</div>
                     <div> 手机号：{{ user.phone }}</div>
+                    <div> 会员等级：{{ user.member_grade }}</div>
+                    <div> 会员积分：{{ user.account_point }}</div>
+                    {% if user.activate == "1" %}
+                        <div> 会员状态：未激活</div>
+                    {% else %}
+                        <div> 会员状态：激活成功</div>
+                    {% endif %}
+                    {% if user.ac_type == "1" %}
+                        <div> 账号类型：普通用户</div>
+                    {% else %}
+                        <div> 账号类型：管理员</div>
+                    {% endif %}
+
                     <div class="form-group">
                         <label for="input_face"><span
                                 class="glyphicon glyphicon-picture"></span>&nbsp;头像</label>

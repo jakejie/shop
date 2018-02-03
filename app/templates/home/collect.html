@@ -23,42 +23,23 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="odd gradeX">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 4.0
+                        {% for collect in collects %}
+                         <tr class="odd gradeX">
+                            <td>{{ loop.index }}</td>
+                            <td><a href="{{ url_for('home.detail',goods_id=collect.good_id) }}">
+                                    {{ Goods.query.filter_by(good_id=collect.good_id).first().name }}</a>
                             </td>
-                            <td>Win 95+</td>
-                            <td class="center"> 4</td>
-                            <td class="center">X</td>
-                        </tr>
-                        <tr class="even gradeC">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 5.0
+                            <td>{{ collect.add_time }}</td>
+                            <td class="center">{{ current_user.username }}</td>
+                            <td class="center">
+                                <button>取消收藏</button>
+                                <button>加入购物车</button>
                             </td>
-                            <td>Win 95+</td>
-                            <td class="center">5</td>
-                            <td class="center">C</td>
                         </tr>
-                        <tr class="odd gradeA">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 5.5
-                            </td>
-                            <td>Win 95+</td>
-                            <td class="center">5.5</td>
-                            <td class="center">A</td>
-                        </tr>
-                        <tr class="even gradeA">
-                            <td>Trident</td>
-                            <td>Internet
-                                Explorer 6
-                            </td>
-                            <td>Win 98+</td>
-                            <td class="center">6</td>
-                            <td class="center">A</td>
-                        </tr>
+                        {% endfor %}
+
+
+
                         </tbody>
                     </table>
                 </div>

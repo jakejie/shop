@@ -55,7 +55,7 @@
             </form>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a class="curlink" href="#"><span class="glyphicon glyphicon-film"></span>&nbsp;商城</a>
+                    <a class="curlink" href="{{ url_for('home.index') }}"><span class="glyphicon glyphicon-film"></span>&nbsp;商城</a>
                 </li>
                 {% if current_user.is_authenticated%}
                 <li>
