@@ -18,7 +18,7 @@
     } else if (window.jQuery && !window.jQuery.fn.colorpicker) {
       factory(window.jQuery);
     }
-  }
+  };
   (function($) {
     'use strict';
 

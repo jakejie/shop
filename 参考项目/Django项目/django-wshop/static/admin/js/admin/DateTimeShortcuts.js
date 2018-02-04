@@ -8,13 +8,13 @@
         
         if(datePicker != undefined) {
             datePicker.setOptions({'value': now});
-        };
+        }
         if(timePicker != undefined) {
             timePicker.setOptions({'value': now});
-        };
+        }
         if(datetimePicker != undefined) {
             datetimePicker.setOptions({'value': now});
-        };
+        }
         $(this).closest('.input-group').find('label').css('class', 'active');
         
         return false;

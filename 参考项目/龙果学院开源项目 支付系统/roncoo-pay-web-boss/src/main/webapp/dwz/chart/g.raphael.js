@@ -799,7 +799,7 @@ Raphael.g = {
         dashsize = dashsize == null ? 2 : dashsize;
         type = type || "t";
         steps = steps || 10;
-        paper = arguments[arguments.length-1] //paper is always last argument
+        paper = arguments[arguments.length-1]; //paper is always last argument
 
         var path = type == "|" || type == " " ? ["M", x + .5, y, "l", 0, .001] : orientation == 1 || orientation == 3 ? ["M", x + .5, y, "l", 0, -length] : ["M", x, y + .5, "l", length, 0],
             ends = this.snapEnds(from, to, steps),
@@ -890,4 +890,4 @@ Raphael.g = {
             return (+val).toFixed(0);
         }
     }
-}
+};

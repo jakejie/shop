@@ -5,7 +5,7 @@
     $('.formset-field').formset({
       animateForms: true,
       newFormCallback: initForms
-    })
+    });
 
     // Select
     // http://materializecss.com/forms.html#select
@@ -13,7 +13,7 @@
       .find('select')
       .not('.disabled')
       .not('.material-ignore')
-      .material_select()
+      .material_select();
 
     // Date/DateTime/Time
     // https://github.com/xdan/datetimepicker
@@ -26,7 +26,7 @@
           mask: false,
           scrollInput: false
         })
-      })
+      });
     $container
       .find('[data-form-control="time"]')
       .each(function () {
@@ -37,7 +37,7 @@
           mask: false,
           scrollInput: false
         })
-      })
+      });
     $container.find('[data-form-control="datetime"]').each(
       function () {
         $(this).datetimepicker({
@@ -56,7 +56,7 @@
       .find('select')
       .not('.disabled')
       .not('.material-ignore')
-      .material_select('destroy')
+      .material_select('destroy');
 
     // Date/DateTime/Time
     $container
@@ -65,9 +65,9 @@
   }
 
   if(window.Turbolinks) {
-    $(document).on('turbolinks:load', function() { initForms($(document)) })
+    $(document).on('turbolinks:load', function() { initForms($(document)) });
     $(document).on('turbolinks:before-cache', function () { destroyForms($(document))})
   } else {
     $(document).on('ready', function() { initForms($(document)) })
   }
-})()
+})();

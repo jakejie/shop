@@ -9,7 +9,7 @@
 	$.extend({
 		
 		History: {
-			_hash: new Array(),
+			_hash: [],
 			_cont: undefined,
 			_currentHash: "",
 			_callback: undefined,

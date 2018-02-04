@@ -142,11 +142,10 @@
             }
         };
         return res;
-    };
-    
+    }
     //inheritance
     var F = function() {};
-    F.prototype = Raphael.g
+    F.prototype = Raphael.g;
     Dotchart.prototype = new F;
     
     //public

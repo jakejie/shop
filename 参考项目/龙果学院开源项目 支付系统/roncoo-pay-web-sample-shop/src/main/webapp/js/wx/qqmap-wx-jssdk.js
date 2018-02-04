@@ -120,7 +120,7 @@ var Utils = {
     checkLocation(param) {
         var location = this.getLocationParam(param.location);
         if (!location || !location.latitude || !location.longitude) {
-            var errconf = this.buildErrorConfig(ERROR_CONF.PARAM_ERR, ERROR_CONF.PARAM_ERR_MSG + ' location参数格式有误')
+            var errconf = this.buildErrorConfig(ERROR_CONF.PARAM_ERR, ERROR_CONF.PARAM_ERR_MSG + ' location参数格式有误');
             param.fail(errconf);
             param.complete(errconf);
             return false;
@@ -183,7 +183,7 @@ var Utils = {
                 }
 
             }
-        }
+        };
         return options;
     },
 
@@ -208,7 +208,7 @@ var Utils = {
             locationsuccess(location);
         }
     }
-}
+};
 
 
 class QQMapWX {
@@ -269,7 +269,7 @@ class QQMapWX {
                 url: URL_SEARCH,
                 data: requestParam
             }));
-        }
+        };
         Utils.locationProcess(options, locationsuccess);
     }
 
@@ -450,7 +450,7 @@ class QQMapWX {
                 url: URL_DISTANCE,
                 data: requestParam
             }));
-        }
+        };
         if (options.from) {
             options.location = options.from;
         }

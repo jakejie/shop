@@ -102,7 +102,7 @@
         <script id="messages" type="text/javascript">
             $(document).one('turbolinks:load', function () {
               {% for message in messages %}
-              Materialize.toast('{{ message|capfirst }}', 10000, 'alert-{{ message.tags }}')
+              Materialize.toast('{{ message|capfirst }}', 10000, 'alert-{{ message.tags }}');
               {% endfor %}
             });
         </script>

@@ -88,7 +88,7 @@
 			}
 			return dimensions;
 		}
-	}
+	};
 	$.effect.Rectangle = function(){
 		this.width = 0;
 		this.height = 0;

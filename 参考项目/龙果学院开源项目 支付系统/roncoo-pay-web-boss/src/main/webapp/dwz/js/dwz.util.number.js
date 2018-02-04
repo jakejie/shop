@@ -69,10 +69,10 @@ function amountInWords(dValue, maxDec){
 	if(vInt.length > 44) { return "错误：金额值太大了！整数位长【" + vInt.length.toString() + "】超过了上限——44位/千正/10^43（注：1正=1万涧=1亿亿亿亿亿，10^40）！"; }
    
 	// 准备各字符数组 Prepare the characters corresponding to the digits:
-	digits = new Array("零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖");
-	radices = new Array("", "拾", "佰", "仟");	// 拾,佰,仟
-	bigRadices = new Array("", "万", "亿", "兆", "京", "垓", "杼", "穰" ,"沟", "涧", "正");
-	decimals = new Array("角", "分", "厘", "毫", "丝");	
+	digits = ["零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"];
+	radices = ["", "拾", "佰", "仟"];	// 拾,佰,仟
+	bigRadices = ["", "万", "亿", "兆", "京", "垓", "杼", "穰" ,"沟", "涧", "正"];
+	decimals = ["角", "分", "厘", "毫", "丝"];
    
 	resAIW = ""; // 开始处理
    
@@ -106,7 +106,7 @@ Number.prototype.formatCurrency = function(format) {
 };
 Number.prototype.amountInWords = function(maxDec) {
 	return amountInWords(this, maxDec);
-}
+};
 
 String.prototype.parseCurrency = function(format) {
 	return parseCurrency(this);

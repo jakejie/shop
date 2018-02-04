@@ -28,7 +28,7 @@ function validateCallback(form, callback, confirmMsg) {
 			success: callback || DWZ.ajaxDone,
 			error: DWZ.ajaxError
 		});
-	}
+	};
 	
 	if (confirmMsg) {
 		alertMsg.confirm(confirmMsg, {okCall: _submitFn});
@@ -128,7 +128,7 @@ function navTabAjaxDone(json){
 			navTab.reloadFlag(json.navTabId);
 		} else { //重新载入当前navTab页面
 			var $pagerForm = $("#pagerForm", navTab.getCurrentPanel());
-			var args = $pagerForm.size()>0 ? $pagerForm.serializeArray() : {}
+			var args = $pagerForm.size()>0 ? $pagerForm.serializeArray() : {};
 			navTabPageBreak(args, json.rel);
 		}
 		
@@ -168,7 +168,7 @@ function dialogAjaxDone(json){
 			navTab.reload(json.forwardUrl, {navTabId: json.navTabId});
 		} else {
 			var $pagerForm = $("#pagerForm", navTab.getCurrentPanel());
-			var args = $pagerForm.size()>0 ? $pagerForm.serializeArray() : {}
+			var args = $pagerForm.size()>0 ? $pagerForm.serializeArray() : {};
 			navTabPageBreak(args, json.rel);
 		}
 		if ("closeCurrent" == json.callbackType) {

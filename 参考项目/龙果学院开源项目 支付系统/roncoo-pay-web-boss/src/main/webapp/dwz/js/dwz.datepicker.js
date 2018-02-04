@@ -236,7 +236,7 @@
 			});
 		});
 		
-	}
+	};
 
 	var Datepicker = function(sDate, opts) {
 		this.opts = $.extend({
@@ -253,7 +253,7 @@
 		this.opts.maxDate = now.formatDateTm(this.opts.maxDate);
 		
 		this.sDate = sDate.trim();
-	}
+	};
 	
 	$.extend(Datepicker.prototype, {
 		get: function(name) {

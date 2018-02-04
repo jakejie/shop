@@ -1,0 +1,119 @@
+{% extends 'home/home_base.html' %}
+<!--轮播图-->
+{% block animation %}
+<section id="hotmovie" style="margin-top:76px">
+    <div class="container">
+        <div class="row wow fadeInRight" data-wow-delay="0.6s">
+            <div class="row">
+                <iframe class="wow fadeIn" width="100%" height="375px" frameborder=0 scrolling=no src="{{ url_for('home.animation') }}"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+<!--内容区域-->
+{% block header %}
+<section id="movielist">
+    <div class="container">
+        <div class="row wow fadeIn" data-wow-delay="0.1s">
+            <div class="col-md-12 table-responsive">
+                <table class="table text-left table-bordered" id="movietags">
+                    <tr>
+                        <td style="width:10%;">商品分类</td>
+                        <td style="width:90%;">
+                            {% for t in tag_list %}
+                            <a class="label label-info" href="{{ url_for('home.tag',tag=t.id)|safe }}"><span class="glyphicon glyphicon-tag"></span>&nbsp;{{ t.name }}</a>
+                            &nbsp;
+                            {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>推荐星级</td>
+                        <td>
+                            {% for i in ["一星","二星","三星","四星","五星"] %}
+                            <a class="label label-warning"><span class="glyphicon glyphicon-star"></span>&nbsp;{{ i }}</a>
+                            &nbsp;
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>上架时间</td>
+                        <td>
+                            <a class="label label-default"><span class="glyphicon glyphicon-time"></span>&nbsp;最近</a>
+                            &nbsp;
+                            <a class="label label-default"><span class="glyphicon glyphicon-time"></span>&nbsp;2017</a>
+                            &nbsp;
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>查看数量</td>
+                        <td>
+                            <a class="label label-success"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;从高到底</a>
+                            &nbsp;
+                            <a class="label label-danger"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;从低到高</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>评论数量</td>
+                        <td>
+                            <a class="label label-success"><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;从高到底</a>
+                            &nbsp;
+                            <a class="label label-danger"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;从低到高</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            {% for i in range(1,14) %}
+            <div class="col-md-3">
+                <div class="movielist text-center">
+                    <!--<img data-original="holder.js/262x166"
+                             class="img-responsive lazy center-block" alt="">-->
+                    <img src="{{ url_for('static',filename='image/course.jpg') }}" class="img-responsive center-block" alt="">
+                    <div class="text-left" style="margin-left:auto;margin-right:auto;width:210px;">
+                        <span style="color:#999;font-style: italic;">好好学python</span><br>
+                        <div>
+                            <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+                            <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+                            <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
+                            <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+                            <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
+                            <span >￥66.66 <del>$99.99</del></span>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-primary" target="_blank" role="button"><span class="glyphicon glyphicon-play"></span>&nbsp;查看详情</a>
+                    <a href="#" class="btn btn-primary" target="_blank" role="button"><span class="glyphicon glyphicon-play"></span>&nbsp;加入购物车</a>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="col-md-12">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li>
+                            <a href="#" aria-label="First">
+                                <span aria-hidden="true">首页</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Previous">
+                                <span aria-hidden="true">上一页</span>
+                            </a>
+                        </li>
+                        <li><a href="#">1&nbsp;/&nbsp;10</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                                <span aria-hidden="true">下一页</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" aria-label="Last">
+                                <span aria-hidden="true">尾页</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

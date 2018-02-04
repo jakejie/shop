@@ -114,7 +114,7 @@ class Address(db.Model):
     name = db.Column(db.String(128))  # 收货人姓名
     remarks = db.Column(db.String(512))
     default_add = db.Column(db.Integer, default=1)  # 是否为默认地址 1表示默认地址 0表示非默认地址
-    # add_time = db.Column(db.DATETIME, default=datetime.now())  # 数据添加时间
+    add_time = db.Column(db.DATETIME, default=datetime.now())  # 数据添加时间
     # 外键第二步
     users_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
@@ -144,7 +144,7 @@ class Goods(db.Model):
     old_price = db.Column(db.FLOAT(16))  # 原价
     start = db.Column(db.Integer)  # 星级>>>1-5星
     discount = db.Column(db.FLOAT(32))  # 折扣
-    ad_time = db.Column(db.DATETIME, default=datetime.now())  # 上架时间
+    add_time = db.Column(db.DATETIME, default=datetime.now())  # 上架时间
     skull_num = db.Column(db.Integer, default=0)  # 库存
     sales = db.Column(db.Integer, default=0)  # 销量
     view_num = db.Column(db.Integer, default=1)  # 浏览次数
@@ -166,7 +166,6 @@ class Detail(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     add_time = db.Column(db.DATETIME, default=datetime.now())
     goods_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 该订单对应的商品id
-    # goods_name = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 该订单对应的商品名称
     num = db.Column(db.Integer)  # 购买该商品的数量
     orderId = db.Column(db.Integer, db.ForeignKey('orders.order_id'))  # 该订单的id
     user = db.Column(db.Integer, db.ForeignKey('user.id'))  # 哪个用户购买了该商品
@@ -189,7 +188,6 @@ class Collect(db.Model):
     __tablename__ = 'collect'
     id = db.Column(db.Integer, primary_key=True)
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 收藏时间
-    # goods = db.Column(db.String(512), db.ForeignKey('goods.name'))  # 收藏商品名称
     good_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 收藏商品ID
     users = db.Column(db.Integer, db.ForeignKey('user.id'))  # 哪个用户收藏的商品
 

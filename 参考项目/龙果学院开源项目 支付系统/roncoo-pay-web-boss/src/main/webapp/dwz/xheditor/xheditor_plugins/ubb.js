@@ -10,7 +10,7 @@
  */
 function ubb2html(sUBB)
 {
-	var i,sHtml=String(sUBB),arrcode=new Array(),cnum=0;
+	var i,sHtml=String(sUBB),arrcode=[],cnum=0;
 	var arrFontsize=['10px','13px','16px','18px','24px','32px','48px'];
 
 	sHtml=sHtml.replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});
@@ -36,7 +36,7 @@ function ubb2html(sUBB)
 	sHtml=sHtml.replace(/\[img\s*=([^,\]]*)(?:\s*,\s*(\d*%?)\s*,\s*(\d*%?)\s*)?(?:,?\s*(\w+))?\s*\]\s*(((?!")[\s\S])+?)(?:"[\s\S]*)?\s*\[\/img\]/ig,function(all,alt,p1,p2,p3,src){
 		var str='<img src="'+src+'" alt="'+alt+'"',a=p3?p3:(!isNum(p1)?p1:'');
 		if(isNum(p1))str+=' width="'+p1+'"';
-		if(isNum(p2))str+=' height="'+p2+'"'
+		if(isNum(p2))str+=' height="'+p2+'"';
 		if(a)str+=' align="'+a+'"';
 		str+=' />';
 		return str;
@@ -92,8 +92,8 @@ function ubb2html(sUBB)
 function html2ubb(sHtml)
 {
 
-	var regSrc=/\s+src\s*=\s*(["']?)\s*(.+?)\s*\1(\s|$)/i,regWidth=/\s+width\s*=\s*(["']?)\s*(\d+(?:\.\d+)?%?)\s*\1(\s|$)/i,regHeight=/\s+height\s*=\s*(["']?)\s*(\d+(?:\.\d+)?%?)\s*\1(\s|$)/i,regBg=/(?:background|background-color|bgcolor)\s*[:=]\s*(["']?)\s*((rgb\s*\(\s*\d{1,3}%?,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*\))|(#[0-9a-f]{3,6})|([a-z]{1,20}))\s*\1/i
-	var i,sUBB=String(sHtml),arrcode=new Array(),cnum=0;
+	var regSrc=/\s+src\s*=\s*(["']?)\s*(.+?)\s*\1(\s|$)/i,regWidth=/\s+width\s*=\s*(["']?)\s*(\d+(?:\.\d+)?%?)\s*\1(\s|$)/i,regHeight=/\s+height\s*=\s*(["']?)\s*(\d+(?:\.\d+)?%?)\s*\1(\s|$)/i,regBg=/(?:background|background-color|bgcolor)\s*[:=]\s*(["']?)\s*((rgb\s*\(\s*\d{1,3}%?,\s*\d{1,3}%?\s*,\s*\d{1,3}%?\s*\))|(#[0-9a-f]{3,6})|([a-z]{1,20}))\s*\1/i;
+	var i,sUBB=String(sHtml),arrcode=[],cnum=0;
 
 	sUBB=sUBB.replace(/[ \t]*\r?\n[ \t]*/g,'');
 	
@@ -231,7 +231,7 @@ function html2ubb(sHtml)
 		var str='[tr';
 		if(attr)
 		{
-			var bg=attr.match(regBg)
+			var bg=attr.match(regBg);
 			if(bg)str+='='+bg[2];
 		}
 		return str+']';

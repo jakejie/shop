@@ -101,7 +101,7 @@ $.dwz.accordion.prototype = {
 		$.removeData(this.element, "dwz-accordion");
 		$(this.element).removeClass("dwz-accordion").unbind(".dwz-accordion");
 	}
-}
+};
 
 function scopeCallback(callback, scope) {
 	return function() {
@@ -242,9 +242,8 @@ function clickHandler(event) {
 	toggle.call(this, toShow, toHide, data, clickedActive, down );
 
 	return false;
-};
-
-function findActive(headers, selector) {
+}
+    function findActive(headers, selector) {
 	return selector != undefined
 		? typeof selector == "number"
 			? headers.filter(":eq(" + selector + ")")

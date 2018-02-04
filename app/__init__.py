@@ -23,7 +23,7 @@ login_manager.login_view = 'auth.login'
 
 # static_folder = '',, static_url_path=''
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path='')
     app.config.from_object(Config)
     Config.init_app(app)
     # CsrfProtect(app)

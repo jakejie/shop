@@ -448,7 +448,7 @@ function _init() {
               $("#loading").hide();
               console.log(err)
             }
-          })
+          });
           // var htmlobj=$.ajax({url:target,async:false});
           return false;
         }

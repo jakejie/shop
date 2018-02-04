@@ -147,7 +147,7 @@ function openShell(consoleNode, target, frameID) {
     return consoleNode.slideToggle('fast');
   consoleNode = $('<pre class="console">')
     .appendTo(target.parent())
-    .hide()
+    .hide();
   var historyPos = 0, history = [''];
   var output = $('<div class="output">[console ready]</div>')
     .appendTo(consoleNode);
@@ -164,7 +164,7 @@ function openShell(consoleNode, target, frameID) {
             .append($('<a href="#" class="toggle">&nbsp;&nbsp;</a>')
               .click(function() {
                 hidden.toggle();
-                $(this).toggleClass('open')
+                $(this).toggleClass('open');
                 return false;
               }));
         });

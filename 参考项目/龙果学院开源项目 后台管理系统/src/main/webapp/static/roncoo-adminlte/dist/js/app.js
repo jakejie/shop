@@ -1097,10 +1097,10 @@ function _init() {
     $("[data-sidebarskin='toggle']").on('click', function () {
       var sidebar = $(".control-sidebar");
       if (sidebar.hasClass("control-sidebar-dark")) {
-        sidebar.removeClass("control-sidebar-dark")
+        sidebar.removeClass("control-sidebar-dark");
         sidebar.addClass("control-sidebar-light")
       } else {
-        sidebar.removeClass("control-sidebar-light")
+        sidebar.removeClass("control-sidebar-light");
         sidebar.addClass("control-sidebar-dark")
       }
     });
@@ -1207,7 +1207,7 @@ function _init() {
           dataType:"html",
           success:function(result){
             $("#loading").hide();
-            $("#content>.tabs-panel").eq(i).html(result)
+            $("#content>.tabs-panel").eq(i).html(result);
             showTab($("#navTabs li[url='"+_href+"']"));   
           },
           error:function(err){
@@ -1286,7 +1286,7 @@ $(document).on("click","a[target='modal']",function(){
   var that = $(this);
   var href = that.attr("href");
   var method = that.attr("method") == "post"?"post":"get";
-  var modal = that.attr("modal")
+  var modal = that.attr("modal");
   $("#loading").show();
   $.ajax({
     url:href,
@@ -1301,9 +1301,9 @@ $(document).on("click","a[target='modal']",function(){
       $("#loading").hide();
       console.error("加载失败");
     }
-  })
+  });
   return false;
-})
+});
 
 // 确认对话框
 $(document).on("click","a[target='ajaxTodo']",function(){
@@ -1352,7 +1352,7 @@ function alertMsg(text,type){
               +'    </div>'
               +'  </div>'
               +'  <div class="box-body"></div>'
-              +'</div>'
+              +'</div>';
     $("body").append(html)
     }
     if (!text) text="提示内容不可为空";
@@ -1386,7 +1386,7 @@ function modal1(){
                 +'    <!-- /.modal-content -->'
                 +'  </div>'
                 +'  <!-- /.modal-dialog -->'
-                +'</div>'
+                +'</div>';
     $("body").append(html)
   }
 

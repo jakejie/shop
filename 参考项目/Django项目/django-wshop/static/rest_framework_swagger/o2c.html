@@ -9,7 +9,7 @@ else {
 qp = qp ? JSON.parse('{"' + qp.replace(/&/g, '","').replace(/=/g,'":"') + '"}',
   function(key, value) {
     return key===""?value:decodeURIComponent(value) }
-  ):{}
+  ):{};
 
 if (window.opener.swaggerUi.tokenUrl)
     window.opener.processOAuthCode(qp);

@@ -580,8 +580,8 @@ var DateFormatter;
  * @author Chupurnov Valeriy (<chupurnov@gmail.com>)
  */
 /*global DateFormatter, document,window,jQuery,setTimeout,clearTimeout,HighlightedDate,getCurrentValue*/
-;(function (factory) {
-	if ( typeof define === 'function' && define.amd ) {
+(function (factory) {
+    if ( typeof define === 'function' && define.amd ) {
 		// AMD. Register as an anonymous module.
 		define(['jquery', 'jquery-mousewheel'], factory);
 	} else if (typeof exports === 'object') {

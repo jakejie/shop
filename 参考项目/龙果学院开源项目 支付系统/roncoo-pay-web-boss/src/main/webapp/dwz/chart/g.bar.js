@@ -409,9 +409,8 @@
 		chart.axis = axis;
 		
 		return chart;
-	};
-
-	/**
+    }
+    /**
 	 * Horizontal Barchart
 	 */
 	function HBarchart(paper, x, y, width, height, values, opts) {
@@ -646,9 +645,8 @@
 		chart.bars = bars;
 		chart.covers = covers;
 		return chart;
-	};
-	
-	//inheritance
+    }
+    //inheritance
 	var F = function() {};
 	F.prototype = Raphael.g;
 	HBarchart.prototype = VBarchart.prototype = new F;

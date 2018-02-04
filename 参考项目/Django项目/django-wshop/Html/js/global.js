@@ -87,16 +87,16 @@
 
 var zAction = function () {
   //namespace
-  var action = {}
+  var action = {};
 
-  var SELECTOR = '[data-action]'
-  var _actionList = {}
+  var SELECTOR = '[data-action]';
+  var _actionList = {};
 
   //util
   function _getActionName($elem) {
-    var result = $elem.data('action') || ''
+    var result = $elem.data('action') || '';
     if (!result) {
-      var href = $.trim($elem.attr('href'))
+      var href = $.trim($elem.attr('href'));
       if (href && href.indexOf('#') === 0) result = href
     }
     return _formatActionName(result)
@@ -106,24 +106,24 @@ var zAction = function () {
   }
 
   function _init() {
-    var $wrapper = $(document.body || document.documentElement)
+    var $wrapper = $(document.body || document.documentElement);
     $wrapper.on('click', SELECTOR, function (ev) {
       //notice: default click behavior will be prevented.
-      ev.preventDefault()
+      ev.preventDefault();
 
-      var $elem = $(this)
-      var actionName = _getActionName($elem)
+      var $elem = $(this);
+      var actionName = _getActionName($elem);
       _handle(actionName, this)
     })
   }
   function _handle(actionName, context) {
     if (!actionName) {
       /** DEBUG_INFO_START **/
-      console.warn('[Action] Empty action. Do nothing.')
+      console.warn('[Action] Empty action. Do nothing.');
       /** DEBUG_INFO_END **/
       return
     }
-    var fn = _actionList[actionName]
+    var fn = _actionList[actionName];
     if (fn && $.isFunction(fn)) {
       /** DEBUG_INFO_START **/
       // console.log('[Action] Executing action `%s`.', actionName)
@@ -131,7 +131,7 @@ var zAction = function () {
       return fn.call(context || window)
     } else {
       /** DEBUG_INFO_START **/
-      console.error('[Action] Not found action `%s`.', actionName)
+      console.error('[Action] Not found action `%s`.', actionName);
       /** DEBUG_INFO_END **/
     }
   }
@@ -140,7 +140,7 @@ var zAction = function () {
   action.add = function (actionSet) {
     if ($.isPlainObject(actionSet)) {
       $.each(actionSet, function (key, value) {
-        var actionName = _formatActionName(key)
+        var actionName = _formatActionName(key);
         if (actionName) {
           if ($.isFunction(value)) {
             /** DEBUG_INFO_START **/
@@ -152,38 +152,38 @@ var zAction = function () {
             _actionList[actionName] = value
           } else {
             /** DEBUG_INFO_START **/
-            console.error('[Action] The function for action `%s` is invalid.', actionName)
+            console.error('[Action] The function for action `%s` is invalid.', actionName);
             /** DEBUG_INFO_END **/
           }
         } else {
           /** DEBUG_INFO_START **/
-          console.error('[Action] The action name `%s` is invalid.', key)
+          console.error('[Action] The action name `%s` is invalid.', key);
           /** DEBUG_INFO_END **/
         }
       })
     } else {
       /** DEBUG_INFO_START **/
-      console.warn('[Action] Param must be a plain object.')
+      console.warn('[Action] Param must be a plain object.');
       /** DEBUG_INFO_END **/
     }
-  }
+  };
   action.trigger = function (actionName, context) {
     return _handle(_formatActionName(actionName), context)
-  }
+  };
 
   //init
-  _init()
+  _init();
 
   /** DEBUG_INFO_START **/
   //exports for unit test
-  action.__actionList = _actionList
-  action.__getActionName = _getActionName
-  action.__formatActionName = _formatActionName
+  action.__actionList = _actionList;
+  action.__getActionName = _getActionName;
+  action.__formatActionName = _formatActionName;
   /** DEBUG_INFO_END **/
 
   //exports
   return action
-}()
+}();
 
 //运行
 $(function () {

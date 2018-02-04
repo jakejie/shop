@@ -552,7 +552,8 @@ this.extend = function(l, r)
 
 this.descend = function(prototypeParent, childProperties)
 {
-    function protoSetter() {};
+    function protoSetter() {
+    }
     protoSetter.prototype = prototypeParent;
     var newOb = new protoSetter();
     for (var n in childProperties)
@@ -782,9 +783,8 @@ function addEntityMapToList(ccode, entity)
         reverse[list]=reverse[list] || {};
         reverse[list]['&' + entity + ';'] = ch;
     }
-};
-
-var e = addEntityMapToList,
+}
+    var e = addEntityMapToList,
     white = 'whitespace',
     text = 'text',
     attr = 'attributes',
@@ -874,9 +874,8 @@ function getEscapeRegexp(direction, lists)
         re = entityConversionRegexes[direction][name] = escapeEntitiesRegEx[direction](list);
     }
     return re;
-};
-
-function createSimpleEscape(name, direction)
+}
+    function createSimpleEscape(name, direction)
 {
     return function(value)
     {
@@ -892,9 +891,8 @@ function createSimpleEscape(name, direction)
                 }
                );
     };
-};
-
-function escapeGroupsForEntities(str, lists)
+}
+    function escapeGroupsForEntities(str, lists)
 {
     lists = [].concat(lists);
     var re = getEscapeRegexp('normal', lists),
@@ -940,9 +938,8 @@ function escapeGroupsForEntities(str, lists)
         ri++;
     }
     return results;
-};
-
-this.escapeGroupsForEntities = escapeGroupsForEntities;
+}
+    this.escapeGroupsForEntities = escapeGroupsForEntities;
 
 
 function unescapeEntities(str, lists)
@@ -975,9 +972,7 @@ function unescapeEntities(str, lists)
         ri++;
     }
     return results.join('') || '';
-};
-
-
+}
 // ************************************************************************************************
 // String escaping
 
@@ -1034,7 +1029,7 @@ function escapeHTMLAttribute(value)
                 return quot;
         }
         return "?";
-    };
+    }
     var apos = "&#39;", quot = "&quot;", around = '"';
     if( value.indexOf('"') == -1 ) {
         quot = '"';
@@ -1065,7 +1060,7 @@ function escapeHTML(value)
                 return "&quot;";
         }
         return "?";
-    };
+    }
     return String(value).replace(/[<>&"']/g, replaceChars);
 }
 
@@ -1789,7 +1784,7 @@ var getElementType = this.getElementType = function(node)
         return 'xhtml';
     else if (isElementHTML(node))
         return 'html';
-}
+};
 
 var getElementSimpleType = this.getElementSimpleType = function(node)
 {
@@ -1799,32 +1794,32 @@ var getElementSimpleType = this.getElementSimpleType = function(node)
         return 'mathml';
     else
         return 'html';
-}
+};
 
 var isElementHTML = this.isElementHTML = function(node)
 {
     return node.nodeName == node.nodeName.toUpperCase();
-}
+};
 
 var isElementXHTML = this.isElementXHTML = function(node)
 {
     return node.nodeName == node.nodeName.toLowerCase();
-}
+};
 
 var isElementMathML = this.isElementMathML = function(node)
 {
     return node.namespaceURI == 'http://www.w3.org/1998/Math/MathML';
-}
+};
 
 var isElementSVG = this.isElementSVG = function(node)
 {
     return node.namespaceURI == 'http://www.w3.org/2000/svg';
-}
+};
 
 var isElementXUL = this.isElementXUL = function(node)
 {
     return node instanceof XULElement;
-}
+};
 
 this.isSelfClosing = function(element)
 {
@@ -3338,19 +3333,16 @@ function onOperaTabBlur(e)
 {
     if (this.lastKey == 9)
       this.focus();
-};
-
-function onOperaTabKeyDown(e)
+}
+    function onOperaTabKeyDown(e)
 {
     this.lastKey = e.keyCode;
-};
-
-function onOperaTabFocus(e)
+}
+    function onOperaTabFocus(e)
 {
     this.lastKey = null;
-};
-
-this.fixOperaTabKey = function(el)
+}
+    this.fixOperaTabKey = function(el)
 {
     el.onfocus = onOperaTabFocus;
     el.onblur = onOperaTabBlur;
@@ -7119,8 +7111,7 @@ Firebug.Panel =
             } else {
                 return (curPos + index + 1) % allLocs.length;
             }
-        };
-
+        }
         for (var next = 0; next < allLocs.length - 1; next++)
         {
             var object = allLocs[transformIndex(next)];
@@ -8468,9 +8459,9 @@ append(Menu,
 // Status Bar
 
 /**@class*/
-function StatusBar(){};
-
-StatusBar.prototype = extend(Controller, {
+function StatusBar() {
+}
+    StatusBar.prototype = extend(Controller, {
 
 });
 
@@ -8756,7 +8747,7 @@ FBL.Context.prototype =
             msg += result.message || result;
 
             if (errorHandler)
-                result = errorHandler(msg)
+                result = errorHandler(msg);
             else
                 result = msg;
         }
@@ -8856,7 +8847,7 @@ FBL.Context.prototype =
 
     getElementPosition: function(el)
     {
-        var left = 0
+        var left = 0;
         var top = 0;
 
         do
@@ -9059,7 +9050,7 @@ FBL.Context.prototype =
             var value = div.offsetHeight;
             el.removeChild(div);
             return value;
-        }
+        };
 
         /*
         var calibrationBase = 200;
@@ -13011,7 +13002,7 @@ DomplateTag.prototype =
                         return "&quot;";
                 }
                 return "?";
-            };
+            }
             return String(value).replace(/[<>&"']/g, replaceChars);
         }
 
@@ -14724,7 +14715,7 @@ this.Element = domplate(Firebug.Rep,
              {
                  var attr = elt.attributes[i];
                  if (attr.nodeName && attr.nodeName.indexOf("firebug-") != -1)
-                    continue;
+
                  else if (attr.nodeName == "id")
                      idAttr = attr;
                 else if (attr.nodeName == "class")
@@ -17166,7 +17157,7 @@ var getDefaultEditor = function getDefaultEditor(panel)
     }
 
     return defaultEditor;
-}
+};
 
 /**
  * An outsider is the first element matching the stepper element that
@@ -17186,23 +17177,23 @@ var getOutsider = function getOutsider(element, group, stepper)
     while (isAncestor(next, group) || isGroupInsert(next, parentGroup));
 
     return next;
-}
+};
 
 var isGroupInsert = function isGroupInsert(next, group)
 {
     return (!group || isAncestor(next, group))
         && (hasClass(next, "insertBefore") || hasClass(next, "insertAfter"));
-}
+};
 
 var getNextOutsider = function getNextOutsider(element, group)
 {
     return getOutsider(element, group, bind(getNextByClass, FBL, "editable"));
-}
+};
 
 var getPreviousOutsider = function getPreviousOutsider(element, group)
 {
     return getOutsider(element, group, bind(getPreviousByClass, FBL, "editable"));
-}
+};
 
 var getInlineParent = function getInlineParent(element)
 {
@@ -17220,12 +17211,12 @@ var getInlineParent = function getInlineParent(element)
             lastInline = element;
     }
     return null;
-}
+};
 
 var insertTab = function insertTab()
 {
     insertTextIntoElement(currentEditor.input, Firebug.Editor.tabCharacter);
-}
+};
 
 // ************************************************************************************************
 
@@ -17373,7 +17364,7 @@ Firebug.Inspector =
                 }
 
                 if (new Date().getTime() - inspectorTS > 200)
-                    setTimeout(lazySelect, 0)
+                    setTimeout(lazySelect, 0);
                 else
                     inspectorTimer = setTimeout(lazySelect, 300);
             }
@@ -17636,7 +17627,7 @@ var inspectContentStyle = inspectStyle + "background: SkyBlue;";
 var outlineStyle = {
     fbHorizontalLine: "background: #3875D7;height: 2px;",
     fbVerticalLine: "background: #3875D7;width: 2px;"
-}
+};
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
@@ -18178,7 +18169,7 @@ Firebug.ConsoleListener =
 
 // ************************************************************************************************
 
-Firebug.ConsolePanel = function () {} // XXjjb attach Firebug so this panel can be extended.
+Firebug.ConsolePanel = function () {}; // XXjjb attach Firebug so this panel can be extended.
 
 //TODO: xxxpedro
 //Firebug.ConsolePanel.prototype = extend(Firebug.ActivablePanel,
@@ -19161,7 +19152,7 @@ Firebug.Console.injector =
                 element.parentNode.removeChild(element);
         }
     }
-}
+};
 
 var total_handlers = 0;
 var FirebugConsoleHandler = function FirebugConsoleHandler(context, win)
@@ -19729,7 +19720,7 @@ var FirebugConsoleHandler = function FirebugConsoleHandler(context, win)
     function getStackLink()
     {
         // TODO: xxxpedro console2
-        return;
+
         //return FBL.getFrameSourceLink(getComponentsStackDump());
     }
 
@@ -19755,7 +19746,7 @@ var FirebugConsoleHandler = function FirebugConsoleHandler(context, win)
         else
             return "Firebug failed to get stack trace with any frames";
     }
-}
+};
 
 // ************************************************************************************************
 // Register console namespace
@@ -19956,7 +19947,7 @@ Firebug.CommandLine = extend(Firebug.Module,
             removeEvent(this.element, "keydown", this.onKeyDown);
         }
 
-        this.element = null
+        this.element = null;
         delete this.element;
 
         fbCommandLine = null;
@@ -19988,7 +19979,7 @@ Firebug.CommandLine = extend(Firebug.Module,
     evaluate: function(expr)
     {
         // TODO: need to register the API in console.firebug.commandLineAPI
-        var api = "Firebug.CommandLine.API"
+        var api = "Firebug.CommandLine.API";
 
         var result = Firebug.context.evaluate(expr, "window", api, Firebug.Console.error);
 
@@ -20844,7 +20835,7 @@ var layoutInterval = 300;
 var indentWidth = 18;
 
 var cacheSession = null;
-var contexts = new Array();
+var contexts = [];
 var panelName = "net";
 var maxQueueRequests = 500;
 //var panelBar1 = $("fbPanelBar1"); // chrome not available at startup
@@ -23022,7 +23013,7 @@ Firebug.JSONViewerModel = extend(Firebug.Module,
 
     parseJSON: function(file)
     {
-        var jsonString = new String(file.responseText);
+        var jsonString = String(file.responseText);
         ///return parseJSONString(jsonString, "http://" + file.request.originalURI.host);
         return parseJSONString(jsonString);
     }
@@ -23465,7 +23456,7 @@ Firebug.HTML = extend(Firebug.Module,
         var closeElement = doc.createElement("div");
         closeElement.className = "objectBox-element";
         closeElement.innerHTML = '&lt;/<span class="nodeTag">' +
-            parentNode.nodeName.toLowerCase() + '&gt;</span>'
+            parentNode.nodeName.toLowerCase() + '&gt;</span>';
 
         treeParent.insertBefore(closeElement, treeNext);
 
@@ -23537,9 +23528,9 @@ Firebug.registerModule(Firebug.HTML);
 // ************************************************************************************************
 // HTML Panel
 
-function HTMLPanel(){};
-
-HTMLPanel.prototype = extend(Firebug.Panel,
+function HTMLPanel() {
+    }
+    HTMLPanel.prototype = extend(Firebug.Panel,
 {
     name: "HTML",
     title: "HTML",
@@ -23568,7 +23559,7 @@ HTMLPanel.prototype = extend(Firebug.Panel,
 
     destroy: function()
     {
-        selectedElement = null
+        selectedElement = null;
         fbPanel1 = null;
 
         selectedSidePanelTS = null;
@@ -23651,7 +23642,7 @@ var formatStyles = function(styles)
 
 // ************************************************************************************************
 
-var selectedElement = null
+var selectedElement = null;
 var fbPanel1 = null;
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -23700,11 +23691,11 @@ var selectElement= function selectElement(e)
         }
 
         if (new Date().getTime() - selectedSidePanelTS > 100)
-            setTimeout(lazySelect, 0)
+            setTimeout(lazySelect, 0);
         else
             selectedSidePanelTimer = setTimeout(lazySelect, 150);
     }
-}
+};
 
 
 // ************************************************************************************************
@@ -23763,7 +23754,7 @@ Firebug.HTML.onTreeClick = function (e)
         input.focus();
         /**/
     }
-}
+};
 
 function onListMouseOut(e)
 {
@@ -23779,9 +23770,8 @@ function onListMouseOut(e)
           FBL.Firebug.Inspector.hideBoxModel();
           hoverElement = null;
       }
-};
-
-var hoverElement = null;
+}
+    var hoverElement = null;
 var hoverElementTS = 0;
 
 Firebug.HTML.onListMouseMove = function onListMouseMove(e)
@@ -23847,7 +23837,7 @@ Firebug.HTML.onListMouseMove = function onListMouseMove(e)
     catch(E)
     {
     }
-}
+};
 
 
 // ************************************************************************************************
@@ -24712,8 +24702,7 @@ FBL.processAllStyleSheets = function(doc, styleSheetIterator)
                 styleSheetIterator(doc, importedStyleSheet);
             }
         }
-    };
-
+    }
     if (FBTrace.DBG_CSS)
     {
         FBTrace.sysout("FBL.processAllStyleSheets", "all stylesheet rules processed in " + (new Date().getTime() - start) + "ms");
@@ -25462,7 +25451,7 @@ Firebug.CSSStyleSheetPanel.prototype = extend(Firebug.SourceBoxPanel,
                 //var name = m[1], value = m[2], important = !!m[3];
                 if (m[2])
                     this.addProperty(m[1], m[2], !!m[3], false, inheritMode, props);
-            };
+            }
         }
 
         return props;
@@ -27303,9 +27292,9 @@ Firebug.registerModule(Firebug.Script);
 // ************************************************************************************************
 // Script Panel
 
-function ScriptPanel(){};
-
-ScriptPanel.prototype = extend(Firebug.Panel,
+function ScriptPanel() {
+    }
+    ScriptPanel.prototype = extend(Firebug.Panel,
 {
     name: "Script",
     title: "Script",
@@ -27338,8 +27327,7 @@ ScriptPanel.prototype = extend(Firebug.Panel,
 
             option.appendChild(Firebug.chrome.document.createTextNode(fileName));
             selectNode.appendChild(option);
-        };
-
+        }
         this.toolButtonsNode.appendChild(selectNode);
     },
 
@@ -27820,7 +27808,7 @@ var DirTablePlate = domplate(Firebug.Rep,
 
 // ************************************************************************************************
 
-Firebug.DOMBasePanel = function() {}
+Firebug.DOMBasePanel = function() {};
 
 Firebug.DOMBasePanel.prototype = extend(Firebug.Panel,
 {
@@ -28953,7 +28941,7 @@ var getMembers = function getMembers(object, level)  // we expect object to be u
         members.push.apply(members, domConstants);
 
     return members;
-}
+};
 
 function expandMembers(members, toggles, offset, level)  // recursion starts with offset=0, level=0
 {
@@ -29017,7 +29005,7 @@ var hasProperties = function hasProperties(ob)
     if (isFunction(ob)) return true;
 
     return false;
-}
+};
 
 FBL.ErrorCopy = function(message)
 {
@@ -29048,7 +29036,7 @@ var addMember = function addMember(type, props, name, value, level, order)
         hasChildren: hasChildren,
         tag: tag
     });
-}
+};
 
 var getWatchRowIndex = function getWatchRowIndex(row)
 {
@@ -29056,25 +29044,25 @@ var getWatchRowIndex = function getWatchRowIndex(row)
     for (; row && hasClass(row, "watchRow"); row = row.previousSibling)
         ++index;
     return index;
-}
+};
 
 var getRowName = function getRowName(row)
 {
     var node = row.firstChild;
     return node.textContent ? node.textContent : node.innerText;
-}
+};
 
 var getRowValue = function getRowValue(row)
 {
     return row.lastChild.firstChild.repObject;
-}
+};
 
 var getRowOwnerObject = function getRowOwnerObject(row)
 {
     var parentRow = getParentRow(row);
     if (parentRow)
         return getRowValue(parentRow);
-}
+};
 
 var getParentRow = function getParentRow(row)
 {
@@ -29084,7 +29072,7 @@ var getParentRow = function getParentRow(row)
         if (parseInt(row.getAttribute("level")) == level)
             return row;
     }
-}
+};
 
 var getPath = function getPath(row)
 {
@@ -29104,7 +29092,7 @@ var getPath = function getPath(row)
     }
 
     return path;
-}
+};
 
 // ************************************************************************************************
 
@@ -29133,9 +29121,9 @@ Firebug.registerModule(Firebug.DOM);
 
 var lastHighlightedObject;
 
-function DOMSidePanel(){};
-
-DOMSidePanel.prototype = extend(Firebug.DOMBasePanel.prototype,
+function DOMSidePanel() {
+    }
+    DOMSidePanel.prototype = extend(Firebug.DOMBasePanel.prototype,
 {
     selectRow: function(row, target)
     {
@@ -29394,17 +29382,15 @@ this.writeRow = function(message, className)
 function appendText(object, html)
 {
     html.push(escapeHTML(objectToString(object)));
-};
-
-function getTimestamp()
+}
+    function getTimestamp()
 {
     var now = new Date();
     var ms = "" + (now.getMilliseconds() / 1000).toFixed(3);
     ms = ms.substr(2);
 
     return now.toLocaleTimeString() + "." + ms;
-};
-
+}
 //*************************************************************************************************
 
 var HTMLtoEntity =
@@ -29419,13 +29405,11 @@ var HTMLtoEntity =
 function replaceChars(ch)
 {
     return HTMLtoEntity[ch];
-};
-
-function escapeHTML(value)
+}
+    function escapeHTML(value)
 {
     return (value+"").replace(/[<>&"']/g, replaceChars);
-};
-
+}
 //*************************************************************************************************
 
 function objectToString(object)
@@ -29438,8 +29422,7 @@ function objectToString(object)
     {
         return null;
     }
-};
-
+}
 // ************************************************************************************************
 }).apply(FBL.FBTrace);
 
@@ -29473,9 +29456,9 @@ Firebug.registerModule(Firebug.Trace);
 // ************************************************************************************************
 // FBTrace Panel
 
-function TracePanel(){};
-
-TracePanel.prototype = extend(Firebug.Panel,
+function TracePanel() {
+    }
+    TracePanel.prototype = extend(Firebug.Panel,
 {
     name: "Trace",
     title: "Trace",

@@ -118,10 +118,19 @@ def change_pwd():
             # 修改密码
             db.session.add(current_user)
             db.session.commit()
+            # 记录到日志
+            userlog = UserLog(
+                user_logs=current_user.id,
+                ip_add=request.remote_addr,
+                remark="修改密码",
+            )
+            db.session.add(userlog)
+            db.session.commit()
             # 加入数据库的session，这里不需要.commit()，在配置文件中已经配置了自动保存
             flash('密码修改成功！', "ok")
             # 跳转到个人中心
             return redirect(url_for('home.user'))
         else:
-            flash('Invalid password.')
+            flash('密码修改失败！')
+            return redirect(url_for('home.user'))
     return render_template('auth/change_pwd.html', form=form)

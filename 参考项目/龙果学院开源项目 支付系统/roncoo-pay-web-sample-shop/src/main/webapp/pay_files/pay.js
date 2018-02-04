@@ -41,21 +41,20 @@ webpackJsonp([21],{
 				    			$('#rightnow').attr('href','/details?cid=' + rnt.cid);
 				    		}else{
 				    			$('#rightnow').attr('href','/index');
-				    		};
-			    			clearInterval(clearV);
-			    		};
-			    	})
+                            }
+                            clearInterval(clearV);
+                        }
+                    })
 			    },1000);
 			    
 			}else{
 				msgs.tip("获取支付信息失败")
-			};
-		})
+            }
+        })
 	}else{
 		$('#rightnow').attr('href','/account/course.html');
-	};
-
-/***/ }
+    }
+        /***/ }
 
 });
 //# sourceMappingURL=pay.js.map

@@ -30829,8 +30829,7 @@ module.exports = warning;
 
 },{"129":129}]},{},[1])(1)
 });
-;(function(){
-
+(function () {
     function getObjType(object){
         return Object.prototype.toString.call(object).match(/^\[object\s(.*)\]$/)[1];
     }
@@ -30887,8 +30886,7 @@ module.exports = warning;
     	}
     	// 返回修改的目标对象
     	return target;
-    };
-
+    }
     var store = function( data, act ){
         this.sdata = null;
         this.sact = [];
@@ -30906,7 +30904,7 @@ module.exports = warning;
                     var acts = this.sact;
                     acts.map(function( fun ){
                         if(getObjType(fun.args) === 'Array'){
-                            fun.args.push( data )
+                            fun.args.push( data );
                             fun.apply(null, fun.args)
                         }else
                             fun( data );
@@ -30925,12 +30923,12 @@ module.exports = warning;
                     })
                 }
             }
-        }
+        };
 
         this.acter = function( act ){
             if ( act )
                 this.sact.push( act );
-        }
+        };
 
         this.setter = function( data, act ){
             if( data )
@@ -30947,9 +30945,9 @@ module.exports = warning;
             if( type === 'data')
                 return this.sdata;
         };
-    }
+    };
 
-    window._stock = {}
+    window._stock = {};
 
     //like flux
     var storeAct = {
@@ -30962,7 +30960,7 @@ module.exports = warning;
                 return false
             }else{
                 if( getObjType(dataOrAct) === 'Object' ){
-                    var target = extend(true, save[name].sdata, dataOrAct)
+                    var target = extend(true, save[name].sdata, dataOrAct);
                     save[name].setter( target );
                 }
             }
@@ -31029,7 +31027,7 @@ module.exports = warning;
                         dataOrAct.map(function(item, i){
                             if( getObjType(item) !== 'Function' )
                                 isFuns = false;
-                        })
+                        });
                         if( isFuns ){
                             if(getObjType(fun) === 'Array' ){
                                 dataOrAct.map(function(item, i){
@@ -31055,7 +31053,7 @@ module.exports = warning;
                 fun.map(function(item, i){
                     if( getObjType(item) !== 'Function' )
                         isFuns = false;
-                })
+                });
                 if( isFuns ){
                     save[name].sact = dataOrAct;
                 }
@@ -31091,7 +31089,7 @@ module.exports = warning;
         lister: function(){
             return Object.keys( _stock );
         }
-    }
+    };
 
     window.SA = storeAct;
 })();
@@ -31201,9 +31199,8 @@ module.exports = warning;
 	// 显示自动提示信息框
 	if ($("#autoAlert").length>0 && $("#autoAlert").val() !="") {
 		msgs.tip($("#autoAlert").val());
-	};
-	
-	// 判断是否登录，如果已登录就获取当前用户的消息数量
+    }
+        // 判断是否登录，如果已登录就获取当前用户的消息数量
 	api.req('message',{
 		"pageNum":1,
 		"numPerPage":"15",
@@ -31215,9 +31212,9 @@ module.exports = warning;
 				$(".user_box").find(".news").show().text(result.unReadNum);
 			}else{
 				$(".user_box").find(".news").hide()
-			};
-		};
-	})
+            }
+        }
+    });
 		
 	// 右边的导航条
 	$('#guanzhu').hover(function(){
@@ -31264,12 +31261,12 @@ module.exports = warning;
 				//location.reload();
 			}else{
 				msgs.tip("退出登录失败");
-			};
-		})
+            }
+        })
 	});
 	$("#register").on("click",function(){
 		$(".modal-back").show();
-		$("#loginPanel").attr("class","login register_form")
+		$("#loginPanel").attr("class","login register_form");
 		return false;
 	});
 	
@@ -31294,9 +31291,8 @@ module.exports = warning;
 			if (!/^(13[0-9]|14[0-9]|15[0-9]|18[0-9]|17[0-9])\d{8}$/i.test(_val)) {
 				$("#registerForm input[name='mobile']").focus().next().text("请输入正确的手机号码");
 				return false;
-			};
-			
-			if($(this).is('.off')){
+            }
+        if($(this).is('.off')){
 				console.log('重复点击了！');
 				return false;
 	        }
@@ -31312,13 +31308,13 @@ module.exports = warning;
 						if (num <=0) {
 							clearInterval(intv);
 							_this.text("重新发送").removeClass("off");
-						};
-					},1000);
+                        }
+                    },1000);
 				}else{
 					$("#registerForm input[name='mobile']").focus().next().text(body.desc);
 					console.log(body);
-				};
-			});
+                }
+            });
 			return false;
 	});
 	
@@ -31358,10 +31354,10 @@ module.exports = warning;
 	 	var emailft  = /^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/;
 	 	var pwdft = /^([a-zA-Z0-9]|[._]){6,16}$/;
 	 	if ($(".yhxy input:checked").length == 0) {
-	 		$("#last").text("请同意用户协议")
+	 		$("#last").text("请同意用户协议");
 	 		return false;
-	 	};
-	 	if (!emailft.test(email)) {
+        }
+        if (!emailft.test(email)) {
 	 		$("#registerForm input[name='email']").focus().next().text("请输入正确的邮箱地址");
 	 		return false;
 	 	}else{
@@ -31398,8 +31394,8 @@ module.exports = warning;
 			}else{
 				console.log(body.desc);
 				msgs.tip("注册失败！");
-			};
-			$("#registerForm .btn-red").val("注册");
+            }
+            $("#registerForm .btn-red").val("注册");
 		});
 		return false;
 	});
@@ -31413,9 +31409,9 @@ module.exports = warning;
 				msgs.tip("发送成功，请注意查收邮件");
 			}else{
 				msgs.tip(body.desc);
-			};
-		})
-	})
+            }
+        })
+	});
 	
 	// 登陆
 	$("#loginForm").on("submit",function(){
@@ -31435,9 +31431,8 @@ module.exports = warning;
 	 		}else{
 	 			$("#loginForm input[name='email']").focus().next().text("");
 	 		}
-	 	};
-	 	
-	 	if (!pwdft.test(password)) {
+        }
+        if (!pwdft.test(password)) {
 	 		$("#loginForm input[name='password']").focus().next().text("密码由6-16位数字、字母、下划线组成");
 	 		return false;
 	 	}else{
@@ -31447,7 +31442,7 @@ module.exports = warning;
 	 	$(this).find("input[type='submit']").val("登录中···");
 	
 		api.req('login',{action:"login",email:email,password:password},function(body){
-			console.log(body)
+			console.log(body);
 			if (body.code == '100') {
 	 			$("#loginForm input[name='password']").next().text(body.desc);
 			}else if (body.code == 0) {
@@ -31456,7 +31451,7 @@ module.exports = warning;
 				var html =	'<a href="/account/index.html" class="user_box clearfix">'
 			                +'    <div class="fl face"><img width="32" src="'+body.data.headImgurl+'" alt=""></div>'
 			                +'    <span class="fl name">'+body.data.nickName+'</span>'
-			                +'</a>'
+			                +'</a>';
 				$(".header-r").empty().html(html);
 				location.reload(true);
 			}else if (body.code == "101"){
@@ -31466,8 +31461,8 @@ module.exports = warning;
 			}else{
 				console.log(body.desc);
 				msgs.tip("登录失败！");
-			};
-			$("#loginForm input[type='submit']").val("登录");
+            }
+            $("#loginForm input[type='submit']").val("登录");
 		});
 		return false;
 	});
@@ -31476,7 +31471,7 @@ module.exports = warning;
 	$("#resetBtn").on("click",function(){
 		$("#loginPanel").attr("class","login reset_form");
 		return false;
-	})
+	});
 	
 	$("#resetPwd").submit(function(){
 		var _this = $(this);
@@ -31509,7 +31504,7 @@ module.exports = warning;
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var libs = __webpack_require__(4)
+	var libs = __webpack_require__(4);
 	var qs = __webpack_require__(13);
 	var src = "/";
 	
@@ -31545,7 +31540,7 @@ module.exports = warning;
 	        articlesIndex: src+'knowledge/index',  //社区首页
 	        editor: src+'knowledge/editor'  //文章标记
 	    }
-	}
+	};
 	function req( api, param, cb ){
 	    var url = apiPath.dirs[api];
 	    if(url){
@@ -31567,12 +31562,12 @@ module.exports = warning;
 	//     return new (window.XMLHttpRequest || ActiveXObject)("Microsoft.XMLHTTP") // jshint ignore:line
 	// }
 	
-	var base = __webpack_require__(5)
-	var doc = __webpack_require__(8)
-	var timer = __webpack_require__(9)
-	var forapp = __webpack_require__(10)
+	var base = __webpack_require__(5);
+	var doc = __webpack_require__(8);
+	var timer = __webpack_require__(9);
+	var forapp = __webpack_require__(10);
 	
-	var tips = __webpack_require__(11)
+	var tips = __webpack_require__(11);
 	
 	
 	/**
@@ -31618,7 +31613,7 @@ module.exports = warning;
 	    var query = {
 	        ckstat: true
 	    };
-	    var _query = {}
+	    var _query = {};
 	    var old;
 	    var block = {
 	        email    : /^[\.a-zA-Z0-9_=-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
@@ -31641,7 +31636,7 @@ module.exports = warning;
 	        // noop     : function(){return true}
 	    };
 	
-	    SA.set(name, query)
+	    SA.set(name, query);
 	
 	    var errs = {
 	        "100": ['必须指定检测类型', block],
@@ -31657,7 +31652,7 @@ module.exports = warning;
 	        url: "url地址不正确",
 	        ip4: "ip地址不正确",
 	        qq: "qq地址不正确",
-	    }
+	    };
 	
 	    old = $.extend({},block);
 	    // if (opts && base.type(opts)=='Object'){
@@ -31680,7 +31675,7 @@ module.exports = warning;
 	
 	        if (typeof id === 'function'){
 	            var _fun = id;
-	            _fun(query)
+	            _fun(query);
 	            return ckstat
 	        }
 	
@@ -31691,7 +31686,7 @@ module.exports = warning;
 	
 	        //id
 	        if (typeof id === 'string' && $('#'+id).length){
-	            formobj = $('#'+id)
+	            formobj = $('#'+id);
 	            value = formobj.val()
 	        }
 	        else {
@@ -31708,7 +31703,7 @@ module.exports = warning;
 	            ? false
 	            : typeof block[reg] === 'function'
 	                ? block[reg](val)
-	                : block[reg].test(val)
+	                : block[reg].test(val);
 	            return resault
 	        }
 	        ckstat = check(value);
@@ -31725,34 +31720,34 @@ module.exports = warning;
 	        var _cb_stat;
 	
 	        if (formobj){
-	            formobj.off('blur')
+	            formobj.off('blur');
 	            formobj.on('blur', function(){
 	                var res_cb;
-	                var res = check(this.value)
+	                var res = check(this.value);
 	                if (cb && typeof cb === 'function'){
 	                    res_cb = cb.call(this, res, old, errs)
 	                }
 	                if (res || res_cb){
-	                    query[this.id] = this.value
-	                    _query[this.id] = true
+	                    query[this.id] = this.value;
+	                    _query[this.id] = true;
 	                    var _v = true;
 	                    $.each(_query, function(k, v){
 	                        if (!v){
 	                            _v = false;
 	                        }
-	                    })
+	                    });
 	                    if (!_v){
-	                        ckstat = false
+	                        ckstat = false;
 	                        query.ckstat = false;
 	                    }
 	                    else {
-	                        ckstat = true
+	                        ckstat = true;
 	                        query.ckstat = true;
 	                    }
 	                }
 	                else {
 	                    // SA.set(name, false)
-	                    _query[this.id] = false
+	                    _query[this.id] = false;
 	                    query.ckstat = false;
 	                    if (!cb){
 	                        if (!res && errs[reg])
@@ -31763,7 +31758,7 @@ module.exports = warning;
 	        }
 	
 	        if (cb && typeof cb === 'function'){
-	            _cb_stat = cb.call(formobj[0], ckstat, old, errs)
+	            _cb_stat = cb.call(formobj[0], ckstat, old, errs);
 	            if (_cb_stat){
 	                ckstat = true;
 	                if (_cb_stat === 'end'){
@@ -31771,7 +31766,7 @@ module.exports = warning;
 	                }
 	            }
 	            else {
-	                ckstat = false
+	                ckstat = false;
 	                query.ckstat = false
 	            }
 	        }
@@ -31796,7 +31791,7 @@ module.exports = warning;
 	    }
 	
 	    return _valide
-	}
+	};
 	
 	
 	module.exports = {
@@ -31850,7 +31845,7 @@ module.exports = warning;
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var lodash = __webpack_require__(6)
+	var lodash = __webpack_require__(6);
 	
 	function guid(prefix) {
 	    prefix = prefix || "fkpjs-";
@@ -31877,7 +31872,7 @@ module.exports = warning;
 	            }
 	        }
 	    }
-	}
+	};
 	
 	//类数组对象转换成数组
 	function arg2arr(s){
@@ -31947,18 +31942,17 @@ module.exports = warning;
 	        else {
 	            url += item + '=' + obj[item] + '&';
 	        }
-	    })
+	    });
 	    return url;
-	}
+	};
 	
 	/**
 	 * 判断obj是什么类型的变量 Numeric / Object / Function / String ...
 	 */
 	function getObjType(object){
 	    return Object.prototype.toString.call(object).match(/^\[object\s(.*)\]$/)[1];
-	};
-	
-	function preventDefault(event) {
+    }
+        function preventDefault(event) {
 	    if (event.preventDefault) {
 	        event.preventDefault();
 	    } else {
@@ -31985,7 +31979,7 @@ module.exports = warning;
 	    ios && (ret.ios = parseFloat( ios[ 1 ].replace( /_/g, '.' ) ));
 	
 	    return ret;
-	})( navigator.userAgent )
+	})( navigator.userAgent );
 	
 	
 	/**
@@ -32072,18 +32066,9 @@ module.exports = warning;
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
-	 * @license
-	 * lodash 3.10.1 (Custom Build) <https://lodash.com/>
-	 * Build: `lodash modern -d -o ./index.js`
-	 * Copyright 2012-2015 The Dojo Foundation <http://dojofoundation.org/>
-	 * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-	 * Copyright 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-	 * Available under MIT license <https://lodash.com/license>
-	 */
-	;(function() {
-	
-	  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
+	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {
+            (function () {
+                /** Used as a safe reference for `undefined` in pre-ES5 environments. */
 	  var undefined;
 	
 	  /** Used as the semantic version number. */
@@ -44447,18 +44432,18 @@ module.exports = warning;
 /***/ function(module, exports, __webpack_require__) {
 
 	//document的相关方法
-	var base = __webpack_require__(5)
+	var base = __webpack_require__(5);
 	
 	
 	var currentStyle = function(element){
 	    return element.currentStyle || document.defaultView.getComputedStyle(element, null);
 	    // return element.currentStyle || window.getComputedStyle(element, null);
-	}
+	};
 	
 	//获取元素的实际absolute位置
 	//上下左右
 	function getOffset(el){
-	    if (!el) el=window
+	    if (!el) el=window;
 	    if(el===window){
 	        return DocmentView()
 	    }
@@ -44548,7 +44533,7 @@ module.exports = warning;
 	            ? document.getElementById(ele)
 	            : ele.nodeType
 	                ? ele
-	                : false
+	                : false;
 	        if (!_ele){
 	            console.log('scrollView 请指定id');
 	            return false
@@ -44570,9 +44555,8 @@ module.exports = warning;
 	            docSL = document.documentElement.scrollLeft||document.body.scrollLeft;
 	
 	        return {top:docST,left:docSL,width:docw,height:doch,scrollTop:docST,scrollLeft:docSL};
-	};
-	
-	var node = {
+    }
+        var node = {
 	    remove: function(el){
 	        if(el && el.nodeType)
 	            if(el.removeNode)
@@ -44602,7 +44586,7 @@ module.exports = warning;
 	            if(base.type(opts)==='Object'){
 	                for(var attr in opts){
 	                    if(attr==='id'){
-	                        var tmp = document.getElementById(opts[attr])
+	                        var tmp = document.getElementById(opts[attr]);
 	                        if(tmp)
 	                            return false;
 	                    }
@@ -44613,7 +44597,7 @@ module.exports = warning;
 	        if(typeof container==='string'){
 	
 	            if(container!=='body')
-	                box = document.getElementById(container)
+	                box = document.getElementById(container);
 	            else
 	                box = document.getElementsByTagName('body')[0]
 	        }else
@@ -44624,7 +44608,7 @@ module.exports = warning;
 	        if(box)
 	            box.appendChild(node)
 	    }
-	}
+	};
 	
 	//url处理,将URL参数转换为json对象
 	//?code=1&title='aaa'  =>   {'code':1,'title':aa}
@@ -44735,7 +44719,7 @@ module.exports = warning;
 	        relative: (anchor.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],
 	        segments: anchor.pathname.replace(/^\//,'').split('/')
 	    }
-	}
+	};
 	
 	
 	//兼容addEventListener和attachEvent
@@ -44873,7 +44857,7 @@ module.exports = warning;
 	            }
 	            else{
 	                // var scriptElement = document.getElementById(id);
-	                tmpLink.appendChild(doc.createTextNode(src))
+	                tmpLink.appendChild(doc.createTextNode(src));
 	                headElement.appendChild(tmpLink);
 	            }
 	        }
@@ -44894,7 +44878,7 @@ module.exports = warning;
 	// window.onload后促发，不影响首屏显示
 	function dealInject(doc){
 	    if (!doc)
-	        doc = document
+	        doc = document;
 	
 	    function _initInject(type, src, cb){
 	        var args;
@@ -44903,7 +44887,7 @@ module.exports = warning;
 	        }
 	
 	        if (Array.isArray(type)){
-	            args = type
+	            args = type;
 	            type = 'css';
 	            if (typeof src === 'function'){
 	                cb = src
@@ -44952,11 +44936,11 @@ module.exports = warning;
 	    }
 	
 	    this.css = function(src, cb){
-	        _initInject('css', src, cb)
+	        _initInject('css', src, cb);
 	        return this
-	    }
+	    };
 	    this.js = function(src, cb){
-	        _initInject('js', src, cb)
+	        _initInject('js', src, cb);
 	        return this
 	    }
 	}
@@ -44985,13 +44969,13 @@ module.exports = warning;
 	
 	//获取clipboard数据
 	function getClipboardText(event) {
-	    event = event||window.event
+	    event = event||window.event;
 	    var clipboardData = (event.clipboardData || window.clipboardData);
 	    return clipboardData.getData("text");
 	}
 	
 	function setClipboardText(event, value) {
-	    event = event||window.event
+	    event = event||window.event;
 	    if (event.clipboardData) {
 	        return event.clipboardData.setData("text/plain", value);
 	    }
@@ -45008,7 +44992,7 @@ module.exports = warning;
 	 */
 	function insertHtmlAtCaret(win,html) {
 	    var sel, range;
-	    var doc = win.document
+	    var doc = win.document;
 	
 	    if (win.getSelection) {
 	        // IE9 and non-IE
@@ -45067,8 +45051,8 @@ module.exports = warning;
 /* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var base = __webpack_require__(5)
-	var _ = base.lodash
+	var base = __webpack_require__(5);
+	var _ = base.lodash;
 	// 对Date的扩展，将 Date 转化为指定格式的String
 	// 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
 	// 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
@@ -45093,7 +45077,7 @@ module.exports = warning;
 	    if(new RegExp("("+ k +")").test(fmt))
 	  fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
 	  return fmt;
-	}
+	};
 	
 	
 	//间隔多久可以点击
@@ -45112,7 +45096,7 @@ module.exports = warning;
 	
 	    // countdown 60 seconds
 	    var count = 61;
-	    $(that).addClass('block')
+	    $(that).addClass('block');
 	
 	    if( typeof countdown === 'function'){
 	        cb = countdown;
@@ -45126,9 +45110,9 @@ module.exports = warning;
 	        that.innerHTML = --count+'秒';
 	
 	        if(count === 0){
-	            $(that).removeClass('block')
+	            $(that).removeClass('block');
 	            clearInterval(ttt);
-	            that.innerHTML = '重新发送'
+	            that.innerHTML = '重新发送';
 	            cb()
 	        }
 	
@@ -45146,7 +45130,7 @@ module.exports = warning;
 	        now = Date.parse(date),
 	        diff = now-ago,
 	        _seconds = _.ceil(diff/1000, 2),
-	        _minute = _.ceil(_seconds/60, 2)
+	        _minute = _.ceil(_seconds/60, 2);
 	        _hour = _.ceil(_seconds/3600, 2),
 	        _day = _.ceil(_seconds/(3600*24), 2),
 	        _month = _.ceil(_seconds/(3600*24*30), 2),
@@ -45198,8 +45182,8 @@ module.exports = warning;
 	//ios
 	//主要解决ios下无法修改title的问题
 	function changeTitle(title){
-	    var $body = $('body')
-	    document.title = title
+	    var $body = $('body');
+	    document.title = title;
 	    var $iframe = $('<iframe src="/images/blank.gif" style="display:none;"></iframe>').on('load', function() {
 	      setTimeout(function() {
 	        $iframe.off('load').remove()
@@ -45243,9 +45227,8 @@ module.exports = warning;
 	    var docST = document.documentElement.scrollTop||document.body.scrollTop;
 	    var docSL = document.documentElement.scrollLeft||document.body.scrollLeft;
 	    return {width:docw,height:doch,scrollTop:docST,scrollLeft:docSL};
-	};
-	
-	//类数组对象转换成数组
+    }
+        //类数组对象转换成数组
 	function arg2arr(s){
 	     try{
 	         return Array.prototype.slice.call(s);
@@ -45273,7 +45256,7 @@ module.exports = warning;
 	        //     // add_action('tipsbox',[cb,kkkccc],cb.length,this);
 	        //     add_action('do_tipsbox',cb,cb.length,this);
 	        // }
-	    }
+	    };
 	
 	    //新建消息实例，可定制
 	    this.tipsItem = function(stat){};
@@ -45282,7 +45265,7 @@ module.exports = warning;
 	    this.tipsBox = function(stat){};
 	
 	    //消息动画 实例化后必须定制
-	    this.anim = function(item,container){ if(!item) return;};
+	    this.anim = function(item,container){ if(!item) };
 	
 	    //组合执行方法
 	    function pushmsg(mm,stat){
@@ -45291,10 +45274,10 @@ module.exports = warning;
 	        item.innerHTML = mm;
 	        box.appendChild(item);
 	        this.anim(item,box,stat);
-	        return;
+
 	    }
 	
-	}
+	};
 	
 	
 	/*
@@ -45324,7 +45307,7 @@ module.exports = warning;
 	        }
 	        tip.style.cssText = 'display:none;width:100%;text-align:center; margin-top:10px;color:#fff;line-height:40px;font-size:16px;'+bgcolor;
 	        return tip;
-	    }
+	    };
 	
 	    //消息实例容器，可定制
 	    msgtip.tipsBox=function(stat){
@@ -45336,7 +45319,7 @@ module.exports = warning;
 	        }
 	        $('#msgcontainer').length ? '' : $('body').append('<div id="msgcontainer" style="z-Index:10030;width:300px;position:fixed;top:10px;'+msg_top+'left:'+msg_left+'px;"></div>');
 	        return $('#msgcontainer')[0];
-	    }
+	    };
 	
 	    msgtip.anim=function(item,container){
 	        clearTimeout(ggg);
@@ -45346,12 +45329,12 @@ module.exports = warning;
 	            if($('.showmsg').length==0) $(container).remove();
 	            // do_action('do_tipsbox');
 	        }, 4000);
-	    }
+	    };
 	
 	    if(cb) msgtip.pop(msg,stat,cb);
 	    else
 	        msgtip.pop(msg,stat);
-	}
+	};
 	// window.tips = msgtips;
 	
 	module.exports = msgtips
@@ -45368,16 +45351,15 @@ module.exports = warning;
 	
 	function getObjType(object){
 	    return Object.prototype.toString.call(object).match(/^\[object\s(.*)\]$/)[1];
-	};
-	
-	var apiPath = {
+    }
+        var apiPath = {
 	    base: src,
 	    dirs: {},
 	    weixin: {
 	        userlist: src+'wx/userlist',   //?access_token=_cqch&next_openid=
 	        userinfo: src+'wx/userinfo'
 	    }
-	}
+	};
 	
 	function req( api, param, cb ){
 	    var url = apiPath.dirs[api];
@@ -45385,11 +45367,11 @@ module.exports = warning;
 	        url = api;
 	
 	    if( getObjType(param)==='Object' ) {
-	        var keys = Object.keys(param)
+	        var keys = Object.keys(param);
 	        if( keys.length>0 )
 	            $.post( url, param, function( body, status ){
 	                if( status === 'success' ) cb( body ) ;
-	            }, "json")
+	            }, "json");
 	        else
 	            $.post( url, {test: '123'}, function( body, status ){
 	                if( status === 'success' ) cb( body ) ;
@@ -45663,15 +45645,15 @@ module.exports = warning;
 	var alert = function(mdata){
 			if ($(".j-msg-center").length>0) {
 				$(".j-msg-center").stop().remove();
-			};
-			createHTML(mdata,"j-msg-center");
+            }
+            createHTML(mdata,"j-msg-center");
 		},
 		tip = function(mdata){
 	
 			if ($(".j-msg-top").length>0) {
 				$(".j-msg-top").stop().remove();
-			};
-			createHTML(mdata,"j-msg-top");
+            }
+            createHTML(mdata,"j-msg-top");
 		},
 		getObjType = function(object) {
 		return Object.prototype.toString.call(object).match(/^\[object\s(.*)\]$/)[1];
@@ -45683,7 +45665,7 @@ module.exports = warning;
 				button:"确认",//确认按钮的文字
 				//alert默认的弹窗类型为alert,tip默认的弹窗类型为tip
 				type:(type=== "j-msg-center"?"alert":"tip")//弹窗类型，tip为自动关闭窗口，alert为普通弹窗有确认按钮，confirm为确认弹窗有确认和取消按钮
-			}
+			};
 				var content = data;
 			if (getObjType(data) === 'Object') {
 				if (!!data.content) panel.content = data.content;
@@ -45692,17 +45674,16 @@ module.exports = warning;
 				if (!!data.type) panel.type = data.type;
 				if (!!data.callback) panel.callback = data.callback;
 				if (!!data.cancel) panel.cancel = data.cancel;
-			};
-			var btns = "";
+            }
+            var btns = "";
 	
 			if (panel.type === "alert") {
 				btns = '<input type="button" class="msg-btn b-hlhover" value="'+panel.button+'">';
 			}else if (panel.type === "confirm") {
 				btns = '<input type="button" class="msg-btn b-hlhover" value="'+panel.button+'">'
 						+'<input type="button" class="msg-btn" value="取消">';
-			};
-	
-			var _html = '<div class="'+type+' j-msg-panel">'
+            }
+            var _html = '<div class="'+type+' j-msg-panel">'
 					    +'    <div class="mask"></div>'
 					    +'    <div class="msg-box">'
 					    +'        <div class="msg-title"><span class="msg-t-text">'+panel.title+'</span><a href="javascript:void(0);" class="fr close"></a></div>'
@@ -45721,7 +45702,7 @@ module.exports = warning;
 						},800,function(){
 							pars.remove();
 						})
-					}
+					};
 	
 					$(".j-msg-top").show().find(".msg-box").animate({
 						top:0
@@ -45740,25 +45721,24 @@ module.exports = warning;
 						}else{
 							// 取消时回调
 							if (!!panel.cancel)panel.cancel();
-	
-						};
-						hide_box();
-					})
+
+}
+                        hide_box();
+					});
 	
 					if (panel.type === "tip") {
 						setTimeout(function(){
 							hide_box();
 						},3000)
-					};
-	
-				}else{
+                    }
+                }else{
 					$(".j-msg-center").show();
 					$(".j-msg-center .close").on("click",function(){
 						var pars = $(this).parents(".j-msg-panel");
 							pars.fadeOut(500,function(){
 								pars.remove();
 							})
-					})
+					});
 					$(".j-msg-center .msg-btn").on("click",function(){
 						var _this = $(this);
 						if (_this.hasClass("b-hlhover")) {
@@ -45767,13 +45747,13 @@ module.exports = warning;
 						}else{
 							// 取消时回调
 							if (!!panel.cancel)panel.cancel();
-	
-						};
-						var pars = $(this).parents(".j-msg-panel");
+
+}
+                        var pars = $(this).parents(".j-msg-panel");
 							pars.fadeOut(500,function(){
 								pars.remove();
 							})
-					})
+					});
 	
 					if (panel.type === "tip") {
 						setTimeout(function(){
@@ -45781,10 +45761,9 @@ module.exports = warning;
 								$(".j-msg-center").remove();
 							})
 						},2000)
-					};
-	
-				};
-		}
+                    }
+                }
+        };
 	
 	module.exports = {
 		tip		: 	tip,
@@ -45802,8 +45781,8 @@ module.exports = warning;
 	$("#facePanel .pop-list>span").each(function(){
 		if ($(this).find("img").attr("src") == faceUrl) {
 			$(this).addClass("on").siblings().removeClass("on");
-		};
-	})
+        }
+    });
 	
 	$("#faceBox,#resetFace").click(function(){
 		$("#facePanel").show();
@@ -45821,17 +45800,17 @@ module.exports = warning;
 		var pdata = {};
 		pdata.type = "face";
 		pdata.headImgUrl = $("#facePanel .on img").attr("src");
-		console.log(pdata)
+		console.log(pdata);
 		apis.req('userInfo',pdata,function(body){
 			if (body.code == 0) {
 				//msgs.tip("成功更新头像");
 				$("#facePanel").hide();
 				location.reload();
 			}else{
-				console.log(body)
+				console.log(body);
 				msgs.tip("更换头像失败！")
-			};
-		})
+            }
+        })
 	});
 
 /***/ },
@@ -45897,16 +45876,16 @@ module.exports = warning;
 				if(index>count-1){
 					index=0;
 				}
-			};
-			ul.find("li").eq(index).addClass("active").siblings().removeClass("active");
+            }
+            ul.find("li").eq(index).addClass("active").siblings().removeClass("active");
 			pagination.find(".dots").eq(index).addClass("active").siblings().removeClass("active");
 		}
 		function init(){
 			var html = '<div class="page_dots"><span class="dots active"></span>';
 			for (var i = 0; i < count-1; i++) {
 				html+='<span class="dots"></span>';
-			};
-			html += "</div>";
+            }
+            html += "</div>";
 			box.append(html);
 			pagination = box.find(".page_dots");
 			if (type == 1){
@@ -45924,7 +45903,7 @@ module.exports = warning;
 				clearTimeout(swipeTimeout);
 				swipeTimeout = setTimeout(function(){
 					autoSlide();
-				},1000)
+				},1000);
 				return false;
 			})
 		}
@@ -45965,9 +45944,8 @@ module.exports = warning;
 					for (var i = 1; i <= data.endPageIndex; i++) {
 						if (data.pageNum == i) list.push(React.createElement("a", {key: i, href: "", className: "active ipg", "data-id": i}, i));
 						else list.push(React.createElement("a", {key: i, className: "ipg", "data-id": i}, i))
-					};
-	
-				}else if (data.endPageIndex >= 8) {	
+                    }
+                }else if (data.endPageIndex >= 8) {
 					list.push(React.createElement("a", {key: "0", href: "", className: "ipg", "data-id": "1"}, "首页"));
 					if (data.pageNum != 1) list.push(React.createElement("a", {key: "-1", href: "", className: "ipg", "data-id": data.pageNum-1}, "上一页"));			
 					for (var i = 1; i <= 8; i++) {
@@ -45976,13 +45954,11 @@ module.exports = warning;
 						if (data.endPageIndex-data.pageNum<4) _t=data.endPageIndex-8+i;
 						if (data.pageNum == _t) list.push(React.createElement("a", {key: i, href: "", className: "active ipg", "data-id": _t}, _t));
 						else list.push(React.createElement("a", {key: i, href: "", className: "ipg", "data-id": _t}, _t));
-					};
-					if (data.pageNum != data.endPageIndex) list.push(React.createElement("a", {key: "+1", href: "", className: "ipg", "data-id": data.pageNum+1}, "下一页"));
+                    }
+                    if (data.pageNum != data.endPageIndex) list.push(React.createElement("a", {key: "+1", href: "", className: "ipg", "data-id": data.pageNum+1}, "下一页"));
 					list.push(React.createElement("a", {key: "++1", href: "", className: "ipg", "data-id": data.endPageIndex}, "尾页"));
-				};
-	
-	
-			return (
+                }
+            return (
 				React.createElement("div", {className: "page"}, list)
 		) }
 	

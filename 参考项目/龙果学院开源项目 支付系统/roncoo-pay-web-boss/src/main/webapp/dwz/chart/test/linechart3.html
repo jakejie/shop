@@ -33,7 +33,7 @@ $(function () {
 
         for (var i = 0; i < this.y.length; i++) {
 			//this.tags.push(r.blob(this.x, this.y[i], "$"+this.values[i]).insertBefore(this).attr([{ fill: "#ffa500", stroke: "#000"}, { fill: this.symbols[i].attr("fill") }]));
-        	var t = r.text(box_x+20, box_y+10 + i*16,"$"+this.values[i]).attr({fill: this.symbols[i].attr("fill")})
+        	var t = r.text(box_x+20, box_y+10 + i*16,"$"+this.values[i]).attr({fill: this.symbols[i].attr("fill")});
         	this.tags.push(t);
         }
         

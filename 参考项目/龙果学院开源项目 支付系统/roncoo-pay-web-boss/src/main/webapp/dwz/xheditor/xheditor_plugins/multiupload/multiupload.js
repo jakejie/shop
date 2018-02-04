@@ -88,8 +88,11 @@ function uploadProgress(file, bytesLoaded, bytesTotal)//单文件上传进度
 function uploadSuccess(file, serverData)//单文件上传成功
 {
 	var data=Object;
-	try{eval("data=" + serverData);}catch(ex){};
-	if(data.err!=undefined&&data.msg!=undefined)
+    try {
+        eval("data=" + serverData);
+    } catch (ex) {
+    }
+    if(data.err!=undefined&&data.msg!=undefined)
 	{
 		if(!data.err)
 		{

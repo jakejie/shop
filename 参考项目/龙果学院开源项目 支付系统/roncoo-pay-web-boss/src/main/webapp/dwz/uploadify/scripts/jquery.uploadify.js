@@ -190,7 +190,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 					upload_progress_handler      : handlers.onUploadProgress,
 					upload_start_handler         : handlers.onUploadStart,
 					upload_success_handler       : handlers.onUploadSuccess
-				}
+				};
 
 				// Merge the user-defined options with the defaults
 				if (swfUploadOptions) {
@@ -558,7 +558,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 
 		}
 
-	}
+	};
 
 	// These functions handle all the events that occur with the file uploader
 	var handlers = {
@@ -651,7 +651,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 				'instanceID' : settings.id,
 				'fileName'   : fileName,
 				'fileSize'   : fileSize
-			}
+			};
 
 			// Create the file item template
 			if (settings.itemTemplate == false) {
@@ -763,7 +763,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 								if ($('#' + file.id)) {
 									swfuploadify.queueData.queueSize   -= file.size;
 									swfuploadify.queueData.queueLength -= 1;
-									delete swfuploadify.queueData.files[file.id]
+									delete swfuploadify.queueData.files[file.id];
 									$('#' + file.id).fadeOut(500, function() {
 										$(this).remove();
 									});
@@ -969,7 +969,7 @@ Released under the MIT License <http://www.opensource.org/licenses/mit-license.p
 			if (settings.onUploadSuccess) settings.onUploadSuccess.call(this, file, data, response); 
 		}
 
-	}
+	};
 
 	$.fn.uploadify = function(method) {
 

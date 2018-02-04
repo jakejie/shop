@@ -20,13 +20,13 @@ def animation():
 # 首页 分类列表页 一级
 @home.route('/')
 def index():
-    tag_list = TagList.query.all()
-    tags = Tags.query.all()
-    tag = Tag.query.all()
-    shops = Goods.query.all()
-    print(type(request.remote_addr))
-    return render_template('home/index.html', tag_list=tag_list,
-                           shops=shops, tags=tags, tag=tag)
+    return render_template('home/course-list.html')
+    # tag_list = TagList.query.all()
+    # tags = Tags.query.all()
+    # tag = Tag.query.all()
+    # shops = Goods.query.all()
+    # return render_template('home/index.html', tag_list=tag_list,
+    #                        shops=shops, tags=tags, tag=tag)
 
 
 # 分类列表页 二级

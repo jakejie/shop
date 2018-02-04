@@ -20,12 +20,12 @@
         $(selector).find("a:not(.no-navigation)").each(function() {
             if (pathname.indexOf($(this).attr("href")) > -1)
                 hrefs.push($(this));
-        })
+        });
 
         if (hrefs.length) {
             hrefs.sort(function(a,b){
                 return b.attr("href").length - a.attr("href").length;
-            })
+            });
             var href = hrefs[0];
             for(var i=1; i< hrefs.length; i++) {
                 if(hrefs[i].attr('href') === href.attr('href')) {

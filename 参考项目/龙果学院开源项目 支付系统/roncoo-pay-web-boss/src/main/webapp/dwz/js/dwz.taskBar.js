@@ -23,7 +23,7 @@
 					return false;
 				});
 				$("div.close", $task).click(function(e){
-					$.pdialog.close(id)
+					$.pdialog.close(id);
 					return false;
 				}).hoverClass("closeHover");
 				

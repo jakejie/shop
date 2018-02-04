@@ -310,10 +310,10 @@
     $("[data-sidebarskin='toggle']").on('click', function () {
       var sidebar = $(".control-sidebar");
       if (sidebar.hasClass("control-sidebar-dark")) {
-        sidebar.removeClass("control-sidebar-dark")
+        sidebar.removeClass("control-sidebar-dark");
         sidebar.addClass("control-sidebar-light")
       } else {
-        sidebar.removeClass("control-sidebar-light")
+        sidebar.removeClass("control-sidebar-light");
         sidebar.addClass("control-sidebar-dark")
       }
     });

@@ -132,7 +132,7 @@ var navTab = {
 		if (!tabid) return -1;
 		var iOpenIndex = -1;
 		this._getTabs().each(function(index){
-			if ($(this).attr("tabid") == tabid){iOpenIndex = index; return;}
+			if ($(this).attr("tabid") == tabid){iOpenIndex = index; }
 		});
 		return iOpenIndex;
 	},
@@ -287,7 +287,7 @@ var navTab = {
 			}else {
 				//获取pagerForm参数
 				var $pagerForm = $("#pagerForm", $panel);
-				var args = $pagerForm.size()>0 ? $pagerForm.serializeArray() : {}
+				var args = $pagerForm.size()>0 ? $pagerForm.serializeArray() : {};
 				
 				$panel.loadUrl(url, args, function(){navTab._loadUrlCallback($panel);});
 			}

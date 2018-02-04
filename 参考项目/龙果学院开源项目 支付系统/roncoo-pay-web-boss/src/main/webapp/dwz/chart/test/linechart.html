@@ -29,7 +29,7 @@ $(function () {
 		var _oldLabel = (xText[i].attr('text') + "").split('.'), // Get the current dom elem in the loop, and split it on the decimal
 			_newLabel = _oldLabel[0] + ":" + (_oldLabel[1] == undefined ? '00' : '30'); // Format the result into time strings
 		xText[i].attr({'text': _newLabel}); // Set the text of the current elem with the result
-	};
+    }
 });
 </script>
 

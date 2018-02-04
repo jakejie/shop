@@ -15,7 +15,7 @@
 					jThemeLi.filter("[theme="+themeName+"]").find(">div").addClass("selected");
 					
 					if ($.isFunction($.cookie)) $.cookie("dwz_theme", themeName);
-				}
+				};
 				
 				jThemeLi.each(function(index){
 					var $this = $(this);

@@ -38,7 +38,7 @@ function doAjaxSubmit(e) {
   if (contentType) {
     data = form.find('[data-override="content"]').val() || ''
   } else {
-    contentType = form.attr('enctype') || form.attr('encoding')
+    contentType = form.attr('enctype') || form.attr('encoding');
 
     if (contentType === 'multipart/form-data') {
       if (!window.FormData) {
@@ -52,7 +52,7 @@ function doAjaxSubmit(e) {
       contentType = false;
       data = new FormData(form[0]);
     } else {
-      contentType = 'application/x-www-form-urlencoded; charset=UTF-8'
+      contentType = 'application/x-www-form-urlencoded; charset=UTF-8';
       data = form.serialize();
     }
   }
@@ -103,7 +103,7 @@ function captureSubmittingElement(e) {
 }
 
 $.fn.ajaxForm = function() {
-  var options = {}
+  var options = {};
 
   return this
     .unbind('submit.form-plugin  click.form-plugin')

@@ -110,7 +110,7 @@
 			currentPage:1,
 			callback:function(){return false;}
 		}, opts);
-	}
+	};
 	
 	$.extend(Pagination.prototype, {
 		targetType:function(){return this.opts.targetType},

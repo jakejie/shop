@@ -16,7 +16,7 @@
 				return false;
 			});
 		});
-	}
+	};
 	
 	$.fn.switchEnv = function(){
 		var op = {cities$:">ul>li", boxTitle$:">a>span"};
@@ -43,7 +43,7 @@
 				return false;
 			});
 		});
-	}
+	};
 	
 	function _show($box){
 		$box.addClass("selected");

@@ -3896,7 +3896,7 @@ var idAttr,classAttr;
 if(elt.attributes){for(var i=0;
 i<elt.attributes.length;
 ++i){var attr=elt.attributes[i];
-if(attr.nodeName&&attr.nodeName.indexOf("firebug-")!=-1){continue
+if(attr.nodeName&&attr.nodeName.indexOf("firebug-")!=-1){
 }else{if(attr.nodeName=="id"){idAttr=attr
 }else{if(attr.nodeName=="class"){classAttr=attr
 }else{attrs.push(attr)
@@ -5368,7 +5368,7 @@ if(FBTrace.DBG_CONSOLE){FBTrace.sysout("consoleInjector.getComponentsStackDump i
 }if(frame){frame=frame.caller
 }if(FBTrace.DBG_CONSOLE){FBTrace.sysout("consoleInjector.getComponentsStackDump final stack for userURL "+userURL,frame)
 }return frame
-}function getStackLink(){return
+}function getStackLink(){
 }function getJSDUserStack(){var trace=FBL.getCurrentStackTrace(context);
 var frames=trace?trace.frames:null;
 if(frames&&(frames.length>0)){var oldest=frames.length-1;
@@ -5682,7 +5682,7 @@ FBL.ns(function(){with(FBL){var reIgnore=/about:|javascript:|resource:|chrome:|j
 var layoutInterval=300;
 var indentWidth=18;
 var cacheSession=null;
-var contexts=new Array();
+var contexts=[];
 var panelName="net";
 var maxQueueRequests=500;
 var activeRequests=[];
@@ -6115,7 +6115,7 @@ var tabBody=$$(".netInfoJSONText",infoBox)[0];
 if(!hasClass(tab,"netInfoJSONTab")||tabBody.updated){return
 }tabBody.updated=true;
 if(file.jsonObject){Firebug.DOMPanel.DirTable.tag.replace({object:file.jsonObject,toggles:this.toggles},tabBody)
-}},parseJSON:function(file){var jsonString=new String(file.responseText);
+}},parseJSON:function(file){var jsonString=String(file.responseText);
 return parseJSONString(jsonString)
 }});
 Firebug.registerModule(Firebug.JSONViewerModel)

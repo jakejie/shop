@@ -1000,7 +1000,7 @@ XRegExp = XRegExp || (function (undef) {
                 var args = arguments, i;
                 if (captureNames) {
                     // Change the `arguments[0]` string primitive to a `String` object that can store properties
-                    args[0] = new String(args[0]);
+                    args[0] = String(args[0]);
                     // Store named backreferences on the first argument
                     for (i = 0; i < captureNames.length; ++i) {
                         if (captureNames[i]) {

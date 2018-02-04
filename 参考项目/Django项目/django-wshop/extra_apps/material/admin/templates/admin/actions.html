@@ -14,9 +14,9 @@
             {% if cl.result_count != cl.result_list|length %}
             <span class="all" style="display:none">{{ selection_note_all }}</span>
             <span class="question" style="display:none">
-                <a href="javascript:;" title="{% trans "Click here to select the objects across all pages" %}">{% blocktrans with cl.result_count as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktrans %}</a>
+                <a href="javascript:" title="{% trans "Click here to select the objects across all pages" %}">{% blocktrans with cl.result_count as total_count %}Select all {{ total_count }} {{ module_name }}{% endblocktrans %}</a>
             </span>
-            <span class="clear"  style="display:none"><a href="javascript:;">{% trans "Clear selection" %}</a></span>
+            <span class="clear"  style="display:none"><a href="javascript:">{% trans "Clear selection" %}</a></span>
             {% endif %}
             {% endif %}
         </div>

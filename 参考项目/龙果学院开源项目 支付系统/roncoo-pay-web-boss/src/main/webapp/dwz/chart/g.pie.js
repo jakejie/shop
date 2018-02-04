@@ -240,8 +240,7 @@
         chart.covers = covers;
 
         return chart;
-    };
-    
+    }
     //inheritance
     var F = function() {};
     F.prototype = Raphael.g;

@@ -114,7 +114,7 @@
     }else{
       $.error(method);
     }
-  }
+  };
 
   $(document).ready(function(){
     $('[data-imagezoom]').imageZoom();

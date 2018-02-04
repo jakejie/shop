@@ -58,8 +58,7 @@ function handleIconClick(tab)
         }
         
     },500);/**/
-};
-
+}
 chrome.browserAction.onClicked.addListener(handleIconClick);
 
 // *************************************************************************************************
@@ -100,9 +99,9 @@ function handleTabChange(tabId, selectInfo)
             
         });
            
-    },100);  
-};
+    },100);
 
+}
 // *************************************************************************************************
 
 chrome.tabs.onSelectionChanged.addListener(handleTabChange);
@@ -161,27 +160,23 @@ function enableBrowserActionIcon()
 {
     chrome.browserAction.setTitle({title: firebugVersion + " (On)"});
     chrome.browserAction.setIcon({path:"firebug24.png"});
-};
-
+}
 function disableBrowserActionIcon()
 {
     chrome.browserAction.setTitle({title: firebugVersion + " (Off)"});
     chrome.browserAction.setIcon({path:"firebug24_disabled.png"});
-};
-
+}
 // *************************************************************************************************
 
 function setActivationStorage(tab)
 {
     chrome.tabs.update(tab.id, {url: "javascript:localStorage.setItem('Firebug','1,1,"+extensionURL+"')"});
     isActive = true;
-};
-
+}
 function unsetActivationStorage(tab)
 {
     chrome.tabs.update(tab.id, {url: "javascript:localStorage.removeItem('Firebug')"});
     isActive = false;
-};
-
+}
 // *************************************************************************************************
 </script>

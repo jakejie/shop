@@ -106,7 +106,7 @@ function handleLogin() {
     var defaultRedirectUrl = host.protocol + '//' + host.host + pathname + '/o2c.html';
     var redirectUrl = window.oAuthRedirectUrl || defaultRedirectUrl;
     var url = null;
-    var scopes = []
+    var scopes = [];
     var o = popup.find('input:checked'); 
     var OAuthSchemeKeys = [];
     var state;
@@ -177,7 +177,7 @@ function handleLogin() {
 
   popupMask.show();
   popupDialog.show();
-  return;
+
 }
 
 
@@ -230,7 +230,7 @@ function clientCredentialsFlow(scopes, tokenUrl, OAuthSchemeKey) {
       'client_secret': clientSecret,
       'scope': scopes.join(' '),
       'grant_type': 'client_credentials'
-    }
+    };
     $.ajax(
     {
       url : tokenUrl,
@@ -288,7 +288,7 @@ window.processOAuthCode = function processOAuthCode(data) {
 window.onOAuthComplete = function onOAuthComplete(token,OAuthSchemeKey) {
   if(token) {
     if(token.error) {
-      var checkbox = $('input[type=checkbox],.secured')
+      var checkbox = $('input[type=checkbox],.secured');
       checkbox.each(function(pos){
         checkbox[pos].checked = false;
       });
