@@ -1,0 +1,119 @@
+{% extends 'axf/base.html' %}
+{% load static %}
+{% block linkscript %}
+    <link rel="stylesheet" type="text/css" href="{% static 'home/css/home.css'%}"/>
+    <script type="text/javascript" charset="utf-8" src="{% static 'home/js/home.js' %}"></script>
+{% endblock linkscript %}
+
+{% block base %}
+<div id="home">
+    <section class="swiper-container" id="topSwiper">
+        <div class="swiper-wrapper">
+            {% for item in wheelsList %}
+            <div class="swiper-slide">
+                <a href="#" ><img src="{{item.img}}"></a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="swiper-pagination swiper-pagination-clickable swiper-pagination-bullets"></div>
+    </section>
+
+    <section class="topMenu">
+        <nav>
+            <ul>
+                {% for item in navList %}
+                <li>
+                    <a href="#">
+                        <img src="{{item.img}}"/>
+                        <span>{{item.name}}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+        <menu class="swiper-container swiperMenu" id="swiperMenu">
+            <ul class="swiper-wrapper">
+                {% for item in mustbuyList %}
+                <li class="swiper-slide">
+                    <a><img src="{{item.img}}"/></a>
+                </li>
+                {% endfor %}
+            </ul>
+        </menu>
+    </section>
+
+    <section class="CVS">
+        <h2>
+            <img src="{{shop1.img}}" alt="{{shop1.name}}"/>
+        </h2>
+        <fieldset>
+            {% for x in shop2 %}
+            <a href="#">
+                <img src="{{x.img}}" alt="{{x.name}}"/>
+            </a>
+            {% endfor %}
+        </fieldset>
+        <ul>
+            {% for x in shop3 %}
+                <li>
+                    <a href="#">
+                        <img src="{{x.img}}"/>
+                        <span>{{x.name}}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+        <ol>
+            {% for x in shop4 %}
+                <li><a href="#"><img src="{{x.img}}" alt="{{x.name}}"/></a></li>
+            {% endfor %}
+        </ol>
+    </section>
+
+    <section class="mainInfo">
+        {% for item in mainList %}
+            <section>
+                <h3>
+                    {{item.name}}
+                    <a ui-sref="#">更多</a>
+                    <span></span>
+                </h3>
+                <div>
+                    <a href="#"><img src="{{item.img}}" alt="item.name"/></a>
+                </div>
+                <ul>
+                    <li>
+                        <a href="#">
+                            <img src="{{item.img1}}"/>
+                            <span class="description">{{item.longname1}}</span>
+                            <span>￥{{item.price1}}</span>
+                            <s>￥{{item.marketprice1}}</s>
+                        </a>
+                        <button><span>&#43;</span></button>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <img src="{{item.img2}}"/>
+                            <span class="description">{{item.longname1}}</span>
+                            <span>￥{{item.price2}}</span>
+                            <s>￥{{item.marketprice2}}</s>
+                        </a>
+                        <button><span>&#43;</span></button>
+                    </li>
+                                        <li>
+                        <a href="#">
+                            <img src="{{item.img3}}"/>
+                            <span class="description">{{item.longname1}}</span>
+                            <span>￥{{item.price3}}</span>
+                            <s>￥{{item.marketprice3}}</s>
+                        </a>
+                        <button><span>&#43;</span></button>
+                    </li>
+                </ul>
+            </section>
+        {% endfor %}
+    </section>
+
+
+</div>
+{% endblock base %}

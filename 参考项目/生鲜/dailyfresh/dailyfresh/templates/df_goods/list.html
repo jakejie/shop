@@ -1,0 +1,110 @@
+{% extends 'df_goods/base.html' %}
+{% block head%}
+<script type="text/javascript">
+	function myclick(data){
+	    $(function(){
+
+	        $.get('/cart/addcart/'+data+'_1',function(data){
+				$('#show_count').html(data.count)
+			})
+
+		})
+
+	}
+
+</script>
+
+{% endblock head%}
+{%block body%}
+	<div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>	
+				<span></span>			
+				<ul class="subnav">
+					<li><a href="/goods/typeInfo?typeid=1&pindex=1" class="fruit">新鲜水果</a></li>
+					<li><a href="/goods/typeInfo?typeid=2&pindex=1" class="seafood">海鲜水产</a></li>
+					<li><a href="/goods/typeInfo?typeid=3&pindex=1" class="meet">猪牛羊肉</a></li>
+					<li><a href="/goods/typeInfo?typeid=4&pindex=1" class="egg">禽类蛋品</a></li>
+					<li><a href="/goods/typeInfo?typeid=5&pindex=1" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="/goods/typeInfo?typeid=6&pindex=1" class="ice">速冻食品</a></li>
+				</ul>
+			</div>
+			<ul class="navlist fl">
+				<li><a href="/">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="/">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="/">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="breadcrumb">
+		<a href="#">全部分类</a>
+		<span>></span>
+		<a href="#">新鲜水果</a>
+	</div>
+
+	<div class="main_wrap clearfix">
+		<div class="l_wrap fl clearfix">
+			<div class="new_goods">
+				<h3>新品推荐</h3>
+				<ul>
+					<li>
+						<a href="#"><img src="/static/images/goods/goods001.jpg"></a>
+						<h4><a href="#">进口柠檬</a></h4>
+						<div class="prize">￥3.90</div>
+					</li>
+					<li>
+						<a href="#"><img src="/static/images/goods/goods002.jpg"></a>
+						<h4><a href="#">玫瑰香葡萄</a></h4>
+						<div class="prize">￥16.80</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="r_wrap fr clearfix">
+			<div class="sort_bar">
+				<a href="#" class="active">默认</a>
+				<a href="#">价格</a>
+				<a href="#">人气</a>
+			</div>
+
+			<ul class="goods_type_list clearfix">
+				{%for item in list%}
+					<li>
+						<a href="/goods/detail?goodid={{item.id}}">{{item.gtitle}}<img src="/static/{{item.gpic}}"></a>
+						<h4><a href="/goods/detail?goodid={{item.id}}">{{item.gtitle}}</a></h4>
+						<div class="operate">
+							<span class="prize">￥{{item.gprice}}</span>
+							<span class="unit">{{item.gprice}}/{{item.gunit}}</span>
+							<input type="hidden" value="{{item.id}}" id="goodid">
+							<a href="javascript:;"onclick="myclick({{item.id}})" class="add_goods" title="加入购物车"></a>
+
+						</div>
+					</li>
+				{%endfor%}
+
+			</ul>
+
+			<div class="pagenation">
+				{%if page.has_previous%}
+					<a href="/goods/typeInfo?typeid={{typeid}}&pindex={{page.previous_page_number}}">上一页></a>
+				{%endif%}
+				{%for pindex in paginator.page_range%}
+				{%if pindex == page.number%}
+				<a href="#" class="active">{{pindex}}</a>
+				{%else%}
+				{{page.previous_page_number}}
+				<a href="/goods/typeInfo?typeid={{typeid}}&pindex={{pindex}}">{{pindex}}</a>
+				{%endif%}
+				{%endfor%}
+				{%if page.has_next%}
+					<a href="/goods/typeInfo?typeid={{typeid}}&pindex={{pindex}}">下一页></a>
+				{%endif%}
+			</div>
+		</div>
+	</div>
+{%endblock body%}

@@ -1,0 +1,38 @@
+{% extends 'base_foot.html'%}
+{% block body1%}
+	<div class="header_con">
+		<div class="header">
+			<div class="welcome fl">欢迎来到天天生鲜!</div>
+			<div class="fr">
+				{%if request.session.user_name|default:'' != ''%}
+					<div class="fl user_link">
+						欢迎您：<a href="/user/info"><em>{{request.session.user_name }}</em></a>
+						<span>|</span>
+						<a href="/user/logout">退出</a>
+					</div>
+				{%else%}
+					<div class="login_btn fl">
+						<a href="/user/login/">登录</a>
+						<span>|</span>
+						<a href="/user/register/">注册</a>
+					</div>
+				{%endif%}
+				<div class="user_link fl">
+					<span>|</span>
+					<a href="/user/info">用户中心</a>
+					<span>|</span>
+					<a href="/cart/">我的购物车</a>
+					<span>|</span>
+					<a href="user_center_order.html">我的订单</a>
+				</div>
+			</div>
+		</div>
+	</div>
+		{% block basebody%}
+		{% endblock basebody%}
+
+		{% block body%}
+		{% endblock body%}
+{%endblock body1%}
+
+

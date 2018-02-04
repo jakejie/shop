@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block main %}
+<div class="Bott">
+			<div class="wrapper clearfix" style="margin: 0 auto">
+				<div class="zuo fl" style="margin-left: 100px">
+					<h3>
+						<a href="/"><img src="{% static 'img/tx.png' %}"></a>
+						<p class="clearfix"><span class="fl">[羊羊羊]</span><span class="fr">[退出登录]</span></p>
+					</h3>
+					<div>
+						<ul>
+							<li><a href="#">我的订单</a></li>
+						</ul>
+						<ul>
+							<li><a href="/user/address/">地址管理</a></li>
+						</ul>
+
+					</div>
+				</div>
+				<div class="you fl">
+				{% block mainuserright %}
+
+                    {% endblock mainuserright %}
+				</div>
+
+                <div class="mask" style="display: none;"></div>
+                <div class="adddz" style="display: none;">
+			    <form action="http://127.0.0.1:8000/address/#" method="get">
+				<input type="text" placeholder="姓名"  name="name" class="on">
+				<input type="text" placeholder="手机号" name="phone">
+				<div class="city">
+					<select name="provinces">
+						{% for province in  provinces %}
+						<option value="{{ province.id }}">{{ province.name }}</option>
+						{% endfor %}
+
+					</select>
+					<select name="citys">
+						{% for city in citys %}
+                            <option value="{{ city.id }}">{{ city.name }}</option>
+                        {% endfor %}
+					</select>
+					<select name="areas">
+						{% for area in areas %}
+                            <option value="{{ area.id }}">{{ area.name }}</option>
+                        {% endfor %}
+					</select>
+				</div>
+				<textarea name="" rows="" class="address_details" cols="" placeholder="详细地址"></textarea>
+				<div class="bc">
+					<input type="button" onclick="save_address()" value="保存">
+					<input type="button" value="取消">
+				</div>
+			</form>
+		     </div>
+		        <div class="readd">
+			<form action="http://127.0.0.1:8000/address/#" method="get">
+				<input type="text" class="on" value="六六六">
+				<input type="text" value="157****0022">
+				<div class="city">
+					<select name="">
+						<option value="省份/自治区">河北省</option>
+					</select>
+					<select>
+						<option value="城市/地区">唐山市</option>
+					</select>
+					<select>
+						<option value="区/县">路北区</option>
+					</select>
+					<select>
+						<option value="配送区域">火炬路</option>
+					</select>
+				</div>
+				<textarea name="" rows="" cols="" placeholder="详细地址">高新产业园</textarea>
+				<input type="text" placeholder="邮政编码" value="063000">
+				<div class="bc">
+					<input type="button" value="保存">
+					<input type="button" value="取消">
+				</div>
+			</form>
+		</div>
+            </div>
+</div>
+
+{% endblock main %}

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>订单支付</title>
+</head>
+<body>
+<h1>这是模拟的一个支付页面</h1>
+订单编号：{{order.oid}}<br>
+应付金额：{{order.ototal}}<br>
+付款成功，3秒后自动跳转
+<script>
+    setTimeout('location.href="/user/order1/";',3000);
+</script>
+</body>
+</html>

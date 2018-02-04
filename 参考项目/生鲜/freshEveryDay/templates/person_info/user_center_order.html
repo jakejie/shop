@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>天天生鲜-用户中心</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="/static/js/user_center_info/userOrder.js"></script>
+</head>
+<body>
+	<div class="header_con">
+		<div class="header">
+			<div class="welcome fl">欢迎来到天天生鲜!</div>
+			<div class="fr">
+				<div class="login_info fl">
+					欢迎您：<em id="name">{{dic.userName}}</em>
+				</div>
+				<div class="login_btn fl">
+					<a href="{%url 'login:login'%}">登录</a>
+					<span>|</span>
+					<a href="{%url 'login:registe'%}">注册</a>
+				</div>
+				<div class="user_link fl">
+					<span>|</span>
+					<a href="{%url 'freshEveryDay:user_info' %}" >用户中心</a>
+					<span>|</span>
+					<a href="{%url 'pay:cart'%}">我的购物车</a>
+					<span>|</span>
+					<a href="{%url 'freshEveryDay:userOrder' 1 %}">我的订单</a>
+				</div>
+			</div>
+		</div>		
+	</div>
+
+	<div class="search_bar clearfix">
+		<a href="{%url 'goods_info:index'%}" class="logo fl"><img src="/static/images/logo.png"></a>
+		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
+		<div class="search_con fr">
+			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
+			<input type="button" class="input_btn fr" name="" value="搜索">
+		</div>		
+	</div>
+
+	<div class="main_con clearfix">
+		<div class="left_menu_con clearfix">
+			<h3>用户中心</h3>
+			<ul>
+				<li><a href="{% url 'freshEveryDay:user_info'%}">· 个人信息</a></li>
+				<li><a href="#" class="active">· 全部订单</a></li>
+				<li><a href="{% url 'freshEveryDay:userSite'%}">· 收货地址</a></li>
+			</ul>
+		</div>
+		<div class="right_content clearfix">
+				<h3 class="common_title2">全部订单</h3>
+				{%for order in allInfo%}
+				<ul class="order_list_th w978 clearfix">
+					<li class="col01">{{order.orderTime}}</li>
+					<li class="col02">订单号：{{order.orderID}}</li>
+					<li class="col02 stress">
+						{%if order.isPay%}
+						{{'已支付'}}
+						{%else%}
+						{{'未支付'}} 
+						{%endif%}
+					</li>		
+				</ul>				
+				<table class="order_list_table w980">
+					<tbody>
+						<tr>
+							<td width="55%">
+								{%for goods in order.orderGoodsInfo%}
+								<ul class="order_goods_list clearfix">					
+									<li class="col01"><img src="/static/{{goods.goodsUrl}}"></li>
+									<li class="col02">{{goods.goodsName}}<em><span id="price">{{goods.goodsPrice}}</span>元/{{goods.goodsUnit}}</em></li>	
+									<li class="col03" id="count">{{goods.goodsCount}}</li>
+									<li class="col04" id="sum">{{goods.goodsPriceSum}}元</li>	 
+								</ul>
+								{%endfor%}
+							</td>
+							<td width="15%">{{order.sumPrice}}元</td>
+							<td width="15%">
+							{%if order.isPay%}
+							{{'已付款'}}
+							{%else%}
+							{{'待付款'}}
+							{%endif%}
+							</td>
+							<td width="15%"><a href="#" class="oper_btn">
+							{%if order.isPay%}
+							{{'查看物流'}}
+							{%else%}
+							{{'去付款'}}
+							{%endif%}
+							</a></td>
+						</tr> 
+					</tbody>
+				</table>
+				{%endfor%}
+				
+				<div class="pagenation">
+					<a href="#" id="prevPage"><上一页</a>
+					{%for i in prange%} 
+					{%if i == pIndex%}
+					<a href="{%url 'freshEveryDay:userOrder' i %}" class="active" id="curIndex">{{i}}</a>
+					{%else%}
+					<a href="{%url 'freshEveryDay:userOrder' i %}">{{i}}</a>
+					{%endif%}
+					{{i}}
+					{%endfor%}
+					<a href="#" id="nextPage" >下一页></a>
+				</div>
+		</div>
+	</div>
+
+
+
+	<div class="footer">
+		<div class="foot_link">
+			<a href="#">关于我们</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+			<span>|</span>
+			<a href="#">招聘人才</a>
+			<span>|</span>
+			<a href="#">友情链接</a>		
+		</div>
+		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+		<p>电话：010-****888    京ICP备*******8号</p>
+	</div>
+	
+</body>
+</html>

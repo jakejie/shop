@@ -1,0 +1,182 @@
+{% extends 'df_goods/base.html' %}
+
+ {% block head%}
+
+	<script type="text/javascript">
+			var $add_x = $('#add_cart').offset().top;
+			var $add_y = $('#add_cart').offset().left;
+
+			var $to_x = $('#show_count').offset().top;
+			var $to_y = $('#show_count').offset().left;
+
+			$(".add_jump").css({'left':$add_y+80,'top':$add_x+10,'display':'block'})
+			$('#add_cart').click(function(){
+				$(".add_jump").stop().animate({
+					'left': $to_y+7,
+					'top': $to_x+7},
+					"fast", function() {
+						$(".add_jump").fadeOut('fast',function(){
+							$('#show_count').html(2);
+						});
+
+				});
+			})
+		</script>
+    <script>
+    $(function () {
+        // 计算商品总价
+        function update_total_price() {
+            // 1.获取商品的数目
+            goods_count = $('.num_show').val()
+            goods_count = parseInt(goods_count)
+            // 2.获取商品的价格
+            goods_price = $('.show_pirze').children('em').text()
+            goods_price = parseFloat(goods_price)
+            // 3.计算总价
+            total_price = goods_count*goods_price
+            // 4.设置总价
+            $('.total').children('em').text(total_price.toFixed(2)+'元')
+        }
+        update_total_price()
+        // 1.实现商品数目的增加
+        $('.add').click(function () {
+            // 1.获取商品的数目
+            goods_count = $('.num_show').val()
+            goods_count = parseInt(goods_count)+1
+            // 2.重新设置商品数目
+            $('.num_show').val(goods_count)
+            update_total_price()
+        })
+        // 实现商品数目的减少
+        $('.minus').click(function () {
+            // 1.获取商品的数目
+            goods_count = $('.num_show').val()
+            goods_count = parseInt(goods_count)-1
+            if (goods_count <= 0){
+                goods_count = 1
+            }
+            // 2.重新设置商品数目
+            $('.num_show').val(goods_count)
+            update_total_price()
+        })
+        // 手动输入商品数目
+        $('.num_show').blur(function () {
+            // 1.获取商品的数目
+            goods_count = $('.num_show').val() // '112'
+            if(isNaN(goods_count)|| goods_count.trim().length <= 0 || parseInt(goods_count)<=0)
+            {
+                goods_count = 1
+            }
+            // 2.重新设置商品数目
+            $('.num_show').val(parseInt(goods_count))
+            update_total_price()
+        })
+    })
+	function myclick(data){
+        window.location.href="/cart/tocart/"+data+'_'+$('.num_show').val();
+//		$.get('/cart/addcart/'+data+'_'+$('.num_show').val(),function(data){
+//				alert(data+$('.num_show').val())
+//			})
+
+	}
+
+    </script>
+
+	{%endblock head%}
+
+ {% block body%}
+		<div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+					<li><a href="/goods/typeInfo?typeid=1&pindex=1" class="fruit">新鲜水果</a></li>
+					<li><a href="/goods/typeInfo?typeid=2&pindex=1" class="seafood">海鲜水产</a></li>
+					<li><a href="/goods/typeInfo?typeid=3&pindex=1" class="meet">猪牛羊肉</a></li>
+					<li><a href="/goods/typeInfo?typeid=4&pindex=1" class="egg">禽类蛋品</a></li>
+					<li><a href="/goods/typeInfo?typeid=5&pindex=1" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="/goods/typeInfo?typeid=6&pindex=1" class="ice">速冻食品</a></li>
+				</ul>
+			</div>
+			<ul class="navlist fl">
+				<li><a href="/">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="/">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="/">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="breadcrumb">
+		<a href="#">全部分类</a>
+		<span>></span>
+		<a href="#">新鲜水果</a>
+		<span>></span>
+		<a href="#">商品详情</a>
+	</div>
+
+	<div class="goods_detail_con clearfix">
+		<div class="goods_detail_pic fl"><img src="/static/{{good.gpic}}"></div>
+
+		<div class="goods_detail_list fr">
+			<h3>{{good.gtitle}}</h3>
+			<p>{{good.gjianjie}}</p>
+			<div class="prize_bar">
+				<span class="show_pirze">¥<em>{{good.gprice}}</em></span>
+				<span class="show_unit">单  位：{{good.gunit}}</span>
+			</div>
+			<div class="goods_num clearfix">
+				<div class="num_name fl">数 量：</div>
+				<div class="num_add fl">
+					<input type="text" class="num_show fl" value="1">
+					<a href="javascript:;" class="add fr">+</a>
+					<a href="javascript:;" class="minus fr">-</a>	
+				</div> 
+			</div>
+			<div class="total">总价：<em>16.80元</em></div>
+			<div class="operate_btn">
+				<a href="javascript:;" class="buy_btn">立即购买</a>
+				<a href="javascript:;" onclick="myclick({{good.id}})" class="add_cart" id="add_cart">加入购物车</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="main_wrap clearfix">
+		<div class="l_wrap fl clearfix">
+			<div class="new_goods">
+				<h3>新品推荐</h3>
+				<ul>
+					<li>
+						<a href="#"><img src="/static/images/goods/goods001.jpg"></a>
+						<h4><a href="#">进口柠檬</a></h4>
+						<div class="prize">￥3.90</div>
+					</li>
+					<li>
+						<a href="#"><img src="/static/images/goods/goods002.jpg"></a>
+						<h4><a href="#">玫瑰香葡萄</a></h4>
+						<div class="prize">￥16.80</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="r_wrap fr clearfix">
+			<ul class="detail_tab clearfix">
+				<li class="active">商品介绍</li>
+				<li>评论</li>
+			</ul>
+
+			<div class="tab_content">
+				<dl>
+					<dt>商品详情：</dt>
+					<dd>{{good.gcontent | safe}} </dd>
+				</dl>
+			</div>
+
+		</div>
+	</div>
+
+ {%endblock body%}
+

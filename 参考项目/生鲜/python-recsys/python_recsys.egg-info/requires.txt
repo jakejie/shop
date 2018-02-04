@@ -1,0 +1,4 @@
+numpy
+scipy
+divisi2
+csc-pysparse

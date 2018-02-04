@@ -1,0 +1,318 @@
+﻿html,
+body,
+div,
+ul,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+dl,
+dt,
+dd,
+ol,
+form,
+input,
+textarea,
+th,
+td,
+select {
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Microsoft YaHei";
+    font-size: 14px;
+    color: #333;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: normal;
+}
+
+ul,
+li,
+ol {
+    list-style: none;
+}
+
+img {
+    border: none;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+
+/*清除默认样式*/
+
+
+/*头部*/
+
+.head {
+    width: auto;
+    height: 30px;
+    background-color: #f6f6f6;
+}
+
+.head-in {
+    width: 1317px;
+    height: 30px;
+    padding-right: 33px;
+    margin: 0 auto;
+    font-size: 12px;
+}
+
+.options {
+    float: right;
+    width: 235px;
+    height: 30px;
+}
+
+.options>li.sub {
+    height: 30px;
+    line-height: 30px;
+    margin-left: 17px;
+    float: left;
+}
+
+.options>li.sub>a {
+    font-size: 12px;
+}
+
+.sign {
+    height: 30px;
+    line-height: 30px;
+    margin-right: 16px;
+    float: right;
+}
+
+.register {
+    height: 30px;
+    line-height: 30px;
+    margin-right: 16px;
+    float: right;
+}
+
+.register>a {
+    color: #ff464e;
+}
+
+
+/*头部*/
+
+
+/*search*/
+
+.search {
+    position: relative;
+    width: 1200px;
+    height: 66px;
+    margin: 21px auto 0;
+    overflow: hidden;
+}
+.logo{
+    top:0;
+    left: 0;
+    position: absolute;
+}
+
+.search .items {
+    top: 0;
+    left: 445px;
+    position: absolute;
+    width: 435px;
+}
+
+.search .items>li.item {
+    float: left;
+    height: 44px;
+    line-height: 44px;
+}
+.search .items>li.item>a{
+    display: block;
+}
+.search .items>li.item img{
+    display:block;
+    width: 30px;
+    height: 30px;
+    margin-top: 6px;
+    float: left;
+}
+.search .items>li.item p{
+    display:block;
+    padding: 0 20px 0 10px;
+    float: left;
+}
+.search .input{
+    position: absolute;
+    top: 6px;
+    right: 0;
+    width: 237px;
+    height: 35px;
+}
+.search .input>input{
+    float: left;
+    display: block;
+    width: 200px;
+    height: 35px;
+    background-color: #efefef;
+}
+.search .input>img{
+    float: left;
+    display: block;
+    width: 37px;
+    height: 35px;
+}
+
+
+/*导航*/
+.nav{
+    height: 38px;
+    border-bottom: 2px solid #ff464e;
+}
+.nav-content{
+    width: 1200px;
+    height: 38px;
+    margin: 0 auto;
+}
+.nav_items{
+    float: left;
+    width: 624px;
+    height: 38px;
+}
+.nav_items>li.item{
+    float: left;
+    width: 104px;
+    height: 38px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    text-align: center;
+    line-height: 38px;
+}
+.nav_items>li.item.active{
+    background-color: #ff464e;
+}
+.qiandao{
+    float: right;
+    width: 105px;
+    height: 19px;
+    padding-top: 10px;
+}
+
+
+/*分类classes*/
+.classes{
+    width: 1200px;
+    height: 50px;
+    margin: 0 auto;
+}
+.todayNew{
+    float: left;
+    width: 71px;
+    height: 50px;
+    line-height: 50px;
+}
+.classes-items{
+    float: left;
+    width: 798px;
+    height: 50px;
+    margin-left: 15px;
+}
+.classes-items>li.items{
+    float: left;
+    width: 57px;
+    height: 50px;
+    padding-top: 15px;
+}
+.classes-items>li.items.active a{
+    color: #ff464e;
+}
+.willOnline{
+    float: left;
+    width: 71px;
+    height: 50px;
+    line-height: 50px;
+    color: #336600;
+}
+
+
+/*商品卡片*/
+.goods-model, .detail-body{
+    background-color: #f6f6f6;
+}
+.goods-content{
+    width: 1220px;
+    height: auto;
+    margin: 0 auto;
+    overflow: hidden;
+}
+.good{
+    position: relative;
+    float: left;
+    margin-right: 20px;
+    margin-top: 20px;
+    width: 285px;
+    height: 371px;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+.good>a>p.name{
+    margin-top: 14px;   
+    margin-left: 5px;
+}
+.good .price{
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    width: 110px;
+    height: 30px;
+    padding-left: 8px;
+}
+.good .price i,.good .price p,.good .price s{
+    display: block;
+    float: left;
+}
+.good .price i{
+    margin-top: 17px;
+}
+.good .price p{
+    font-size: 30px;
+    color: #ff464e;
+}
+.good .price s{
+    margin-top: 17px;
+    color: #bbc6dd;
+}
+.good .sale{
+    position: absolute;
+    bottom: 15px;
+    right:11px;
+    color:#ff464e; 
+}
+
+
+.page{
+    width:100px;
+    height:100px;
+    margin:0 auto;
+    background-color:#ff464e;
+    text-align:center;
+}

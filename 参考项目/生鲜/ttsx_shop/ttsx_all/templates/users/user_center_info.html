@@ -1,0 +1,48 @@
+{# 继承模板 #}
+{% extends 'common/base.html' %}
+
+{# 加载静态文件 #}
+{% load staticfiles %}
+
+{# 加载过滤器 #}
+{% load myfilter %}
+
+{% block head_title %}天天生鲜-用户中心{% endblock head_title %}
+
+{% block body %}
+
+    {% include 'common/status.html' %}
+
+    {% include 'users/common_user_info.html' with flag='info' %}
+
+		<div class="right_content clearfix">
+				<div class="info_con clearfix">
+				<h3 class="common_title2">基本信息</h3>
+						<ul class="user_info_list">
+							<li><span>收件人：</span>{{ user.user_recv|default:'未填写' }}</li>
+							<li><span>联系方式：</span>{{ user.user_phone|default:'未填写' }}</li>
+							<li><span>联系地址：</span>{{ user.user_addr|default:'未填写' }}</li>
+						</ul>
+				</div>
+				
+				<h3 class="common_title2">最近浏览</h3>
+				<div class="has_view_list">
+					<ul class="goods_type_list clearfix">
+                        {% for goodsinfo in user.goodsbrowse_set.all|order_by_update_time %}
+                            <li>
+                                {% with goods=goodsinfo.goods_name %}
+                                <a href="{% url 'goods:detail' %}?id={{ goods.id }}"><img src="{% static goods.goods_image %}"></a>
+                                <h4><a href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a></h4>
+                                <div class="operate">
+                                    <span class="prize">￥{{ goods.goods_price }}</span>
+                                    <span class="unit">{{ goods.goods_price }}/{{ goods.goods_unit }}</span>
+                                    <a href="#" class="add_goods" title="加入购物车"></a>
+                                </div>
+                                {% endwith %}
+                            </li>
+                        {% endfor %}
+			        </ul>
+		        </div>
+		</div>
+	</div>
+{% endblock body %}

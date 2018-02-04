@@ -1,0 +1,315 @@
+[29/Nov/2017 00:52:21]"GET /goods/index/ HTTP/1.1" 200 14130
+[29/Nov/2017 00:52:21]"GET /favicon.ico HTTP/1.1" 302 0
+[29/Nov/2017 00:52:21]"GET /static/favicon.ico HTTP/1.1" 404 92
+[29/Nov/2017 00:52:23]"GET /goods/index/ HTTP/1.1" 200 14130
+[29/Nov/2017 00:53:56]"GET /goods/index/ HTTP/1.1" 200 14130
+[29/Nov/2017 00:53:59]"GET /goods/detail/?id=328 HTTP/1.1" 200 7526
+[29/Nov/2017 00:53:59]"GET /static/images/goods/19.jpg HTTP/1.1" 404 100
+[29/Nov/2017 00:53:59]"GET /static/images/down.png HTTP/1.1" 404 96
+[29/Nov/2017 01:02:39]"GET /goods/index HTTP/1.1" 301 0
+[29/Nov/2017 01:02:44]"GET /goods/index/ HTTP/1.1" 200 14130
+[29/Nov/2017 01:03:02]"GET /static/js/jquery-1.12.4.min.js HTTP/1.1" 404 104
+[29/Nov/2017 01:03:16]"GET /static/js/jquery-ui.min.js HTTP/1.1" 404 100
+[29/Nov/2017 01:03:31]"GET /static/js/slide.js HTTP/1.1" 404 92
+[29/Nov/2017 01:21:43]"GET / HTTP/1.1" 404 74
+[29/Nov/2017 01:21:55]"GET /goods/index/ HTTP/1.1" 200 14130
+[29/Nov/2017 01:21:55]"GET /static/css/reset.css HTTP/1.1" 404 94
+[29/Nov/2017 01:21:55]"GET /static/js/jquery-ui.min.js HTTP/1.1" 404 100
+[29/Nov/2017 01:21:55]"GET /static/css/main.css HTTP/1.1" 404 93
+[29/Nov/2017 01:21:55]"GET /static/js/jquery-1.12.4.min.js HTTP/1.1" 404 104
+[29/Nov/2017 01:21:55]"GET /static/js/slide.js HTTP/1.1" 404 92
+[29/Nov/2017 01:21:55]"GET /static/js/jquery-ui.min.js HTTP/1.1" 404 100
+[29/Nov/2017 01:21:55]"GET /static/images/logo.png HTTP/1.1" 404 96
+[29/Nov/2017 01:21:55]"GET /static/images/goods/ad/slide01.jpg HTTP/1.1" 404 108
+[29/Nov/2017 01:21:55]"GET /static/images/goods/ad/slide04.jpg HTTP/1.1" 404 108
+[29/Nov/2017 01:21:55]"GET /static/images/goods/ad/slide03.jpg HTTP/1.1" 404 108
+[29/Nov/2017 01:21:55]"GET /static/images/goods/ad/adv01.jpg HTTP/1.1" 404 106
+[29/Nov/2017 01:21:55]"GET /static/images/goods/ad/slide02.jpg HTTP/1.1" 404 108
+[29/Nov/2017 01:21:56]"GET /static/images/goods/ad/adv02.jpg HTTP/1.1" 404 106
+[29/Nov/2017 01:21:56]"GET /static/images/banner01.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/goods/4.jpg HTTP/1.1" 404 99
+[29/Nov/2017 01:21:56]"GET /static/images/goods/18.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/goods/9.jpg HTTP/1.1" 404 99
+[29/Nov/2017 01:21:56]"GET /static/images/goods/13.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/banner02.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/js/slide.js HTTP/1.1" 404 92
+[29/Nov/2017 01:21:56]"GET /static/images/goods/17.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/goods/12.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/goods/2.jpg HTTP/1.1" 404 99
+[29/Nov/2017 01:21:56]"GET /static/images/banner03.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/goods/11.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/goods/15.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/goods/8.jpg HTTP/1.1" 404 99
+[29/Nov/2017 01:21:56]"GET /static/images/goods/3.jpg HTTP/1.1" 404 99
+[29/Nov/2017 01:21:56]"GET /static/images/banner04.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/goods/16.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/banner05.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/goods/14.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/banner06.jpg HTTP/1.1" 404 100
+[29/Nov/2017 01:21:56]"GET /static/images/goods/7.jpg HTTP/1.1" 404 99
+[29/Nov/2017 01:21:56]"GET /static/images/goods/20.jpg HTTP/1.1" 404 100
+Performing system checks...
+
+System check identified no issues (0 silenced).
+November 29, 2017 - 00:51:55
+Django version 1.8.2, using settings 'ttsx_all.settings'
+Starting development server at http://0.0.0.0:8090/
+Quit the server with CONTROL-C.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+November 29, 2017 - 01:25:18
+Django version 1.8.2, using settings 'ttsx_all.settings'
+Starting development server at http://0.0.0.0:8090/
+Quit the server with CONTROL-C.
+Traceback (most recent call last):
+  File "manage.py", line 10, in <module>
+    execute_from_command_line(sys.argv)
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/django/core/management/__init__.py", line 338, in execute_from_command_line
+    utility.execute()
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/django/core/management/__init__.py", line 312, in execute
+    django.setup()
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/django/__init__.py", line 18, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/django/apps/registry.py", line 108, in populate
+    app_config.import_models(all_models)
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/django/apps/config.py", line 198, in import_models
+    self.models_module = import_module(models_module_name)
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 986, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 969, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 958, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 673, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 665, in exec_module
+  File "<frozen importlib._bootstrap>", line 222, in _call_with_frames_removed
+  File "/home/guest/code/ttsx_shop/ttsx_all/goods/models.py", line 3, in <module>
+    from tinymce.models import HTMLField
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/tinymce/models.py", line 6, in <module>
+    from tinymce import widgets as tinymce_widgets
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/tinymce/widgets.py", line 27, in <module>
+    import tinymce.settings
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/tinymce/settings.py", line 19, in <module>
+    JS_ROOT = getattr(settings, 'TINYMCE_JS_ROOT', finders.find('tiny_mce', all=False))
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/django/contrib/staticfiles/finders.py", line 249, in find
+    for finder in get_finders():
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/django/contrib/staticfiles/finders.py", line 264, in get_finders
+    yield get_finder(finder_path)
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/django/contrib/staticfiles/finders.py", line 277, in get_finder
+    return Finder()
+  File "/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/django/contrib/staticfiles/finders.py", line 66, in __init__
+    "The STATICFILES_DIRS setting should "
+django.core.exceptions.ImproperlyConfigured: The STATICFILES_DIRS setting should not contain the STATIC_ROOT setting
+Unknown command: 'celery'
+Type 'manage.py help' for usage.
+Unknown command: 'celery'
+Type 'manage.py help' for usage.
+[2017-12-05 01:31:30,810: WARNING/MainProcess] /home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/celery/apps/worker.py:161: CDeprecationWarning: 
+Starting from version 3.2 Celery will refuse to accept pickle by default.
+
+The pickle serializer is a security concern as it may give attackers
+the ability to execute any command.  It's important to secure
+your broker from unauthorized access when using pickle, so we think
+that enabling pickle should require a deliberate action and not be
+the default choice.
+
+If you depend on pickle then you should set a setting to disable this
+warning and to be sure that everything will continue working
+when you upgrade to Celery 3.2::
+
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+
+You must only enable the serializers that you will actually use.
+
+
+  warnings.warn(CDeprecationWarning(W_PICKLE_DEPRECATED))
+
+[2017-12-05 01:31:30,843: INFO/MainProcess] Connected to redis://127.0.0.1:6379/2
+[2017-12-05 01:31:30,850: INFO/MainProcess] mingle: searching for neighbors
+[2017-12-05 01:31:31,853: INFO/MainProcess] mingle: all alone
+[2017-12-05 01:31:31,859: WARNING/MainProcess] celery@monitor ready.
+
+worker: Warm shutdown (MainProcess)
+ 
+ -------------- celery@monitor v3.1.25 (Cipater)
+---- **** ----- 
+--- * ***  * -- Linux-4.4.0-62-generic-x86_64-with-debian-stretch-sid
+-- * - **** --- 
+- ** ---------- [config]
+- ** ---------- .> app:         default:0x7ffb46502940 (djcelery.loaders.DjangoLoader)
+- ** ---------- .> transport:   redis://127.0.0.1:6379/2
+- ** ---------- .> results:     
+- *** --- * --- .> concurrency: 1 (prefork)
+-- ******* ---- 
+--- ***** ----- [queues]
+ -------------- .> celery           exchange=celery(direct) key=celery
+                
+
+[tasks]
+  . users.tasks.register_success
+
+[2017-12-05 01:35:30,131: WARNING/MainProcess] /home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/celery/apps/worker.py:161: CDeprecationWarning: 
+Starting from version 3.2 Celery will refuse to accept pickle by default.
+
+The pickle serializer is a security concern as it may give attackers
+the ability to execute any command.  It's important to secure
+your broker from unauthorized access when using pickle, so we think
+that enabling pickle should require a deliberate action and not be
+the default choice.
+
+If you depend on pickle then you should set a setting to disable this
+warning and to be sure that everything will continue working
+when you upgrade to Celery 3.2::
+
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+
+You must only enable the serializers that you will actually use.
+
+
+  warnings.warn(CDeprecationWarning(W_PICKLE_DEPRECATED))
+
+[2017-12-05 01:35:30,166: INFO/MainProcess] Connected to redis://127.0.0.1:6379/2
+[2017-12-05 01:35:30,173: INFO/MainProcess] mingle: searching for neighbors
+[2017-12-05 01:35:31,177: INFO/MainProcess] mingle: all alone
+[2017-12-05 01:35:31,183: WARNING/MainProcess] celery@monitor ready.
+
+worker: Warm shutdown (MainProcess)
+ 
+ -------------- celery@monitor v3.1.25 (Cipater)
+---- **** ----- 
+--- * ***  * -- Linux-4.4.0-62-generic-x86_64-with-debian-stretch-sid
+-- * - **** --- 
+- ** ---------- [config]
+- ** ---------- .> app:         default:0x7f46cba6f940 (djcelery.loaders.DjangoLoader)
+- ** ---------- .> transport:   redis://127.0.0.1:6379/2
+- ** ---------- .> results:     
+- *** --- * --- .> concurrency: 1 (prefork)
+-- ******* ---- 
+--- ***** ----- [queues]
+ -------------- .> celery           exchange=celery(direct) key=celery
+                
+
+[tasks]
+  . users.tasks.register_success
+
+[2017-12-05 01:39:35,746: WARNING/MainProcess] /home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/celery/apps/worker.py:161: CDeprecationWarning: 
+Starting from version 3.2 Celery will refuse to accept pickle by default.
+
+The pickle serializer is a security concern as it may give attackers
+the ability to execute any command.  It's important to secure
+your broker from unauthorized access when using pickle, so we think
+that enabling pickle should require a deliberate action and not be
+the default choice.
+
+If you depend on pickle then you should set a setting to disable this
+warning and to be sure that everything will continue working
+when you upgrade to Celery 3.2::
+
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+
+You must only enable the serializers that you will actually use.
+
+
+  warnings.warn(CDeprecationWarning(W_PICKLE_DEPRECATED))
+
+[2017-12-05 01:39:35,782: INFO/MainProcess] Connected to redis://127.0.0.1:6379/2
+[2017-12-05 01:39:35,789: INFO/MainProcess] mingle: searching for neighbors
+[2017-12-05 01:39:36,793: INFO/MainProcess] mingle: all alone
+[2017-12-05 01:39:36,800: WARNING/MainProcess] celery@monitor ready.
+
+worker: Warm shutdown (MainProcess)
+ 
+ -------------- celery@monitor v3.1.25 (Cipater)
+---- **** ----- 
+--- * ***  * -- Linux-4.4.0-62-generic-x86_64-with-debian-stretch-sid
+-- * - **** --- 
+- ** ---------- [config]
+- ** ---------- .> app:         default:0x7f415ee8d940 (djcelery.loaders.DjangoLoader)
+- ** ---------- .> transport:   redis://127.0.0.1:6379/2
+- ** ---------- .> results:     
+- *** --- * --- .> concurrency: 1 (prefork)
+-- ******* ---- 
+--- ***** ----- [queues]
+ -------------- .> celery           exchange=celery(direct) key=celery
+                
+
+[tasks]
+  . users.tasks.register_success
+
+[2017-12-05 01:53:22,742: WARNING/MainProcess] /home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/celery/apps/worker.py:161: CDeprecationWarning: 
+Starting from version 3.2 Celery will refuse to accept pickle by default.
+
+The pickle serializer is a security concern as it may give attackers
+the ability to execute any command.  It's important to secure
+your broker from unauthorized access when using pickle, so we think
+that enabling pickle should require a deliberate action and not be
+the default choice.
+
+If you depend on pickle then you should set a setting to disable this
+warning and to be sure that everything will continue working
+when you upgrade to Celery 3.2::
+
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+
+You must only enable the serializers that you will actually use.
+
+
+  warnings.warn(CDeprecationWarning(W_PICKLE_DEPRECATED))
+
+[2017-12-05 01:53:22,776: INFO/MainProcess] Connected to redis://127.0.0.1:6379/2
+[2017-12-05 01:53:22,783: INFO/MainProcess] mingle: searching for neighbors
+[2017-12-05 01:53:23,786: INFO/MainProcess] mingle: all alone
+[2017-12-05 01:53:23,793: WARNING/MainProcess] celery@monitor ready.
+/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/django/core/management/base.py:259: RemovedInDjango19Warning: "requires_model_validation" is deprecated in favor of "requires_system_checks".
+  RemovedInDjango19Warning)
+
+/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/celery/apps/worker.py:161: CDeprecationWarning: 
+Starting from version 3.2 Celery will refuse to accept pickle by default.
+
+The pickle serializer is a security concern as it may give attackers
+the ability to execute any command.  It's important to secure
+your broker from unauthorized access when using pickle, so we think
+that enabling pickle should require a deliberate action and not be
+the default choice.
+
+If you depend on pickle then you should set a setting to disable this
+warning and to be sure that everything will continue working
+when you upgrade to Celery 3.2::
+
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+
+You must only enable the serializers that you will actually use.
+
+
+  warnings.warn(CDeprecationWarning(W_PICKLE_DEPRECATED))
+
+[2017-12-05 15:15:53,931: WARNING/MainProcess] /home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/celery/apps/worker.py:161: CDeprecationWarning: 
+Starting from version 3.2 Celery will refuse to accept pickle by default.
+
+The pickle serializer is a security concern as it may give attackers
+the ability to execute any command.  It's important to secure
+your broker from unauthorized access when using pickle, so we think
+that enabling pickle should require a deliberate action and not be
+the default choice.
+
+If you depend on pickle then you should set a setting to disable this
+warning and to be sure that everything will continue working
+when you upgrade to Celery 3.2::
+
+    CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
+
+You must only enable the serializers that you will actually use.
+
+
+  warnings.warn(CDeprecationWarning(W_PICKLE_DEPRECATED))
+
+[2017-12-05 15:15:53,968: INFO/MainProcess] Connected to redis://127.0.0.1:6379/2
+[2017-12-05 15:15:53,975: INFO/MainProcess] mingle: searching for neighbors
+[2017-12-05 15:15:54,979: INFO/MainProcess] mingle: all alone
+/home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/djcelery/loaders.py:136: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
+  warn('Using settings.DEBUG leads to a memory leak, never '
+
+[2017-12-05 15:15:54,986: WARNING/MainProcess] /home/guest/.virtualenvs/py3.5.2_ttsx_shop/lib/python3.5/site-packages/djcelery/loaders.py:136: UserWarning: Using settings.DEBUG leads to a memory leak, never use this setting in production environments!
+  warn('Using settings.DEBUG leads to a memory leak, never '
+
+[2017-12-05 15:15:54,986: WARNING/MainProcess] celery@monitor ready.

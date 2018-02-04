@@ -1,0 +1,72 @@
+{# 继承模板 #}
+{% extends 'common/base.html' %}
+
+{# 加载静态文件 #}
+{% load staticfiles %}
+
+{% block head_title %}天天生鲜-用户中心{% endblock head_title %}
+
+{% block body %}
+
+    {% include "common/status.html" %}
+
+    {% include 'users/common_user_info.html' with flag='order' %}
+
+		<div class="right_content clearfix">
+				<h3 class="common_title2">全部订单</h3>
+                {% for order in orders %}
+				<ul class="order_list_th w978 clearfix">
+					<li class="col01">{{ order.update_time }}</li>
+					<li class="col02">订单号：{{ order.order_number }}</li>
+					<li class="col02 stress">
+                        {% if order.order_status == 1 %}未支付
+                        {% elif order.order_status == 2 or  order.order_status == 3 or  order.order_status == 4 %}已支付
+                        {% endif %}
+                    </li>
+				</ul>
+				<table class="order_list_table w980">
+					<tbody>
+						<tr>
+							<td width="55%">
+                                {% for goods in order.goodsdetail_set.all %}
+								<ul class="order_goods_list clearfix">					
+									<li class="col01"><img src="{% static goods.goods_img %}"></li>
+									<li class="col02">嘎啦苹果嘎啦苹果<em>{{ goods.goods_price }}元/{{ goods.goods_unit }}</em></li>
+									<li class="col03">{{ goods.goods_num }}</li>
+									<li class="col04">{{ order.single }}元</li>
+								</ul>
+                                {% endfor %}
+							</td>
+							<td width="15%">{{ order.total }}元</td>
+							<td width="15%">
+                                {% if order.order_status == 1 %}待付款
+                                {% elif order.order_status == 2 %}待发货
+                                {% elif order.order_status == 3 %}待收货
+                                {% elif order.order_status == 4 %}已完成
+                                {% endif %}
+                            </td>
+							<td width="15%">
+                            {% if order.order_status == 1 %}
+                                <a href="#" class="oper_btn" onclick="alert('去付款');">去付款</a>
+                            {% elif order.order_status == 2 or  order.order_status == 3 or  order.order_status == 4 %}
+                                <a href="#" class="oper_btn" onclick="alert('查看物流');">查看物流</a>
+                            {% endif %}
+                            </td>
+						</tr>
+					</tbody>
+				</table>
+                {% endfor %}
+				<div class="pagenation">
+                    {% if orders.has_previous %}
+					<a href="?page={{ orders.previous_page_number }}"><上一页</a>
+                    {% endif %}
+                    {% for index in paginator.page_range %}
+					<a href="?page={{ index }}" {% if index == orders.number %}class="active"{% endif %}>{{ index }}</a>
+                    {% endfor %}
+                    {% if orders.has_next %}
+					<a href="?page={{ orders.next_page_number }}">下一页></a>
+                    {% endif %}
+				</div>
+		</div>
+	</div>
+{% endblock body %}

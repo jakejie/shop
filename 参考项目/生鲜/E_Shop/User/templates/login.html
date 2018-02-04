@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block head %}
+    <script src="{% static 'js/md5-min.js' %}"></script>
+{% endblock head %}
+{% block title %}用户登陆{% endblock title %}
+{% block main %}
+    <div class="login-body">
+        <div class="login-card">
+            <div class="login-top">
+                <h4>还没账号？<a href="">立即去注册</a></h4>
+            </div>
+
+            <div class="login-bottom">
+                <div class="login-input-box">
+                    <form action="/user/logincontrol/" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="username" class="login-admin active" placeholder="邮箱登陆">
+                        <input type="password" name="password" class="login-password">
+                        <input name="type" value="login" hidden>
+                        <input type="text" name="time" hidden>
+                        <span style="color: red">{{ error }}</span>
+                        <button onclick="wrapper()" class="login-btn" style="color: white; text-decoration: none; cursor: pointer">登陆</button>
+                    </form>
+                </div>
+                <div class="login-img">
+                    <img src="{% static 'img/login_05.png' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+{% block footer %}
+    <script>
+    function wrapper() {
+        var passNode = $('input[name="password"]');
+        password = hex_md5(passNode.val());
+        var time = new Date().getTime();
+        $('input[name="time"]').val(time);
+        var password = hex_md5(password+time);
+        passNode.val(password);
+    }
+
+
+    </script>
+{% endblock footer %}

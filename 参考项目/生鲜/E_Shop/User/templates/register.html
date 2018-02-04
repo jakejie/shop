@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block head %}
+    <script src="{% static 'js/md5-min.js' %}"></script>
+{%  endblock head %}
+{% block title %}用户注册{% endblock title %}
+{% block main %}
+    <div class="login-body">
+        <div class="login-card">
+            <div class="login-top">
+{#                <h3>老用户登陆</h3>#}
+{#                <h5>尊敬的用户，欢迎您回来</h5>#}
+{#                <h4>还没账号？<a href="">立即去注册</a></h4>#}
+            </div>
+
+            <div class="login-bottom">
+                <div class="login-input-box">
+                    <form action="/user/registercontrol/" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="username" class="login-admin active" placeholder="邮箱登陆">
+                        <input type="password" name="password" class="login-password">
+                        <input name="type" value="register" hidden>
+                        <span style="color: red">{{ error }}</span>
+                        <button onclick="wrapper()" class="login-btn" style="color: white; text-decoration: none; cursor: pointer">注册</button>
+                    </form>
+                </div>
+                <div class="login-img">
+                    <img src="{% static 'img/login_05.png' %}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %}
+{% block footer %}
+    <script>
+    function wrapper() {
+        passNode = $('input[name="password"]');
+        hex_pass = hex_md5(passNode.val());
+        passNode.val(hex_pass);
+    }
+    </script>
+{% endblock footer %}

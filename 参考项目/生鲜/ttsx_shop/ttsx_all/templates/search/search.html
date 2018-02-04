@@ -1,0 +1,42 @@
+{# 继承父模板 #}
+{% extends 'common/base.html' %}
+
+{# 加载标签 #}
+{% load staticfiles %}
+
+{# 登陆页面主体部分内容 #}
+{% block body %}
+
+    {# 包含用户登陆状态 #}
+    {% include 'common/status.html' %}
+
+	<div class="search_bar clearfix">
+        {# 加载头部logo #}
+        {% include "common/goods_logo.html" %}
+
+		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;提交订单</div>
+        {# 加载头部搜索框 #}
+        {% include "common/goods_search.html" %}
+
+	</div>
+
+	<h3 class="common_title">您搜索的关键字是: {{ query }}</h3>
+	
+	<div class="common_list_con clearfix">
+		<ul class="goods_list_th clearfix">
+			<li class="col01">商品名称</li>
+			<li class="col02">商品单位</li>
+			<li class="col03">商品价格</li>
+		</ul>
+
+        {% for goods in page %}
+		<ul class="goods_list_td clearfix">
+			<li class="col01">{{ forloop.counter }}</li>
+			<li class="col02"><a href="{% url 'goods:detail' %}?id={{ goods.object.id }}"><img src="{% static goods.object.goods_image %}"></a></li>
+			<li class="col03">{{ goods.object.goods_name }}</li>
+			<li class="col04">{{ goods.object.goods_unit }}</li>
+			<li class="col05">{{ goods.object.goods_price }}元</li>
+		</ul>
+        {% endfor %}
+	</div>
+{% endblock body %}

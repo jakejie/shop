@@ -1,0 +1,103 @@
+{% extends 'baseuser.html' %}
+{% load staticfiles %}
+{% block mainuserright %}
+    <h2>收货地址</h2>
+    <div class="add">
+        <div onclick="add()">
+            <a href="#" id="addxad">
+                <img src="{% static 'img/jia.png' %}" alt="">
+            </a>
+            <span>添加新地址</span>
+        </div>
+    {% for address_item in address %}
+        <div id="dizhi">
+            <p>{{ address_item.name }}</p>
+            <p>{{ address_item.phone }}</p>
+            <p>{{ address_item.province }} {{ address_item.city }} {{ address_item.area }}</p>
+            <p>{{ address_item.details }}</p>
+        </div>
+    {% endfor %}
+
+    </div>
+{% endblock mainuserright %}
+{% block footer %}
+    <script>
+        function add() {
+            $('.mask').show()
+            $('.adddz').show()
+        }
+        $('select[name="provinces"]').change(function(){
+            var provinceid = $(this).val()
+            $.ajax({
+                type:'post',
+                url:'/user/address/',
+                data:'type=get_province&provinceid='+provinceid,
+                success: function (data) {
+                    var citys = data.citys
+                    $('select[name="citys"]').empty()
+                    for(var i=0; i<citys.length; i++){
+                        var city = citys[i]
+                        var optionNode = document.createElement('option')
+                        $(optionNode).val(city.id)
+                        $(optionNode).text(city.name)
+                        $('select[name="citys"]').append(optionNode)
+                    }
+                    var areas = data.areas
+                    $('select[name="areas"]').empty()
+                    for(var i=0; i<areas.length; i++){
+                        var area = areas[i]
+                        var optionNode = document.createElement('option')
+                        $(optionNode).val(area.id)
+                        $(optionNode).text(area.name)
+                        $('select[name="areas"]').append(optionNode)
+                    }
+
+                }
+            })
+        })
+        $('select[name="citys"]').change(function () {
+            var cityid = $(this).val()
+            console.log(cityid)
+            $.ajax({
+                type:"post",
+                url:"/user/address/",
+                data:'type=get_citys&cityid='+cityid,
+                success:function(data){
+                    var areas = data.areas
+                    $('select[name="areas"]').empty();
+                    for(var i=0; i<areas.length; i++){
+                        var area = areas[i]
+                        var optionNode = document.createElement('option')
+                        $(optionNode).val(area.id)
+                        $(optionNode).text(area.name)
+                        $('select[name="areas"]').append(optionNode)
+                    }
+                }
+            })
+        })
+    function save_address(){
+        var name = $('input[name="name"]').val();
+        var phone = $('input[name="phone"]').val();
+        var province = $('select[name="provinces"]').val();
+        var area = $('select[name="areas"]').val();
+        var city = $('select[name="citys"]').val();
+        var details = $('.address_details').val();
+        var options = 'type=save_address&name='+name+'&phone='+phone+"&provinceid="+province+"&areaid="+area+"&cityid="+city+"&details="+details;
+        $.ajax({
+            type: 'post',
+            url: '/user/address/',
+            data: options,
+            success: function (data) {
+                if (data.errorcode == 200){
+                    // 添加成功，通过dom文档操作
+                    window.location='/user/address';
+                }else{
+                    alert('添加失败');
+                }
+                $('.mask').hide();
+                $('.adddz').hide();
+            }
+        })
+    }
+    </script>
+{% endblock footer%}

@@ -1,0 +1,89 @@
+{% extends 'axf/base.html' %}
+{% load static from staticfiles %}
+
+{% block linkscript%}
+    <link rel="stylesheet" type="text/css" href="{% static 'cart/css/cart.css' %}" />
+    <script type="text/javascript" charset="utf-8" src="{% static 'cart/js/cart.js' %}" ></script>
+{% endblock linkscript%}
+
+{% block base %}
+<div id="cart">
+    <h3><b>购物车</b></h3>
+
+    <section class="full">
+		<section>
+			<ul>
+				<li>
+                    <div class="clear">
+                        <p class="infoJustify">收货人<b></b></p><p>:<span>wwbo</span></p>
+                    </div>
+                </li>
+				<li>
+                    <div class="clear">
+                        <p class="infoJustify">电话<b></b></p><p>:<span>13570059871</span><a class="change">修改></a></p>
+                    </div>
+                </li>
+				<li>
+                    <div class="clear"><p class="infoJustify">收货地址<b></b></p><p>:<span>北京市海淀区</span></p>
+                    </div>
+                </li>
+			</ul>
+
+
+			<section class="bill">
+				<p>闪送超市</p>
+				<p>￥0起送,22:00前满￥30免运费</p>
+				<a>凑单专区</a>
+			</section>
+
+
+			<section class="delivery">
+				<span>收货时间</span> <span>一小时送达</span> <a>可预订></a>
+			</section>
+			<section class="delivery">
+				<span>收货备注</span> <input type="text" placeholder="可输入100字以内特殊要求内容"/>
+			</section>
+
+
+            <menu>
+				<ul>
+                    {% for item in cartslist%}
+                    <li id="{{item.productid}}li" class="menuList">
+                        <div class="confirm">
+                            <span class="ischose" goodsid="{{item.productid}}">
+                                <span id="{{item.productid}}a">
+                                {% ifequal True item.isChose %}
+                                √
+                                {% endifequal %}
+                                </span>
+                            </span>
+                        </div>
+                        <a href="#">
+                            <img src="{{item.productimg}}"/>
+                            <p>{{item.productname}}</p>
+                            <span id="{{item.productid}}price" class="{{productprice}}">{{item.productprice}}</span>
+                        </a>
+                        <section>
+                            <button class="subShopping"  ga="{{item.productid}}">-</button>
+                            <span id="{{item.productid}}">{{item.productnum}}</span>
+                            <button class="addShopping"  ga="{{item.productid}}">+</button>
+                        </section>
+                    </li>
+                    {% endfor %}
+
+					<li class="payTheBill">
+						<div class="confirm"><span><span>
+                            {% if trueFlag %}
+                            √
+                            {% endif %}
+                        </span></span></div>
+						<p><span>全选</span><span>共计:</span><span>总价</span></p>
+						<a id="ok">选好了</a>
+					</li>
+				</ul>
+			</menu>
+		</section>
+	</section>
+</div>
+
+{% endblock base %}

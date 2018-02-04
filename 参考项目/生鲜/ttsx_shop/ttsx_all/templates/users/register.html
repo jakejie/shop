@@ -1,0 +1,72 @@
+{# 继承模板 #}
+{% extends 'common/base.html' %}
+
+{# 加载静态文件 #}
+{% load staticfiles %}
+
+{% block head_title %}天天生鲜-注册{% endblock head_title %}
+
+{% block head_js %}
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/register.js' %}"></script>
+{% endblock head_js %}
+
+{% block body %}
+	<div class="register_con">
+		<div class="l_con fl">
+            {# 加载头部logo #}
+            {% include "common/goods_logo.html" %}
+			<div class="reg_slogan">足不出户  ·  新鲜每一天</div>
+			<div class="reg_banner"></div>
+		</div>
+
+		<div class="r_con fr">
+			<div class="reg_title clearfix">
+				<h1>用户注册</h1>
+				<a href="{% url 'users:login' %}">登录</a>
+			</div>
+			<div class="reg_form clearfix">
+				<form method="post" action="{% url 'users:register_handle' %}">
+                    {% csrf_token %}
+				<ul>
+					<li>
+						<label>用户名:</label>
+						<input type="text" name="user_name" id="user_name">
+						<span class="error_tip">提示信息</span>
+						<span class="error_tip_info">{{ infos.user_name }}</span>
+					</li>
+					<li>
+						<label>密码:</label>
+						<input type="password" name="user_pwd" id="pwd">
+						<span class="error_tip">提示信息</span>
+                        <span class="error_tip_info">{{ infos.user_pwd }}</span>
+					</li>
+					<li>
+						<label>确认密码:</label>
+						<input type="password" name="user_cpwd" id="cpwd">
+						<span class="error_tip">提示信息</span>
+					</li>
+					<li>
+						<label>邮箱:</label>
+						<input type="text" name="user_mail" id="email">
+						<span class="error_tip">提示信息</span>
+                        <span class="error_tip_info">{{ infos.user_mail }}</span>
+					</li>
+					<li class="agreement">
+						<input type="checkbox" name="user_agree" id="allow" checked="checked">
+						<label>同意”天天生鲜用户使用协议“</label>
+						<span class="error_tip2">提示信息</span>
+					</li>
+					<li class="reg_sub">
+						<input type="submit" value="注 册" name="">
+					</li>
+				</ul>				
+				</form>
+			</div>
+
+		</div>
+
+	</div>
+{% endblock body %}
+
+{% block foot_css %}no-mp{% endblock foot_css %}

@@ -1,0 +1,118 @@
+{# 继承模板 #}
+{% extends 'common/base.html' %}
+
+{# 加载静态文件 #}
+{% load staticfiles %}
+
+{# 加载过滤器 #}
+{% load goods_filter %}
+
+{% block head_title %}天天生鲜-商品列表{% endblock head_title %}
+
+{% block head_js %}
+    <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+	<script type="text/javascript">
+    $(function(){
+        $('.add_goods').click(function () {
+            var goods_id = $("#goods_id").val();
+            // 发送ajax请求
+            $.get('{% url "carts:add_carts" %}', {'goods_id': goods_id, 'goods_num': 1}, function (data) {
+                var ret = data.total;
+                // alert(ret);
+                $('#show_count').html(ret);
+                // alert("恭喜您，购买成功!");
+            });
+        });
+    });
+    </script>
+{% endblock head_js %}
+
+{% block body %}
+
+    {% include "common/status.html" %}
+
+	<div class="search_bar clearfix">
+        {# 加载头部logo #}
+        {% include "common/goods_logo.html" %}
+
+        {# 加载头部搜索框 #}
+        {% include "common/goods_search.html" %}
+
+        {# 加载头部购物车 #}
+        {% include "goods/common_goods_cart.html" %}
+	</div>
+
+	<div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>	
+				<span></span>			
+                <ul class="subnav">
+                {# 加载商品分类 #}
+                {% include "goods/common_goods_category.html" %}
+
+                </ul>
+			</div>
+            {# 加载商品导航 #}
+            {% include "goods/common_goods_navbar.html" %}
+
+		</div>
+	</div>
+
+	<div class="breadcrumb">
+		<a href="#">全部分类</a>
+		<span>></span>
+		<a href="#">新鲜水果</a>
+	</div>
+
+	<div class="main_wrap clearfix">
+		<div class="l_wrap fl clearfix">
+			<div class="new_goods">
+				<h3>新品推荐</h3>
+				<ul>
+                    {% for goods in goods_hot %}
+					<li>
+						<a href="{% url "goods:detail" %}?id={{ goods.id }}"><img src="{% static goods.goods_image %}"></a>
+						<h4><a href="{% url "goods:detail" %}?id={{ goods.id }}">{{ goods.goods_name }}</a></h4>
+						<div class="prize">￥{{ goods.goods_price }}</div>
+					</li>
+                    {% endfor %}
+				</ul>
+			</div>
+		</div>
+
+		<div class="r_wrap fr clearfix">
+			<div class="sort_bar">
+				<a href="{% url 'goods:goods_list' cag_id page_id %}" {% if not show %}class="active"{% endif %}>默认</a>
+				<a href="{% url 'goods:goods_list' cag_id page_id %}?show=price" {% if show == 'price' %}class="active"{% endif %}>价格</a>
+				<a href="{% url 'goods:goods_list' cag_id page_id %}?show=hot" {% if show == 'hot' %}class="active"{% endif %}>人气</a>
+			</div>
+
+			<ul class="goods_type_list clearfix">
+                {% for goods in paginator_goods %}
+				<li>
+					<a href="{% url 'goods:detail' %}?id={{ goods.id }}"><img src="{% static goods.goods_image %}"></a>
+                    <input type="hidden" value="{{ goods.id }}" id="goods_id">
+					<h4><a href="{% url 'goods:detail' %}?id={{ goods.id }}">{{ goods.goods_name }}</a></h4>
+					<div class="operate">
+						<span class="prize">￥{{ goods.goods_price }}</span>
+						<span class="unit">{{ goods.goods_price }}/{{ goods.goods_unit }}</span>
+						<a href="javascript:;" class="add_goods" title="加入购物车"></a>
+					</div>
+				</li>
+                {% endfor %}
+			</ul>
+            <div class="pagenation">
+                {% if paginator_goods.has_previous %}
+                <a href="{% url 'goods:goods_list'  cag_id paginator_goods.previous_page_number %}"><上一页</a>
+                {% endif %}
+                {% for index in paginator.page_range %}
+                <a href="{% url 'goods:goods_list'  cag_id index %}" {% if index == page_id|convert_str_to_int %}class="active"{% endif %}>{{ index }}</a>
+                {% endfor %}
+                {% if paginator_goods.has_next %}
+                <a href="{% url 'goods:goods_list'  cag_id paginator_goods.next_page_number %}">下一页></a>
+                {% endif %}
+            </div>
+		</div>
+	</div>
+{% endblock body %}

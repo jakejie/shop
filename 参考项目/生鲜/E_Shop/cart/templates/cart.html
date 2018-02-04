@@ -1,0 +1,269 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %} 购物车 {% endblock title %}
+{% block main %}
+    <section class="cartMain">
+        <div class="cartMain_hd">
+            <ul class="order_lists cartTop">
+                <li class="list_chk">
+                    <!--所有商品全选-->
+                    <input type="checkbox" id="all" class="whole_check" style="display: inline-block;position:relative;left: -8px;top: 4px">
+
+                    全选
+                </li>
+                <li class="list_con">商品信息</li>
+                <li class="list_info">商品参数</li>
+                <li class="list_price">单价</li>
+                <li class="list_amount">数量</li>
+                <li class="list_sum">金额</li>
+                <li class="list_op">操作</li>
+            </ul>
+        </div>
+
+        <!--购物车-->
+        <div class="cartBox">
+            <div class="order_content">
+            {% for cart_item in cart %}
+                 <ul class="order_lists" goodsid="{{ cart_item.goods.id }}" colorid="{{ cart_item.color.id }}" sizeid="{{ cart_item.size.id }}">
+                        <li class="list_chk">
+                            <input type="checkbox" id="checkbox_2" class="son_check" style="display: inline-block;position:absolute;left: 21px;top: 54px">
+
+                        </li>
+                        <li class="list_con">
+                            <div class="list_img"><a href="javascript:;"><img src="{{ MEDIA_URL }}{{ cart_item.color.value }}" alt=""></a></div>
+                            <div class="list_text"><a href="javascript:;">{{ cart_item.goods.gdesc }}</a></div>
+                        </li>
+                        <li class="list_info">
+                            <p>颜色：{{ cart_item.color.name }}</p>
+                            <p>尺寸：{{ cart_item.size.name }}</p>
+                        </li>
+                        <li class="list_price">
+                            <p class="price" price="{{ cart_item.goods.gprice }}">￥{{ cart_item.goods.gprice }}</p>
+                        </li>
+                        <li class="list_amount">
+                            <div class="amount_box">
+                                <a href="javascript:;" class="reduce {% if cart_item.count <= 0 %}reSty{% endif %}" goodsid="{{ cart_item.goods.id }}" colorid="{{ cart_item.color.id }}" sizeid="{{ cart_item.size.id }}">-</a>
+                                <input type="text" value="{{ cart_item.count }}" class="sum" readonly="">
+                                <a href="javascript:;" class="plus" goodsid="{{ cart_item.goods.id }}" colorid="{{ cart_item.color.id }}" sizeid="{{ cart_item.size.id }}">+</a>
+                            </div>
+                        </li>
+                        <li class="list_sum">
+                            <p class="sum_price" count="{{ cart_item.count }}" price="{{ cart_item.goods.gprice }}"></p>
+                        </li>
+                        <li class="list_op">
+                            <p class="del"><a href="javascript:;" goodsid="{{ cart_item.goods.id }}" colorid="{{ cart_item.color.id }}" sizeid="{{ cart_item.size.id }}"  class="delBtn">移除商品</a></p>
+                        </li>
+                    </ul>
+            {% endfor %}
+            </div>
+        </div>
+        <!--底部-->
+        <div class="bar-wrapper">
+            <div class="bar-right">
+                <div class="piece">已选商品<strong class="piece_num" id="all_count">0</strong>件</div>
+                <div class="totalMoney">共计: <strong class="total_text" id="all_price">￥0</strong></div>
+                <div class="calBtn"><a href="javascript:;" id="jiesuan">结算</a></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="model_bg"></section>
+    <section class="my_model">
+        <p class="title">删除宝贝<span class="closeModel">X</span></p>
+        <p>您确认要删除该宝贝吗？</p>
+        <div class="opBtn"><a href="javascript:;" class="dialog-sure">确定</a><a href="javascript:;" class="dialog-close">关闭</a>
+        </div>
+    </section>
+
+{% endblock main %}
+{% block footer %}
+    <script>
+    $('.sum_price').each(function () {
+        var price = $(this).attr('price')
+        var count = $(this).attr('count')
+        price = parseFloat(price)
+        count = parseInt(count)
+        $(this).text('￥'+ count*price)
+    })
+    $('.plus').click(function (event) {
+        var options = 'goodsId='+$(this).attr('goodsid')+'&colorId='+$(this).attr('colorid')+'&sizeId='+$(this).attr('sizeid')+'&type=add&count=1'
+        var textNode = $(this).parent('div.amount_box').children('input')
+        var priceNode = $(this).parents('.list_amount').siblings('.list_price').children('.price')
+        var allPriceNode = $(this).parents('.list_amount').siblings('.list_sum').children('.sum_price')
+
+        $.ajax({
+            type:'post',
+            url:'/cart/cart.html/',
+            data:options,
+            success:function (data) {
+                if(data.errorcode==200){
+                   textNode.val(parseInt(textNode.val())+1)
+                   var count = textNode.val()
+                   var price = parseFloat(priceNode.text().substr(1))
+                   allPriceNode.text('￥'+count*price)
+                }else {
+                    alert('添加失败'+data.errormsg)
+                }
+            },
+            error:function (data) {
+                console.log(data)
+            }
+        })
+        event.stopImmediatePropagation() <!--屏蔽之前的事件-->
+    })
+    $('.reduce').click(function (event){
+        var textNode = $(this).parent('div.amount_box').children('input')
+        var priceNode = $(this).parents('.list_amount').siblings('.list_price').children('.price')
+        var allPriceNode = $(this).parents('.list_amount').siblings('.list_sum').children('.sum_price')
+        var options = "goodsId="+$(this).attr('goodsid')+'&colorId='+$(this).attr('colorid')+'&sizeId='+$(this).attr('sizeid')+'&type=min'
+        $.ajax({
+            type: 'post',
+            url: '/cart/cart.html/',
+            data: options,
+            success: function (data) {
+                if(data.errorcode==200){
+                    textNode.val(parseInt(textNode.val()-1))
+                    var count = textNode.val()
+                    var price = parseFloat(priceNode.text().substr(1))
+                    allPriceNode.text('￥'+count*price)
+                }else{
+                    console.log(data.errormsg)
+                }
+            },
+            error:function (data) {
+                console.log(data)
+            }
+        })
+        event.stopImmediatePropagation();
+    })
+    $('.delBtn').click(function (event) {
+        $('.model_bg').show()
+        $('.my_model').show()
+        $('.dialog-sure').attr('goodsId', $(this).attr('goodsid')).attr('colorId', $(this).attr('colorid')).attr('sizeId', $(this).attr('sizeid'))
+        event.stopImmediatePropagation()
+    })
+    $('.dialog-sure').click(function (event) {
+        var goodsid = $(this).attr('goodsid')
+        var colorid = $(this).attr('colorid')
+        var sizeid = $(this).attr('sizeid')
+        var cartitem = $(getCartItem(goodsid, colorid, sizeid))
+        var options = "type=delete&goodsId="+$(this).attr('goodsid')+"&colorId="+$(this).attr('colorid')+"&sizeId="+$(this).attr('sizeid')
+        $.ajax({
+            type:'post',
+            url:'/cart/cart.html/',
+            data:options,
+            success:function(data){
+                if (data.errorcode == 200){
+                    $('.model_bg').hide()
+                    $('.my_model').hide()
+                    console.log('删除成功')
+                    cartitem.remove()
+                }else{
+                    console.log(data.errormsg)
+                }
+            },
+            error:function (data) {
+                console.log(data)
+            }
+        })
+        event.stopImmediatePropagation()
+    })
+
+
+    <!--找到要删除的购物项-->
+    function getCartItem(goodsid, colorid, sizeid) {
+        var cartItems = $('.order_lists')
+        for (var i=0; i<cartItems.length; i++){
+            item_goodsid = $(cartItems.get(i)).attr('goodsid')
+            item_colorid = $(cartItems.get(i)).attr('colorid')
+            item_sizeid = $(cartItems.get(i)).attr('sizeid')
+            if (goodsid == item_goodsid && colorid == item_colorid && sizeid == item_sizeid)
+                return cartItems.get(i)
+        }
+    }
+
+    $('#all').click(function (event) {
+        if ($(this).prop('checked')){
+            $('.order_lists input[type="checkbox"]').prop('checked', true)
+        }else{
+            $('.order_lists input[type="checkbox"]').prop('checked', false)
+        }
+        addAll()
+        event.stopImmediatePropagation()
+    })
+
+    $('.order_lists input[type="checkbox"]').click(function (event) {
+        var is_all=true
+        var cartitems = $('.order_content').children('.order_lists')
+        for (var i=0; i<cartitems.length; i++){
+            var cartitem = cartitems.get(i)
+            var li = $(cartitem).children('.list_chk')
+            var cb = $(li).children('input[type="checkbox"]')
+            var isChecked = cb.prop('checked')
+            if(!isChecked){
+                is_all=false;
+                break;
+            }
+        }
+        $('#all').prop('checked',is_all)
+        addAll()
+        event.stopImmediatePropagation()
+    })
+     function addAll() {
+        var sum = 0
+        var count = 0
+        var cartitems = $('.order_content').children('.order_lists')
+        for (var i =0;i<cartitems.length;i++){
+            var cartitem = cartitems.get(i)
+            var li=  $(cartitem).children('.list_chk')
+            var cb =  $(li).children('input[type="checkbox"]')
+            var isChecked = cb .prop('checked')
+            if(isChecked){
+                count++
+                var list_sum = $(cartitem).children('.list_sum')
+                var price = $(list_sum).children('.sum_price').text()
+                price =eval( price.substr(1))
+                sum+=price * 100;
+                console.log(parseFloat(sum))
+            }
+
+        }
+         $('#all_price').html('￥'+sum / 100)
+        $('#all_count').text(count)
+        if(count>0){
+            $('#jiesuan').addClass('btn_sty')
+        }else {
+              $('#jiesuan').removeClass('btn_sty')
+        }
+    }
+    $('#jiesuan').click(function () {
+        var carts="";
+        var cartitems = $('.order_content').children('.order_lists');
+        for (var i=0; i<cartitems.length; i++){
+            var cartitem = cartitems.get(i);
+            var li=$(cartitem).children('.list_chk');
+            var cb = $(li).children('input[type="checkbox"]');
+            var isChecked = cb.prop('checked');
+
+            if(isChecked){
+                var goodsid = $(cartitem).attr('goodsid');
+                var colorid = $(cartitem).attr('colorid');
+                var sizeid = $(cartitem).attr('sizeid');
+                var count = $(cartitem).children('.list_amount').children('.amount_box').children('input[type="text"]').val();
+                var option = goodsid+','+colorid+','+sizeid+','+count;
+                carts+=option+':'
+            }
+        }
+        console.log(carts);
+        $.ajax({
+            type: "post",
+            url: "/order/",
+            data: 'cartitems='+carts.substr(0, carts.length-1),
+            success:function (data) {
+                window.location=data
+            }
+        })
+    })
+    </script>
+
+{% endblock footer %}

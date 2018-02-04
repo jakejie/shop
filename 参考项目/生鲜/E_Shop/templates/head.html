@@ -1,0 +1,43 @@
+{% load staticfiles %}
+<div class="head">
+    <div class="head-in">
+        <ul class="options">
+            <li class="sub"><a href="#">我的订单</a></li>
+            <li class="sub"><a href="#">商家中心</a></li>
+            <li class="sub"><a href="#">客户服务</a></li>
+        </ul>
+        {% if not user %}
+            <div class="register"><a href="/user/register/">免费注册</a></div>
+            <div class="sign"><a href="/user/login/">登录</a></div>
+            {% else %}
+            <div class="sign"><a href="/user/usercenter/">欢迎:{{ user.user }}</a></div>
+        {% endif %}
+
+    </div>
+</div>
+<div class="search">
+    <ul class="items">
+        <li class="item">
+            <a href="#">
+                <img src={% static 'img/1_09.png' %}>
+                <p>10:00开抢</p>
+            </a>
+        </li>
+        <li class="item">
+            <a href="#">
+                <img src={% static "img/1_11.png" %}>
+                <p>买手砍价</p>
+            </a>
+        </li>
+        <li class="item">
+            <a href="#">
+                <img src={% static "img/1_13.png" %}>
+                <p>验货质检</p>
+            </a>
+        </li>
+    </ul>
+    <div class="input">
+        <input type="" name="" value="请输入想找的宝贝">
+        <img src={% static "img/1_06.png" %}>
+    </div>
+</div>

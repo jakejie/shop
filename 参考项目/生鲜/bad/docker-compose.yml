@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+  # PostgreSQL database
+  db:
+     image: mdillon/postgis
+     volumes:
+       - .data/postgres:/var/lib/postgresql/data
+
+  # Redis
+  redis:
+     image: redis
+     volumes:
+       - .data/redis:/data
+
+  # Web Server
+  weidian:
+     build: .
+     command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8888"
+     links:
+       - db
+       - redis
+     depends_on:
+      - db
+      - redis
+     volumes:
+      - .:/code
+     ports:
+      - "8888:8888"
+     env_file: .env
+     privileged: true

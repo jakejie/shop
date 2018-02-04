@@ -1,0 +1,49 @@
+{# 继承模板 #}
+{% extends 'common/base.html' %}
+
+{# 加载静态文件 #}
+{% load staticfiles %}
+
+{% block head_title %}天天生鲜-用户中心{% endblock head_title %}
+
+{% block body%}
+
+    {% include "common/status.html" %}
+
+    {% include 'users/common_user_info.html' with flag='site' %}
+
+		<div class="right_content clearfix">
+				<h3 class="common_title2">收货地址</h3>
+				<div class="site_con">
+					<dl>
+						<dt>当前地址：</dt>
+						<dd>{{ user.user_addr }} （{{ user.user_recv }} 收） {{ user.user_phone }}</dd>
+					</dl>					
+				</div>
+				<h3 class="common_title2">编辑地址</h3>
+				<div class="site_con">
+					<form action="{% url 'users:user_center_site_edit' %}" method="post">
+                        {% csrf_token %}
+						<div class="form_group">
+							<label>收件人：</label>
+							<input type="text" name="user_recv" value="{{ user.user_recv }}">
+						</div>
+						<div class="form_group form_group2">
+							<label>详细地址：</label>
+							<textarea name="user_addr" class="site_area">{{ user.user_addr }}</textarea>
+						</div>
+						<div class="form_group">
+							<label>邮编：</label>
+							<input type="text" name="user_code" value="{{ user.user_code }}">
+						</div>
+						<div class="form_group">
+							<label>手机：</label>
+							<input type="text" name="user_phone" value="{{ user.user_phone }}">
+						</div>
+
+						<input type="submit" name="" value="提交" class="info_submit">
+					</form>
+				</div>
+		</div>
+	</div>
+{% endblock body %}

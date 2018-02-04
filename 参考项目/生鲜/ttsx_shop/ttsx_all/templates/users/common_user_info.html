@@ -1,0 +1,31 @@
+{# 加载静态文件 #}
+{% load staticfiles %}
+
+{# 加入过滤器 #}
+{% load myfilter %}
+
+<div class="search_bar clearfix">
+    {# 加载头部logo #}
+    {% include "common/goods_logo.html" %}
+
+    <div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
+    {# 加载头部搜索框 #}
+    {% include "common/goods_search.html" %}
+
+</div>
+<div class="main_con clearfix">
+    <div class="left_menu_con clearfix">
+        <h3>用户中心</h3>
+        <ul>
+            {# 方法一 #}
+{#            <li><a href="{% url 'users:user_center_info' %}" {% if flag == 'info' %}class="active"{% endif %}>· 个人信息</a></li>#}
+{#            <li><a href="{% url 'users:user_center_order' %}" {% if flag == 'order' %}class="active"{% endif %}>· 全部订单</a></li>#}
+{#            <li><a href="{% url 'users:user_center_site' %}" {% if flag == 'site' %}class="active"{% endif %}>· 收货地址</a></li>#}
+            {# 方法二 #}
+            {% with items=flag|myfilter %}
+                {% for item in items %}
+                    <li><a href="{{ item.link }}" class="{{ item.active }}">{{ item.name }}</a></li>
+                {% endfor %}
+            {% endwith %}
+        </ul>
+    </div>

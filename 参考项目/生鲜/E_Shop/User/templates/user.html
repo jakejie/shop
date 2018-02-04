@@ -1,0 +1,25 @@
+{% extends 'baseuser.html' %}
+{% load staticfiles %}
+{% block mainuserright %}
+    <div class="tx clearfix">
+						<div class="fl clearfix">
+							<a href="#" class="fl"><img src="{% static 'img/tx.png' %}"></a>
+							<p class="fl"><span>六六六</span><a href="#">修改个人信息&gt;</a></p>
+						</div>
+						<div class="fr">绑定邮箱：12****4@**.com</div>
+					</div>
+    <div class="bott">
+						<div class="clearfix">
+							<a href="#" class="fl"><img src="{% static 'img/gxin1.jpg' %}"></a>
+							<p class="fl"><span>待支付的订单：<strong>0</strong></span>
+								<a href="#">查看待支付订单&gt;</a>
+							</p>
+						</div>
+						<div class="clearfix">
+							<a href="#" class="fl"><img src="{% static 'img/gxin2.jpg' %}"></a>
+							<p class="fl"><span>待收货的订单：<strong>0</strong></span>
+								<a href="#">查看待收货订单&gt;</a>
+							</p>
+						</div>
+					</div>
+{% endblock mainuserright %}

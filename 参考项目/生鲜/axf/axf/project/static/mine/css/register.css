@@ -1,0 +1,15 @@
+#register{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: 999;
+  background: whitesmoke;
+  overflow: hidden;
+}
+
+.error{
+    margin-left:2rem;
+    font-size:0.3rem;
+    color: #e62e2e;
+    display: none;
+}

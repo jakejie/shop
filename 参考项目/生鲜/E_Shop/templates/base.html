@@ -1,0 +1,30 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<!-- saved from url=(0033)http://127.0.0.1:8000/?category=2 -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>{% block title %}{% endblock title %}</title>
+
+    {% block head %}{% endblock head %}
+    <link rel="stylesheet" href={% static "css/login.css"%}>
+    <link rel="stylesheet" href={% static "css/index.css" %}>
+    <link rel="stylesheet" href={% static "css/detail.css" %}>
+    <link rel="stylesheet" href={% static "css/carts.css" %}>
+    <link rel="stylesheet" href={% static "css/reset.css" %}>
+    <link rel="stylesheet" href={% static "css/mygxin.css" %}>
+
+    <link rel="icon" href="//www.jd.com/favicon.ico" mce_href="//www.jd.com/favicon.ico" type="image/x-icon">
+
+    <script src={% static "js/jquery.min.js" %}></script>
+    <script src={% static "js/carts.js" %}></script>
+
+</head>
+<body>
+
+{% include 'head.html' %}
+
+{% block main %}{% endblock main %}
+
+{% block footer %}{% endblock footer %}
+
+</body></html>

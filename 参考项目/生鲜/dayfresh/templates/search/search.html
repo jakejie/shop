@@ -1,0 +1,96 @@
+{% extends 'df_goods/goods_header.html' %}
+{% block header %}
+    <script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('.add_goods').click(function(){
+			    //判断是否登录，若未登录则提示先登录
+                if($('.login_btn').text().indexOf('登录')>=0){
+                    alert('请登录后再购买');
+                    location.href='/user/login/';
+                    return;
+                }
+                //异步
+                var a=$(this).attr('id');//将产品的id附在属性id上。通过取得id得到产品
+                var i=a.toString();
+                $.get('/cart/add'+i+'_1'+'/',function(data){
+                    $('#show_count').text(data.count);
+                });
+		    });
+        })
+    </script>
+{% endblock header %}
+{% block content2 %}
+
+    <div class="navbar_con">
+		<div class="navbar clearfix">
+			<div class="subnav_con fl">
+				<h1>全部商品分类</h1>
+				<span></span>
+				<ul class="subnav">
+					<li><a href="/list1_1_1/" class="fruit">新鲜水果</a></li>
+					<li><a href="/list2_1_1/" class="seafood">海鲜水产</a></li>
+					<li><a href="/list3_1_1/" class="meet">猪牛羊肉</a></li>
+					<li><a href="/list4_1_1/" class="egg">禽类蛋品</a></li>
+					<li><a href="/list5_1_1/" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="/list6_1_1/" class="ice">速冻食品</a></li>
+				</ul>
+			</div>
+			<ul class="navlist fl">
+				<li><a href="/">首页</a></li>
+				<li class="interval">|</li>
+				<li><a href="#">手机生鲜</a></li>
+				<li class="interval">|</li>
+				<li><a href="#">抽奖</a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div class="breadcrumb">
+
+        <a>全部分类</a>
+            <span>></span>
+        <a>搜索结果</a>
+	</div>
+
+	<div class="main_wrap clearfix">
+
+		<div class="r_wrap fr clearfix">
+
+			<ul class="goods_type_list clearfix">
+                {% for goods in page %}
+				<li>
+					<a href="/{{ goods.object.id }}/"><img src="/static/{{ goods.object.gpic }}"></a>
+					<h4><a href="/{{ goods.object.id }}/">{{ goods.object.gtitle }}</a></h4>
+					<div class="operate">
+						<span class="prize">￥{{ goods.object.gprice }}</span>
+						<span class="unit">{{ goods.object.gprice }}/{{ goods.object.gunit }}</span>
+						<a href="javascript:;" id="{{ goods.object.id }}" class="add_goods" title="加入购物车"></a>
+					</div>
+				</li>
+                {% empty %}
+                    <em style="color: red; font-weight: bold; font-size: 20px;">搜索不到相关商品，请重新输入</em>
+                {% endfor %}
+			</ul>
+
+			<div class="pagenation">
+            {% if page.has_previous %}
+				<a href="/search/?q={{ query }}&amp;page={{ page.previous_page_number }}/"><上一页</a>
+            {% endif %}
+
+            {% for pindex in paginator.page_range %}
+                {% if pindex == page.number %}
+			    	<a href="#" class="active">{{ pindex }}</a>
+                {% else %}
+                    <a href="/search/?q={{ query }}&amp;page={{ pindex }}">{{ pindex }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if page.has_next %}
+				<a href="/search/?q={{ query }}&amp;page={{ page.next_page_number }}/">下一页></a>
+            {% endif %}
+			</div>
+		</div>
+	</div>
+
+{% endblock content2 %}

@@ -1,0 +1,146 @@
+.search{
+	width: 980px;
+}
+.search .items{
+	left: 505px;
+}
+.nav{
+	height: 1px;
+	border-bottom: 4px solid #ff464e;
+}
+.login-body{
+	background-color: #f6f6f6;
+	min-height: 650px;
+	padding-top: 20px;
+}
+.login-card{
+	width: 978px;
+	height: 453px;
+	border:1px solid #e2e2e2;
+	background-color:#ffffff ;
+	margin: 0 auto;
+}
+.login-top{
+	height: 64px;
+	border-bottom: 1px solid #e2e2e2;
+}
+.login-top h3,.login-top h5,.login-top h4{
+	display: block;
+	float: left;
+	height: 64px;
+	line-height: 64px;
+}
+.login-top h3{
+	width: 80px;
+	height: 64px;
+	color: #ff464e;
+	font-size: 16px;
+	margin-left: 50px;
+}
+.login-top h5{
+	width: 170px;
+	color: #666666;
+	font-size: 12px;
+	margin-left: 30px;
+}
+.login-top h4{
+	font-size: 16px;
+	margin-left: 460px;
+}
+.login-top h4>a{
+	color:#0289cd;
+}
+.login-input-box{
+	float: left;
+	width: 271px;
+	height: 388px;
+	margin-left: 160px;
+	padding-top: 30px;
+}
+.login-admin, .login-password{
+	background-image: url(../img/login_03.png);
+	background-size: 39px 38px;
+	background-position:left top;
+	background-repeat: no-repeat;
+	width: 270px;
+	height: 38px;
+
+	padding-left: 40px;
+	color:#c8c8c8;
+}
+.login-admin.active{
+	border: 1px solid #ff3838;
+}
+.login-password.active{
+	border: 1px solid #ff3838;
+}
+.login-password{
+	background-image: url(../img/login_08.png);
+	border-color:#c6c6c6;
+	margin-top: 30px;
+}
+.checkbox{
+	width: 270px;
+	height: 48px;
+	line-height: 77px;
+	overflow: hidden;
+}
+.login-check{
+	float: left;
+	margin-top: 33px;
+	margin-right: 5px;
+	border: 1px solid #8e8f8f;
+}
+
+.forget{
+	display: block;
+	float: right;
+}
+
+.login-btn{
+	display: block;
+	width: 260px;
+	height: 40px;
+	background-color: #ff4251;
+	color: #fff;
+	border: none;
+	margin: 0 auto;
+	margin-top: 10px;
+	outline: none;
+	text-align: center;
+	line-height: 40px;
+	font-size: 18px;
+}
+
+.otherLogin{
+	float: left;
+}
+.otherLogin h4{
+	font-size: 12px;
+	margin-top: 33px;
+}
+.otherLogin .img{
+	margin-top: 7px;
+}
+.otherLogin .img li{
+	float: left;
+}
+.otherLogin .img li img{
+	width: 22px;
+	height: 22px;
+	margin-right: 7px;
+}
+.phonelogin{
+	margin-top: 44px;
+	float: right;
+	padding-left: 17px ;
+	background-image: url(../img/login_12.png);
+	background-position: left;
+	background-repeat: no-repeat;
+}
+
+.login-img{
+	float: left;
+	margin-top: 30px;
+	margin-left: 120px;
+}

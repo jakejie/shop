@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: python-recsys
+Version: 0.2
+Summary: A simple recommender system in python
+Home-page: http://www.dtic.upf.edu/~ocelma/software/python-recsys
+Author: Oscar Celma
+Author-email: ocelma@bmat.com
+License: http://www.gnu.org/copyleft/gpl.html
+Description: UNKNOWN
+Platform: any

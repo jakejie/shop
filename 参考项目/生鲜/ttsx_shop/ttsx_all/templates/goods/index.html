@@ -1,0 +1,106 @@
+{# 继承模板 #}
+{% extends 'common/base.html' %}
+
+{# 加载静态文件 #}
+{% load staticfiles %}
+
+{# 加载过滤器 #}
+{% load goods_filter %}
+
+{% block head_title %}天天生鲜-首页{% endblock head_title %}
+
+{% block head_js %}
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
+{% endblock head_js %}
+
+{% block body %}
+
+    {% include "common/status.html" %}
+
+	<div class="search_bar clearfix">
+        {# 加载头部logo #}
+        {% include "common/goods_logo.html" %}
+
+        {# 加载头部搜索框 #}
+        {% include "common/goods_search.html" %}
+
+        {# 加载头部购物车 #}
+        {% include "goods/common_goods_cart.html" %}
+	</div>
+
+	<div class="navbar_con">
+		<div class="navbar">
+			<h1 class="fl">全部商品分类</h1>
+            {# 加载商品导航 #}
+            {% include "goods/common_goods_navbar.html" %}
+		</div>
+	</div>
+
+	<div class="center_con clearfix">
+		<ul class="subnav fl">
+            {# 加载商品分类 #}
+            {% include "goods/common_goods_category.html" %}
+		</ul>
+		<div class="slide fl">
+			<ul class="slide_pics">
+                {% for adv in adv1 %}
+                <li><a href="{{ adv.ad_link }}" onclick="alert('这是幻灯片{{ forloop.counter }}!');"><img src="{% static adv.ad_image %} " alt="幻灯片"></a></li>
+                {% endfor %}
+            </ul>
+			<div class="prev"></div>
+			<div class="next"></div>
+			<ul class="points"></ul>
+		</div>
+		<div class="adv fl">
+            {% for adv in adv2 %}
+			<a href="{{ adv.ad_link }}"><img src="{% static adv.ad_image %}" onclick="alert('这是广告{{ forloop.counter }}!');"></a>
+            {% endfor %}
+		</div>
+	</div>
+
+    {% for cag in cags %}
+	<div class="list_model">
+		<div class="list_title clearfix">
+			<h3 class="fl" id="model01">{{ cag.cag_name }}</h3>
+			<div class="subtitle fl">
+				<span>|</span>
+                {% for cag_hot in cag.hot %}
+				<a href="{% url 'goods:detail' %}?id={{ cag_hot.id }}">{{ cag_hot.goods_name }}</a>
+                {% endfor %}
+			</div>
+			<a href="{% url 'goods:goods_list' cag.id 1 %}" class="goods_more fr" id="fruit_more">查看更多 ></a>
+        </div>
+
+		<div class="goods_con clearfix">
+			<div class="goods_banner fl"><img src="{% static forloop.counter|create_image %}"></div>
+			<ul class="goods_list fl">
+                {% for cag_new in cag.new %}
+				<li>
+					<h4><a href="{% url 'goods:detail' %}?id={{ cag_new.id }}">{{ cag_new.goods_name }}</a></h4>
+					<a href="{% url 'goods:detail' %}?id={{ cag_new.id }}"><img src="{% static cag_new.goods_image %}"></a>
+					<div class="prize">¥ {{ cag_new.goods_price }}</div>
+				</li>
+                {% endfor %}
+			</ul>
+		</div>
+	</div>
+    {% endfor %}
+{% endblock body %}
+
+{% block foot_js %}
+	<script type="text/javascript" src="{% static 'js/slide.js' %}"></script>
+	<script type="text/javascript">
+		BCSlideshow('focuspic');
+		var oFruit = document.getElementById('fruit_more');
+		var oShownum = document.getElementById('show_count');
+		var hasorder = localStorage.getItem('order_finish');
+		if(hasorder)
+		{
+			oShownum.innerHTML = '2';
+		}
+		oFruit.onclick = function(){
+			window.location.href = 'list.html';
+		}
+	</script>
+{% endblock foot_js %}

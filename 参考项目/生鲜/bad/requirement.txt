@@ -1,0 +1,6 @@
+Django
+# for postgresql
+psycopg2==2.7.1
+wechatpy==1.4.2
+django-rest-swagger==2.1.2
+djangorestframework==3.6.3
