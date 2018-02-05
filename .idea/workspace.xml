@@ -2,47 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f0feb559-3345-4fc1-82ba-e0afcf434119" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/templates/auth/auth_base.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/templates/home/base.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/templates/home/ori_base.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/templates/home/user_base.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/templates/home/user_comment.html" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/templates/home/user_logs.html" />
-      <change beforePath="$PROJECT_DIR$/.idea/20180128.iml" afterPath="$PROJECT_DIR$/.idea/20180128.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/admin/views.py" afterPath="$PROJECT_DIR$/app/admin/views.py" />
-      <change beforePath="$PROJECT_DIR$/app/auth/forms.py" afterPath="$PROJECT_DIR$/app/auth/forms.py" />
-      <change beforePath="$PROJECT_DIR$/app/auth/views.py" afterPath="$PROJECT_DIR$/app/auth/views.py" />
-      <change beforePath="$PROJECT_DIR$/app/home/views.py" afterPath="$PROJECT_DIR$/app/home/views.py" />
-      <change beforePath="$PROJECT_DIR$/app/model.py" afterPath="$PROJECT_DIR$/app/model.py" />
-      <change beforePath="$PROJECT_DIR$/app/templates/auth/login.html" afterPath="$PROJECT_DIR$/app/templates/auth/login.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/auth/register.html" afterPath="$PROJECT_DIR$/app/templates/auth/register.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/course-detail.html" afterPath="$PROJECT_DIR$/app/templates/home/course-detail.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/course-list.html" afterPath="$PROJECT_DIR$/app/templates/home/course-list.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/home_base.html" afterPath="$PROJECT_DIR$/app/templates/home/home_base.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/index.html" afterPath="$PROJECT_DIR$/app/templates/home/index.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/org-detail-course.html" afterPath="$PROJECT_DIR$/app/templates/home/org-detail-course.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/org-detail-desc.html" afterPath="$PROJECT_DIR$/app/templates/home/org-detail-desc.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/org-detail-homepage.html" afterPath="$PROJECT_DIR$/app/templates/home/org-detail-homepage.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/org-detail-teachers.html" afterPath="$PROJECT_DIR$/app/templates/home/org-detail-teachers.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/org-list.html" afterPath="$PROJECT_DIR$/app/templates/home/org-list.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/teacher-detail.html" afterPath="$PROJECT_DIR$/app/templates/home/teacher-detail.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/teachers-list.html" afterPath="$PROJECT_DIR$/app/templates/home/teachers-list.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/usercenter-fav-course.html" afterPath="$PROJECT_DIR$/app/templates/home/usercenter-fav-course.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/usercenter-fav-org.html" afterPath="$PROJECT_DIR$/app/templates/home/usercenter-fav-org.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/usercenter-fav-teacher.html" afterPath="$PROJECT_DIR$/app/templates/home/usercenter-fav-teacher.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/usercenter-info.html" afterPath="$PROJECT_DIR$/app/templates/home/usercenter-info.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/usercenter-message.html" afterPath="$PROJECT_DIR$/app/templates/home/usercenter-message.html" />
-      <change beforePath="$PROJECT_DIR$/app/templates/home/usercenter-mycourse.html" afterPath="$PROJECT_DIR$/app/templates/home/usercenter-mycourse.html" />
-      <change beforePath="$PROJECT_DIR$/manage.py" afterPath="$PROJECT_DIR$/manage.py" />
-      <change beforePath="$PROJECT_DIR$/migrations/README" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/migrations/alembic.ini" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/migrations/env.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/migrations/script.py.mako" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/1bb126a8e8ed_.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/442426be7e30_.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/56532620b7c7_.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/app/static/js/wechat.js" afterPath="$PROJECT_DIR$/app/static/js/wechat.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -128,7 +88,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/templates/other/备用代码.html" />
         <option value="$PROJECT_DIR$/app/templates/home/detail.html" />
         <option value="$PROJECT_DIR$/app/admin/form.py" />
         <option value="$PROJECT_DIR$/app/templates/admin/edit_order.html" />
@@ -179,6 +138,7 @@
         <option value="$PROJECT_DIR$/app/templates/home/index.html" />
         <option value="$PROJECT_DIR$/app/templates/home/course-list.html" />
         <option value="$PROJECT_DIR$/app/model.py" />
+        <option value="$PROJECT_DIR$/app/static/js/wechat.js" />
       </list>
     </option>
   </component>
@@ -191,7 +151,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="31" />
     <option name="y" value="49" />
-    <option name="width" value="1068" />
+    <option name="width" value="1393" />
     <option name="height" value="956" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -229,6 +189,12 @@
               <item name="shop" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="shop" type="b2602c69:ProjectViewProjectNode" />
+              <item name="shop" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="auth" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="shop" type="b2602c69:ProjectViewProjectNode" />
@@ -487,16 +453,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="31" y="49" width="1068" height="956" extended-state="0" />
+    <frame x="31" y="49" width="1393" height="956" extended-state="0" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1904762" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32869786" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35897437" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15018316" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22222222" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982224" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2847222" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21530382" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32982224" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -554,54 +520,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/参考项目/生鲜/axf/axf/project/static/mine/js/register.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-987">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/参考项目/生鲜/axf/axf/project/templates/axf/register.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/参考项目/生鲜/axf/axf/project/templates/axf/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-351">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/参考项目/生鲜/axf/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/参考项目/生鲜/bad/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/参考项目/生鲜/bad/settings/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1170">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/参考项目/生鲜/dailyfresh/dailyfresh/templates/base_foot.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-312">
@@ -965,7 +883,7 @@
         <state relative-caret-position="546">
           <caret line="65" column="0" lean-forward="true" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
           <folding>
-            <element signature="n#style#0;n#a#0;n#li#5;n#ul#0;n#div#0;n#div#0;n#section#1;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#li#5;n#ul#0;n#div#0;n#div#0;n#section#1;n#body#0;n#html#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -998,9 +916,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="312">
           <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
-          <folding>
-            <element signature="e#323#20400#0#HTML" expanded="false" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1009,7 +925,7 @@
         <state relative-caret-position="390">
           <caret line="21" column="18" lean-forward="true" selection-start-line="21" selection-start-column="18" selection-end-line="21" selection-end-column="18" />
           <folding>
-            <element signature="e#0#96#0" expanded="true" />
+            <element signature="e#0#96#0" expanded="false" />
             <element signature="e#1791#2681#0" expanded="false" />
             <element signature="e#3902#3924#0" expanded="false" />
           </folding>
@@ -1025,6 +941,48 @@
             <element signature="e#603#917#0" expanded="false" />
             <element signature="e#4221#4836#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/static/images/filebg/csv.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/static/images/filebg/avi.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/static/js/select.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/static/js/wechat.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="116" column="0" lean-forward="true" selection-start-line="116" selection-start-column="0" selection-end-line="116" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/static/js/unslider.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/static/js/selectUi.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-4524">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

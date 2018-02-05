@@ -134,7 +134,7 @@ $(function(){
             success: function(data) {
                 if(data.status == 'success'){
                     $jsPerfectForm[0].reset();
-                    showAlert('您的装修需求提交成功!相关公司稍后会与您联系，请留意电话。');
+                    showAlert('您的需求提交成功!相关公司稍后会与您联系，请留意电话。');
                     Dml.fun.winReload();
                 }else if(data.status == 'failure'){
                     showAlert(data.msg);
