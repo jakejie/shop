@@ -2,7 +2,7 @@ from . import admin
 from app import db
 from flask import render_template, flash, redirect, request, session, url_for
 from flask_login import login_required, current_user
-from app.model import Count, Goods, Tag, Tags, TagList, Orders, \
+from app.model import Count, Course, Tag, Tags, TagList, Orders, \
     Collect, Comment, BuyCar, Detail, Address, User, UserLog
 from .form import AddGoodsForm
 import time
@@ -21,7 +21,7 @@ def index():
         tag_list = TagList.query.all()
         tags = Tags.query.all()
         tag = Tag.query.all()
-        shops = Goods.query.all()
+        shops = Course.query.all()
         return render_template('home/index.html', tag_list=tag_list,
                                shops=shops, tags=tags, tag=tag)
 
@@ -44,7 +44,7 @@ def add_good():
         file = form.image.data
         filename = username + '-' + file.filename.replace(' ', '').replace('/', '').replace('\\', '')
         file.save('app/static/image/skull/' + filename)
-        inf = Goods(
+        inf = Course(
             good_id=int(time.time()),  # 商品id
             name=form.name.data,  # 商品名称
             image=filename,  # 商品图片
@@ -85,7 +85,7 @@ def wait_goods():
         flash("请使用admin账号登陆")
         return redirect(url_for('auth.login'))
     else:
-        product = Goods.query.filter_by(target=0).all()
+        product = Course.query.filter_by(target=0).all()
         return render_template('admin/wait_goods.html', goods=product)
 
 
@@ -95,7 +95,7 @@ def wait_goods():
 def push():
     if request.method == "POST":
         goods_id = request.args.get("good_id")
-        good = Goods.query.filter_by(good_id=goods_id)
+        good = Course.query.filter_by(good_id=goods_id)
         good.target = 1
         db.session.add(good)
         db.session.commit()
@@ -108,7 +108,7 @@ def push():
 def pull():
     if request.method == "POST":
         goods_id = request.args.get("good_id")
-        good = Goods.query.filter_by(good_id=goods_id)
+        good = Course.query.filter_by(good_id=goods_id)
         good.target = 0
         db.session.add(good)
         db.session.commit()
@@ -120,7 +120,7 @@ def pull():
 def del_good():
     if request.method == "POST":
         goods_id = request.args.get("good_id")
-        good = Goods.query.filter_by(good_id=goods_id)
+        good = Course.query.filter_by(good_id=goods_id)
         db.session.delete(good)
         db.session.commit()
         return "删除成功！"
@@ -135,7 +135,7 @@ def sale_goods():
         flash("请使用admin账号登陆")
         return redirect(url_for('auth.login'))
     else:
-        product = Goods.query.filter_by(target=1).all()
+        product = Course.query.filter_by(target=1).all()
         return render_template('admin/sale_goods.html', goods=product)
 
 
@@ -149,7 +149,7 @@ def goods_list():
         flash("请使用admin管理员账号登陆！")
         return redirect(url_for('auth.login'))
     else:
-        product = Goods.query.all()
+        product = Course.query.all()
         return render_template('admin/goods.html', goods=product)
 
 
@@ -169,11 +169,11 @@ def edit_good(goods_id=None):
         else:
             if request.method == "GET":
                 # 显示需要编辑的商品的信息
-                info = Goods.query.filter_by(good_id=goods_id).first()
+                info = Course.query.filter_by(good_id=goods_id).first()
                 return render_template('admin/edit_goods.html', goods=info)
             else:
                 # POST请求 也就是提交了修改后的商品数据
-                product = Goods.query.filter_by(good_id=goods_id).first()
+                product = Course.query.filter_by(good_id=goods_id).first()
                 product.name = request.form["name"]  # 商品名称
                 product.image = request.form["image"]  # 商品图片
                 product.good_tag = request.form["good_tag"]  # 商品标签

@@ -46,6 +46,9 @@ def login():
     if form.validate_on_submit():
         data = form.data
         user = User.query.filter_by(username=data['username']).first()
+        if not user:
+            flash('用户名不存在', 'err')
+            return redirect(url_for('auth.login'))
         if not user.check_pwd(data['password']):
             flash('密码错误', 'err')
             return redirect(url_for('auth.login'))
@@ -81,7 +84,6 @@ def register():
         user = User(
             username=data['username'],
             email=data['email'],
-            phone=data['phone'],
             password=generate_password_hash(data['password']),
             pwd=data['password'],
             uuid=uuid.uuid4().hex
@@ -134,3 +136,9 @@ def change_pwd():
             flash('密码修改失败！')
             return redirect(url_for('home.user'))
     return render_template('auth/change_pwd.html', form=form)
+
+
+# 忘记密码
+@auth.route('/forget_password/')
+def forget_password():
+    return render_template('auth/forgetpwd.html')

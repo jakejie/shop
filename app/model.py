@@ -35,7 +35,7 @@ class Tag(db.Model):
     name = db.Column(db.String(128), unique=True)  # 三级分类
     # 外键第一步  绑定tag list
     t_name = db.Column(db.String(128), db.ForeignKey('tags.name'))  # 二级分类
-    good_tag = db.relationship("Goods", backref='tag')  # 底下分类所属分类外键关联关系
+    good_tag = db.relationship("Course", backref='tag')  # 底下分类所属分类外键关联关系
 
 
 # 用户表
@@ -101,6 +101,13 @@ class User(UserMixin, db.Model):
         from werkzeug.security import check_password_hash
         return check_password_hash(self.password, password)
 
+    def check_user(self, username):  # 检验用户名是否存在
+        count = User.query.filter_by(username=username).count()
+        if count == 1:
+            return True
+        else:
+            return False
+
 
 # 收货地址列表
 class Address(db.Model):
@@ -131,14 +138,42 @@ class Orders(db.Model):
     user_detail = db.relationship("Detail", backref='orders')  # 该订单对应的商品 外键关联
 
 
+# 课程所属学校
+class School(db.Model):
+    __tablename__ = 'school'
+    id = db.Column(db.Integer, primary_key=True)
+    school_name = db.Column(db.String(512), unique=True)  # 学校名字
+    school_address = db.Column(db.String(512))  # 学校地址
+    course_num = db.Column(db.Integer)  # 课程数量
+    student_num = db.Column(db.Integer)  # 学生数量
+    school_id = db.relationship('SchoolCourse')
+    school_name_s = db.relationship('Course')
+
+
+# 学校对应经典课程
+class SchoolCourse(db.Model):
+    __tablename__ = 'school_course'
+    id = db.Column(db.Integer, primary_key=True)
+    school_id = db.Column(db.Integer, db.ForeignKey('school.id'))
+    good_course = db.Column(db.String(512), db.ForeignKey('course.course_name'))  # 经典课程
+
+
 # 商品列表
-class Goods(db.Model):
-    __tablename__ = 'goods'
+class Course(db.Model):
+    __tablename__ = 'course'
     id = db.Column(db.Integer, primary_key=True)  # 序号
-    good_id = db.Column(db.Integer, unique=True)  # 商品id
-    name = db.Column(db.String(512), unique=True)  # 商品名称
+    course_id = db.Column(db.Integer, unique=True)  # 商品id
+    course_name = db.Column(db.String(512), unique=True)  # 商品名称
+
     image = db.Column(db.String(256), unique=True)  # 商品图片 文件名唯一
     good_tag = db.Column(db.String(128), db.ForeignKey('tag.name'))  # 商品所属分类
+
+    long_time = db.Column(db.String(128))  # 课程时长
+    study_num = db.Column(db.Integer)  # 学习人数  购买人数
+    school_name = db.Column(db.String(512), db.ForeignKey('school.school_name'))
+
+    difficulty = db.Column(db.Integer)  # 难度
+    # 1 入门 2 初级 3 中级 4 高级
     chap_num = db.Column(db.Integer)  # 该课程章节数
     price = db.Column(db.FLOAT(16))  # 现价
     old_price = db.Column(db.FLOAT(16))  # 原价
@@ -154,10 +189,11 @@ class Goods(db.Model):
     get_secure = db.Column(db.String(256))  # 提取密码
     target = db.Column(db.Integer, default=1)  # 商品是否上架 0表示未上架 1表示已经上架 默认直接上架商品
     # 外键关联第二步===好像可以不需要
-    comment_good = db.relationship('Comment', backref='goods')
-    goods_id = db.relationship('Detail', backref='goods')
-    car_id = db.relationship('BuyCar', backref='goods')
-    col_id = db.relationship('Collect', backref='goods')
+    comment_good = db.relationship('Comment', backref='course')
+    course_ids = db.relationship('Detail', backref='course')
+    car_id = db.relationship('BuyCar', backref='course')
+    col_id = db.relationship('Collect', backref='course')
+    good_course = db.relationship('SchoolCourse', backref='course')
 
 
 # 订单里面的商品列表 一个订单有多个商品
@@ -165,7 +201,7 @@ class Detail(db.Model):
     __tablename__ = 'detail'
     id = db.Column(db.Integer, primary_key=True)
     add_time = db.Column(db.DATETIME, default=datetime.now())
-    goods_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 该订单对应的商品id
+    course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))  # 该订单对应的商品id
     num = db.Column(db.Integer)  # 购买该商品的数量
     orderId = db.Column(db.Integer, db.ForeignKey('orders.order_id'))  # 该订单的id
     user = db.Column(db.Integer, db.ForeignKey('user.id'))  # 哪个用户购买了该商品
@@ -179,7 +215,7 @@ class BuyCar(db.Model):
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 加入购物车时间
     num = db.Column(db.Integer)  # 商品数量
     price = db.Column(db.FLOAT(16))
-    goods_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 购物车商品名称
+    course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))  # 购物车商品名称
     user_car = db.Column(db.Integer, db.ForeignKey('user.id'))  # 哪个用户购物车里的商品
 
 
@@ -188,7 +224,7 @@ class Collect(db.Model):
     __tablename__ = 'collect'
     id = db.Column(db.Integer, primary_key=True)
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 收藏时间
-    good_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 收藏商品ID
+    course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))  # 收藏商品ID
     users = db.Column(db.Integer, db.ForeignKey('user.id'))  # 哪个用户收藏的商品
 
 
@@ -200,7 +236,7 @@ class Comment(db.Model):
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 评论时间
     fab = db.Column(db.Integer, default=0)  # 点赞数
     replay = db.Column(db.Text)  # 回复
-    comment_good_id = db.Column(db.Integer, db.ForeignKey('goods.good_id'))  # 所评论的商品的id
+    comment_course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))  # 所评论的商品的id
     users = db.Column(db.Integer, db.ForeignKey('user.id'))  # 评论用户
 
 
@@ -212,12 +248,12 @@ class Count(db.Model):
     view = db.Column(db.Integer)  # 浏览次数
 
     today_order = db.Column(db.Integer)  # 今日订单数
-    today_goods = db.Column(db.Integer)  # 今日新上架商品
+    today_course = db.Column(db.Integer)  # 今日新上架商品
     today_views = db.Column(db.Integer)  # 今日浏览次数 今日访客
     today_vip = db.Column(db.Integer)  # 今日新增注册会员
 
     order_num = db.Column(db.Integer)  # 订单总数
-    goods_num = db.Column(db.Integer)  # 商品总数
+    course_num = db.Column(db.Integer)  # 商品总数
     view_num = db.Column(db.Integer)  # 历时浏览次数
     user_num = db.Column(db.Integer)  # 当前会员总数
 

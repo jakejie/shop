@@ -1,0 +1,35 @@
+{% extends 'home/user_base.html' %}
+
+{% block head %}
+    <section>
+        <div class="wp">
+            <ul class="crumbs">
+                <li><a href="{{ url_for('home.index') }}">首页</a>></li>
+                <li><a href="{{ url_for('home.user') }}">个人中心</a>></li>
+                <li>我的日志</li>
+            </ul>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block content %}
+    <div class="right">
+        <div class="personal_des Releasecont">
+            <div class="head">
+                <h1>我的日志</h1>
+            </div>
+        </div>
+        <div class="personal_des permessage">
+            <div class="companycenter">
+                <div class="group_list brief">
+
+                    日志内容表格
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

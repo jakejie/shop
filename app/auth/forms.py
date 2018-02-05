@@ -32,20 +32,20 @@ class RegistForm(FlaskForm):
 
         }
     )
-    phone = StringField(
-        label="手机号码",
-        validators=[
-            DataRequired("请输入手机号码"),
-            Regexp('1[3578]\\d{9}', message='手机格式不正确')
-
-        ],
-        description="手机号码",
-        render_kw={
-            "class": "form-control input-lg",
-            "placeholder": "请输入手机号码！",
-
-        }
-    )
+    # phone = StringField(
+    #     label="手机号码",
+    #     validators=[
+    #         DataRequired("请输入手机号码"),
+    #         Regexp('1[3578]\\d{9}', message='手机格式不正确')
+    #
+    #     ],
+    #     description="手机号码",
+    #     render_kw={
+    #         "class": "form-control input-lg",
+    #         "placeholder": "请输入手机号码！",
+    #
+    #     }
+    # )
     password = PasswordField(
         label="密码",
         validators=[
@@ -72,8 +72,9 @@ class RegistForm(FlaskForm):
         }
     )
     submit = SubmitField(
-        '注册',
-        render_kw={"class": "btn btn-lg btn-success btn-block", }
+        '注册并登录',
+        render_kw={"class": "btn btn-green",
+                   "id": "jsEmailRegBtn",}
     )
 
     def validate_name(self, field):
@@ -124,7 +125,8 @@ class LoginForm(FlaskForm):
     )
     submit = SubmitField(
         '登录',
-        render_kw={"class": "btn btn-lg btn-primary btn-block", }
+        render_kw={"class": "btn btn-green",
+                   "id": "jsEmailRegBtn", }
     )
 
 

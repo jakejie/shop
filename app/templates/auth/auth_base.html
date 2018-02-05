@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title>慕学在线网登录</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/reset.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/login.css') }}">
+</head>
+<body>
+
+
+{% block content %}
+
+
+{% endblock %}
+
+
+
+
+<div class="dialog" id="jsDialog">
+    <!--提示弹出框-->
+    <div class="successbox dialogbox" id="jsSuccessTips">
+        <h1>成功提交</h1>
+        <div class="close jsCloseDialog"><img src="{{ url_for('static',filename='images/dig_close.png') }}"/></div>
+        <div class="cont">
+            <h2>您的需求提交成功！</h2>
+            <p></p>
+        </div>
+    </div>
+    <div class="noactivebox dialogbox" id="jsUnactiveForm">
+        <h1>邮件验证提示</h1>
+        <div class="close jsCloseDialog"><img src="{{ url_for('static',filename='images/dig_close.png') }}"/></div>
+        <div class="center">
+            <img src="{{ url_for('static',filename='images/send.png') }}"/>
+            <p>我们已经向您的邮箱<span class="green" id="jsEmailToActive">12@13.com</span>发送了邮件，<br/>为保证您的账号安全，请及时验证邮箱</p>
+            <p class="a"><a class="btn" id="jsGoToEmail" target="_blank" href="http://mail.qq.com">去邮箱验证</a></p>
+            <p class="zy_success upmove"></p>
+            <p style="display: none;" class="sendE2">没收到，您可以查看您的垃圾邮件和被过滤邮件，也可以再次发送验证邮件（<span class="c5c">60s</span>）</p>
+            <p class="sendE">没收到，您可以查看您的垃圾邮件和被过滤邮件，<br/>也可以<span class="c5c green" id="jsSenEmailAgin"
+                                                                 style="cursor: pointer;">再次发送验证邮件</span></p>
+        </div>
+    </div>
+</div>
+<div class="bg" id="dialogBg"></div>
+<header>
+    <div class="c-box fff-box">
+        <div class="wp header-box">
+            <p class="fl hd-tips">慕学在线网，在线学习平台！</p>
+            <ul class="fr hd-bar">
+                <li>服务电话：<span>888888888</span></li>
+                <li class="active"><a href="{{ url_for('auth.login') }}">[登录]</a></li>
+                <li><a href="{{ url_for('auth.register') }}">[注册]</a></li>
+            </ul>
+        </div>
+    </div>
+</header>
+<section>
+    <div class="c-box bg-box">
+        <div class="login-box clearfix">
+            <div class="hd-login clearfix">
+                <a class="index-logo" href="{{ url_for('auth.login') }}"></a>
+                <h1>用户登录</h1>
+                <a class="index-font" href="{{ url_for('home.index') }}">回到首页</a>
+            </div>
+            <div class="fl slide">
+                <div class="imgslide">
+                    <ul class="imgs">
+                        <li><a href=""><img width="483" height="472"
+                                            src="{{ url_for('static',filename='images/mysql.jpg') }}"/></a></li>
+                        <li><a href=""><img width="483" height="472"
+                                            src="{{ url_for('static',filename='images/mysql.jpg') }}"/></a></li>
+                        <li><a href=""><img width="483" height="472"
+                                            src="{{ url_for('static',filename='images/mysql.jpg') }}"/></a></li>
+                    </ul>
+                </div>
+                <div class="unslider-arrow prev"></div>
+                <div class="unslider-arrow next"></div>
+            </div>
+            {% block login %}{% endblock %}
+            {% block register %}{% endblock %}
+        </div>
+    </div>
+</section>
+<script src="{{ url_for('static',filename='js/jquery.min.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static',filename='js/unslider.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static',filename='js/login.js') }}" type="text/javascript"></script>
+</body>
+</html>
