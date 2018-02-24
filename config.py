@@ -1,6 +1,6 @@
 class Config():
     # 分页数据显示
-    DATA_PER_PAGE = 10
+    DATA_PER_PAGE = 6
     DEBUG = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True

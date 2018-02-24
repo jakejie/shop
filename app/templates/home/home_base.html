@@ -18,7 +18,7 @@
 <section class="headerwrap ">
     <header>
         <div class=" header">
-           {% include 'home/base.html' %}
+            {% include 'home/base.html' %}
 
             <div class="middle">
                 <div class="wp">
@@ -42,22 +42,13 @@
                 </div>
             </div>
 
-
             <nav>
                 <div class="nav">
                     <div class="wp">
-                        <ul>
-                            <li class="active"><a href="{{ url_for('home.index') }}">首页</a></li>
-                            <li>
-                                <a href="{{ url_for('home.course_list') }}">
-                                    所有课程<img class="hot" src="{{ url_for('static',filename='images/nav_hot.png') }}">
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ url_for('home.teacher_list') }}">授课教师</a>
-                            </li>
-                            <li><a href="{{ url_for('home.school_list') }}">授课机构</a></li>
-                        </ul>
+                        {% block wp %}
+
+                        {% endblock %}
+
                     </div>
                 </div>
             </nav>

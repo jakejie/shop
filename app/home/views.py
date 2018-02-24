@@ -1,8 +1,8 @@
 from flask import render_template, flash, session, redirect, request, \
-    url_for, current_app
+    url_for, current_app, jsonify
 from . import home
 from app.model import TagList, Tags, Tag, Course, User, UserLog, Comment, Address, \
-    Orders, Collect, Detail, BuyCar
+    Orders, Collect, Detail, BuyCar, School, Teacher
 from app import db
 from app.home.form import UserDetailForm, CommentForm
 import uuid, os, datetime
@@ -11,40 +11,68 @@ from flask_login import login_required
 from flask_login import current_user
 
 
-# 首页 分类列表页 一级
+# 首页 推荐课程 推荐机构/学校 ok
 @home.route('/')
 def index():
-    return render_template('home/index.html')
+    course = Course.query.limit(8)
+    school = School.query.limit(15)
+    return render_template('home/index.html',
+                           course=course,
+                           school=school)
 
 
-# 所有课程
-@home.route('/course/')
-def course_list():
-    return render_template('home/course-list.html')
+# 所有课程 ok
+@home.route('/course/<int:page>/')
+def course_list(page=None):
+    if page is None:
+        page = 1
+    pagination = Course.query.paginate(page=page, per_page=current_app.config['DATA_PER_PAGE'],
+                                       error_out=False)
+    course = pagination.items
+    return render_template('home/course-list.html',
+                           pagination=pagination,
+                           endpoint='.course_list',
+                           course=course)
 
 
-# 所有授课教师
-@home.route('/teachers/')
-def teacher_list():
-    return render_template('home/teachers-list.html')
+# 所有授课教师 ok
+@home.route('/teachers/<int:page>/')
+def teacher_list(page=None):
+    pagination = Teacher.query.paginate(page=page, per_page=current_app.config['DATA_PER_PAGE'],
+                                        error_out=False)
+    return render_template('home/teachers-list.html',
+                           pagination=pagination,
+                           endpoint='.teacher_list')
 
 
-# 授课教师详情页
-@home.route('/teacher/<int:teacher_id>')
+# 授课教师详情页 ok
+@home.route('/teacher/<int:teacher_id>/')
 def teacher_detail(teacher_id=None):
-    return render_template('home/teacher-detail.html')
+    teacher_info = Teacher.query.filter_by(id=teacher_id).first()
+    course = Course.query.filter_by(teacher_name=teacher_info.teacher_name).all()
+    school = School.query.filter_by(school_name=teacher_info.teacher_company).first()
+    return render_template('home/teacher-detail.html',
+                           teacher_info=teacher_info,
+                           course=course,
+                           school=school)
 
 
-# 所有机构
-@home.route('/school/')
-def school_list():
-    return render_template('home/org-list.html')
+# 所有机构 ok 经典课程需要设计
+@home.route('/school/<int:page>/')
+def school_list(page=None):
+    pagination = School.query.paginate(page=page,
+                                       per_page=current_app.config['DATA_PER_PAGE'],
+                                       error_out=False)
+    return render_template('home/org-list.html',
+                           pagination=pagination,
+                           endpoint='.school_list')
 
 
-# 课程详情页
+# 课程详情页=ok
 @home.route('/detail/<int:course_id>')
 def course_detail(course_id=None):
-    return render_template('home/course-detail.html')
+    info = Course.query.filter_by(course_id=course_id).first()
+    return render_template('home/course-detail.html', info=info)
 
 
 # 机构主页=首页
@@ -124,7 +152,7 @@ def collect_teacher():
     return render_template('home/usercenter-fav-teacher.html')
 
 
-# 收藏的机构
+# 收藏的机构/学校
 @home.route('/collect_teacher/')
 @login_required
 def collect_school():
@@ -152,6 +180,41 @@ def comment():
 def user_log():
     logs = UserLog.query.filter_by(user_logs=current_user.id).all()
     return render_template('home/user_logs.html', logs=logs)
+
+
+# 添加收藏数据
+@home.route('/org/add_fav/', methods=["POST"])
+def add_fav():
+    print(request.data)
+    try:
+        user_id = current_user.id
+        if user_id != None:
+            print("User:{}".format(user_id))
+            # 将获取到的数据写入到数据库
+            return jsonify({"status": "success",
+                            "msg": "收藏成功啦",
+                            })
+    except Exception as e:
+        return jsonify({"status": "fail",
+                        "msg": "用户未登录"
+                        })
+
+
+# 添加到购物车数据
+@home.route('/org/add_car/', methods=["POST"])
+def add_car():
+    print(request.data)
+    try:
+        user_id = current_user.id
+        if user_id != None:
+            print("User:{}".format(user_id))
+            return jsonify({"status": "success",
+                            "msg": "成功加入购物车啦",
+                            })
+    except Exception as e:
+        return jsonify({"status": "fail",
+                        "msg": "用户未登录"
+                        })
 
 
 # 轮播图嵌套页面 传递5个热门资源作为参数

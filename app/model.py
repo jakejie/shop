@@ -138,19 +138,40 @@ class Orders(db.Model):
     user_detail = db.relationship("Detail", backref='orders')  # 该订单对应的商品 外键关联
 
 
-# 课程所属学校
+# 学校/机构--》老师--》课程
+
+
+# 课程所属学校/机构
 class School(db.Model):
     __tablename__ = 'school'
     id = db.Column(db.Integer, primary_key=True)
     school_name = db.Column(db.String(512), unique=True)  # 学校名字
+    school_image = db.Column(db.String(256))  # 学校图片
+    school_info = db.Column(db.String(512))  # 一句话简介
     school_address = db.Column(db.String(512))  # 学校地址
     course_num = db.Column(db.Integer)  # 课程数量
     student_num = db.Column(db.Integer)  # 学生数量
+
     school_id = db.relationship('SchoolCourse')
-    school_name_s = db.relationship('Course')
+    teacher = db.relationship('Teacher')
 
 
-# 学校对应经典课程
+# 老师所属学校/机构
+class Teacher(db.Model):
+    __tablename__ = 'teacher'
+    id = db.Column(db.Integer, primary_key=True)
+    teacher_name = db.Column(db.String(512), unique=True)  # 讲师名字
+    teacher_job = db.Column(db.String(512))  # 讲师工作职位
+    teacher_company = db.Column(db.String(512), db.ForeignKey('school.school_name'))  # 讲师所在学校
+    teacher_type = db.Column(db.String(512))  # 讲师类型/是否金牌讲师/讲师等级
+    teacher_year = db.Column(db.Integer)  # 工作年限
+    teacher_age = db.Column(db.Integer)  # 年龄
+    tech_point = db.Column(db.String(512))  # 讲学特点
+    teacher_image = db.Column(db.String(512))  # 讲师主页图片
+    teacher_course = db.relationship('Course')
+
+
+# 机构/学校对应经典课程
 class SchoolCourse(db.Model):
     __tablename__ = 'school_course'
     id = db.Column(db.Integer, primary_key=True)
@@ -158,19 +179,19 @@ class SchoolCourse(db.Model):
     good_course = db.Column(db.String(512), db.ForeignKey('course.course_name'))  # 经典课程
 
 
-# 商品列表
+# 商品列表/课程列表
 class Course(db.Model):
     __tablename__ = 'course'
     id = db.Column(db.Integer, primary_key=True)  # 序号
     course_id = db.Column(db.Integer, unique=True)  # 商品id
     course_name = db.Column(db.String(512), unique=True)  # 商品名称
-
+    introduce = db.Column(db.String(512))  # 课程简介
     image = db.Column(db.String(256), unique=True)  # 商品图片 文件名唯一
     good_tag = db.Column(db.String(128), db.ForeignKey('tag.name'))  # 商品所属分类
 
     long_time = db.Column(db.String(128))  # 课程时长
     study_num = db.Column(db.Integer)  # 学习人数  购买人数
-    school_name = db.Column(db.String(512), db.ForeignKey('school.school_name'))
+    teacher_name = db.Column(db.String(512), db.ForeignKey('teacher.teacher_name'))  # 该课程对应讲师
 
     difficulty = db.Column(db.Integer)  # 难度
     # 1 入门 2 初级 3 中级 4 高级
@@ -188,7 +209,8 @@ class Course(db.Model):
     share_link = db.Column(db.String(256))  # 分享链接
     get_secure = db.Column(db.String(256))  # 提取密码
     target = db.Column(db.Integer, default=1)  # 商品是否上架 0表示未上架 1表示已经上架 默认直接上架商品
-    # 外键关联第二步===好像可以不需要
+    detail = db.Column(db.Text)  # 课程详情介绍
+    # 外键关联第二步
     comment_good = db.relationship('Comment', backref='course')
     course_ids = db.relationship('Detail', backref='course')
     car_id = db.relationship('BuyCar', backref='course')
@@ -213,16 +235,17 @@ class BuyCar(db.Model):
     __tablename__ = 'buycar'
     id = db.Column(db.Integer, primary_key=True)
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 加入购物车时间
-    num = db.Column(db.Integer)  # 商品数量
+    num = db.Column(db.Integer, default=1)  # 商品数量 默认只购买一件 应该禁止修改
     price = db.Column(db.FLOAT(16))
     course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))  # 购物车商品名称
     user_car = db.Column(db.Integer, db.ForeignKey('user.id'))  # 哪个用户购物车里的商品
 
 
-# 用户收藏商品列表
+# 用户收藏商品/课程列表
 class Collect(db.Model):
     __tablename__ = 'collect'
     id = db.Column(db.Integer, primary_key=True)
+    col_type = db.Column(db.Integer)  # 收藏的是课程还是机构 1=课程 2=机构 3=老师
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 收藏时间
     course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))  # 收藏商品ID
     users = db.Column(db.Integer, db.ForeignKey('user.id'))  # 哪个用户收藏的商品
@@ -301,15 +324,15 @@ def confirm(self, token):
     return True  # 激活成功返回True
 
 
-if __name__ == "__main__":
-    # db.create_all()
-    # db.upgrade()
-    # python manage.py db migrate
-    # python manage.py db upgrade
-    # python manage.py deploy
-    #
+# if __name__ == "__main__":
+#     db.create_all()
+#     db.upgrade()
+# python manage.py db migrate
+# python manage.py db upgrade
+# python manage.py deploy
+#
 
-    pass
+# pass
 """
 {"tag": 'IT/互联网/计算机', "name": '编程语言', "detail": 'C/C++'}
 {"tag": 'IT/互联网/计算机', "name": '编程语言', "detail": 'VC/MFC'}
