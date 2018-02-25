@@ -21,8 +21,10 @@
                 <h1>个人信息</h1>
             </div>
             <div class="inforcon">
+                <!--左侧数据 图像 + 密码 -->
                 <div class="left" style="width:242px;">
                     <iframe id='frameFile' name='frameFile' style='display: none;'></iframe>
+                    <!--修改个人图像 -->
                     <form class="clearfix" id="jsAvatarForm" enctype="multipart/form-data" autocomplete="off"
                           method="post" action="/users/image/upload/" target='frameFile'>
                         <label class="changearea" for="avatarUp">
@@ -37,45 +39,45 @@
                         </label>
                         <input type='hidden' name='csrfmiddlewaretoken' value='799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'/>
                     </form>
+                    <!--修改个人密码 -->
                     <div style="border-top:1px solid #eaeaea;margin-top:30px;">
                         <a class="button btn-green btn-w100" id="jsUserResetPwd" style="margin:80px auto;width:100px;">修改密码</a>
                     </div>
                 </div>
-                <form class="perinform" id="jsEditUserForm" autocomplete="off">
+                <!-- 右侧表单数据 -->
+                {% for msg in get_flashed_messages(category_filter=["err"]) %}
+                    <p class="login-box-msg" style="color: red">{{ msg }}</p>
+                {% endfor %}
+                {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                    <p class="login-box-msg" style="color: green">{{ msg }}</p>
+                {% endfor %}
+                <form class="perinform" id="jsEditUserForm" autocomplete="off" method="post">
                     <ul class="right">
                         <li>昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称：
-                            <input type="text" name="nick_name" id="nick_name" value="django" maxlength="10">
+                            {{ form.name(value=user.username) }}
                             <i class="error-tips"></i>
                         </li>
                         <li>生&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日：
-                            <input type="text" id="birth_day" name="birday" value="2009年9月2日" readonly="readonly"/>
+                            {{ form.birthday(value=user.birthday) }}
                             <i class="error-tips"></i>
                         </li>
                         <li>性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;别：
-                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="gender"
-                                                                        value="male">男</label>
-                            <label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" name="gender" value="female"
-                                                                              checked="checked">女</label>
-                        </li>
-                        <li class="p_infor_city">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址：
-                            <input type="text" name="address" id="address" placeholder="请输入你的地址" value="我来自火星"
-                                   maxlength="10">
-                            <i class="error-tips"></i>
+                            {{ form.sex(value=user.sex) }}
                         </li>
                         <li>手&nbsp;&nbsp;机&nbsp;&nbsp;号：
-                            <input type="text" name="mobile" id="mobile" placeholder="请输入你的手机号码" value=""
-                                   maxlength="10">
+                            {{ form.phone(value=user.phone) }}
                         </li>
                         <li>邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱：
-                            <input class="borderno" type="text" name="email" readonly="readonly"
-                                   value="projectsedu@sina.com"/>
-                            <span class="green changeemai_btn">[修改]</span>
+                            {{ form.email(value=user.email) }}
+                        </li>
+                        <li>简&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;介：
+                            {{ form.info(value=user.info) }}
                         </li>
                         <li class="button heibtn">
-                            <input type="button" id="jsEditUserBtn" value="保存">
+                            {{ form.csrf_token }}
+                            {{ form.submit }}
                         </li>
                     </ul>
-                    <input type='hidden' name='csrfmiddlewaretoken' value='799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'/>
                 </form>
             </div>
         </div>

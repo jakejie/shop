@@ -45,6 +45,8 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True, index=True)  # 邮箱
     phone = db.Column(db.String(11), unique=True)  # 手机号码
     username = db.Column(db.String(128), unique=True, index=True)  # 用户名
+    birthday = db.Column(db.DATE)  # 出生日期
+    sex = db.Column(db.String(32))  # 性别
     password = db.Column(db.String(256))  # 密码
     pwd = db.Column(db.String(256))
     password_hash = db.Column(db.String(128), unique=True)  # 密码 哈希
@@ -150,6 +152,7 @@ class School(db.Model):
     school_info = db.Column(db.String(512))  # 一句话简介
     school_address = db.Column(db.String(512))  # 学校地址
     course_num = db.Column(db.Integer)  # 课程数量
+    teacher_num = db.Column(db.Integer, default=1)  # 讲师数量
     student_num = db.Column(db.Integer)  # 学生数量
 
     school_id = db.relationship('SchoolCourse')
@@ -214,7 +217,6 @@ class Course(db.Model):
     comment_good = db.relationship('Comment', backref='course')
     course_ids = db.relationship('Detail', backref='course')
     car_id = db.relationship('BuyCar', backref='course')
-    col_id = db.relationship('Collect', backref='course')
     good_course = db.relationship('SchoolCourse', backref='course')
 
 
@@ -247,7 +249,7 @@ class Collect(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     col_type = db.Column(db.Integer)  # 收藏的是课程还是机构 1=课程 2=机构 3=老师
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 收藏时间
-    course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))  # 收藏商品ID
+    course_id = db.Column(db.Integer)  # 收藏商品ID/机构id/老师id
     users = db.Column(db.Integer, db.ForeignKey('user.id'))  # 哪个用户收藏的商品
 
 

@@ -41,104 +41,72 @@
                         <div class="tab_cont " id="content">
                             <div class="group_list">
                                 {% for cour in course %}
-                                <div class="box">
-                                    <a href="{{ url_for('home.course_detail',course_id=cour.course_id) }}">
-                                        <img width="280" height="350" class="scrollLoading"
-                                             src="{{ url_for('static',filename=cour.image) }}"/>
-                                    </a>
-                                    <div class="des">
+                                    <div class="box">
                                         <a href="{{ url_for('home.course_detail',course_id=cour.course_id) }}">
-                                            <h2>{{ cour.course_name }}</h2>
+                                            <img width="280" height="350" class="scrollLoading"
+                                                 src="{{ url_for('static',filename=cour.image) }}"/>
                                         </a>
-                                        <span class="fl">时长：<i class="key">{{ cour.long_time }}</i></span>
-                                        <span class="fr">学习人数：{{ cour.study_num }}&nbsp;&nbsp;</span>
-                                    </div>
-                                    <div class="bottom">
-                                        <a href="{{ url_for('home.course_detail',course_id=cour.course_id) }}"><span
-                                                class="fl">来自{{ cour.school_name }}</span></a>
-                                        <span class="star fr  notlogin
+                                        <div class="des">
+                                            <a href="{{ url_for('home.course_detail',course_id=cour.course_id) }}">
+                                                <h2>{{ cour.course_name }}</h2>
+                                            </a>
+                                            <span class="fl">时长：<i class="key">{{ cour.long_time }}</i></span>
+                                            <span class="fr">学习人数：{{ cour.study_num }}&nbsp;&nbsp;</span>
+                                        </div>
+                                        <div class="bottom">
+                                            <a href="{{ url_for('home.course_detail',course_id=cour.course_id) }}"><span
+                                                    class="fl">来自{{  Teacher.query.filter_by(teacher_name=cour.teacher_name).first().teacher_company }}</span></a>
+                                            <span class="star fr  notlogin
                                         " data-favid="15">
                                         {{ cour.start }}
                                     </span>
+                                        </div>
                                     </div>
-                                </div>
                                 {% endfor %}
 
                             </div>
                             <div class="pageturn">
-                    <ul class="pagelist">
-                        {% if endpoint == '.index' %}
-                            {{ macros.pagination_widget(pagination, endpoint) }}
-                        {% else %}
-                            {{ macros.pagination_widget(pagination, endpoint, id=id) }}
-                        {% endif %}
-
-
-                    </ul>
-                </div>
-                            <!--
-                            <div class="pageturn">
                                 <ul class="pagelist">
-
-
-                                    <li class="active"><a href="?page=1">1</a></li>
-
-
-                                    <li><a href="?page=2" class="page">2</a></li>
-
-
-                                    <li class="long"><a href="?page=2">下一页</a></li>
-
-
+                                    {% if endpoint == '.index' %}
+                                        {{ macros.pagination_widget(pagination, endpoint) }}
+                                    {% else %}
+                                        {{ macros.pagination_widget(pagination, endpoint, id=id) }}
+                                    {% endif %}
                                 </ul>
-
-                            </div>  -->
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="right layout">
                     <div class="head">热门课程推荐</div>
                     <div class="group_recommend">
-
-                        <dl>
-                            <dt>
-                                <a target="_blank" href="">
-                                    <img width="240" height="220" class="scrollLoading"
-                                         src="{{ url_for('static',filename='media/courses/2016/11/540e57300001d6d906000338-240-135_n0L8vbw.jpg') }}"/>
-                                </a>
-                            </dt>
-                            <dd>
-                                <a target="_blank" href=""><h2> django与vuejs实战项目2</h2></a>
-                                <span class="fl">难度：<i class="key">高级</i></span>
-                            </dd>
-                        </dl>
-
-                        <dl>
-                            <dt>
-                                <a target="_blank" href="">
-                                    <img width="240" height="220" class="scrollLoading"
-                                         src="{{ url_for('static',filename='media/courses/2016/12/python面向对象.jpg') }}"/>
-                                </a>
-                            </dt>
-                            <dd>
-                                <a target="_blank" href=""><h2> python面向对象</h2></a>
-                                <span class="fl">难度：<i class="key">中级</i></span>
-                            </dd>
-                        </dl>
-
-                        <dl>
-                            <dt>
-                                <a target="_blank" href="">
-                                    <img width="240" height="220" class="scrollLoading"
-                                         src="{{ url_for('static',filename='media/courses/2016/12/python文件处理.jpg') }}"/>
-                                </a>
-                            </dt>
-                            <dd>
-                                <a target="_blank" href=""><h2> python文件处理</h2></a>
-                                <span class="fl">难度：<i class="key">中级</i></span>
-                            </dd>
-                        </dl>
-
+                        {% for cous in Course.query.filter_by(start=5).limit(3)%}
+                            <dl>
+                                <dt>
+                                    <a target="_blank"
+                                       href="{{ url_for('home.course_detail',course_id=cous.course_id) }}">
+                                        <img width="240" height="220" class="scrollLoading"
+                                             src="{{ url_for('static',filename=cous.image) }}"/>
+                                    </a>
+                                </dt>
+                                <dd>
+                                    <a target="_blank"
+                                       href="{{ url_for('home.course_detail',course_id=cous.course_id) }}">
+                                        <h2>{{ cous.course_name }}</h2></a>
+                                    {% if cous.difficulty == 1 %}
+                                        <span class="fl">难度：<i class="key"></i>入门</span>
+                                    {% elif cous.difficulty == 2 %}
+                                        <span class="fl">难度：<i class="key"></i>初级</span>
+                                    {% elif cous.difficulty == 3 %}
+                                        <span class="fl">难度：<i class="key"></i>中级</span>
+                                    {% elif cous.difficulty == 4 %}
+                                        <span class="fl">难度：<i class="key"></i>高级</span>
+                                    {% else %}
+                                        <span class="fl">难度：<i class="key"></i></span>
+                                    {% endif %}
+                                </dd>
+                            </dl>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

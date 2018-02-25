@@ -86,27 +86,27 @@
                             <p>世界名校，课程权威</p>
                         </div>
                         <div class="pic">
-                            <a href="#">
+                            <a href="{{ url_for('home.ori_homepage',org_id=school.id) }}">
                                 <img width="150" height="80"
-                                     src="{{ url_for('static',filename='media/org/2016/11/bjdx.jpg') }}"/>
+                                     src="{{ url_for('static',filename=school.school_image) }}"/>
                             </a>
                         </div>
-                        <a href="#">
-                            <h2 class="center" title="清华大学">北京大学</h2>
+                        <a href="{{ url_for('home.ori_homepage',org_id=school.id) }}">
+                            <h2 class="center" title="{{ teacher.teacher_company }}">{{ teacher.teacher_company }}</h2>
                         </a>
                         <div class="btn  notlogin
 					     " data-favid="14" id="jsRightBtn">
-                            已收藏
+                            收藏
                         </div>
                         <div class="clear">
                             <ul>
                                 <li>
-                                    <span>课 &nbsp;程&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   5</span>
+                                    <span>课 &nbsp;程&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {{  school.course_num }}</span>
                                 </li>
                                 <li>
-                                    <span>教 &nbsp;师&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  0</span>
+                                    <span>教 &nbsp;师&nbsp; 数：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {{ school.teacher_num }}</span>
                                 </li>
-                                <li>所在地区：&nbsp;&nbsp;北京市</li>
+                                <li>所在地区：&nbsp;&nbsp;{{  school.school_address }}</li>
                                 <li>认&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;证&nbsp;:
                                     &nbsp;&nbsp;
                                     <img title="金牌机构" , src="{{ url_for('static',filename='images/gold.png') }}"/>
@@ -262,14 +262,14 @@
                 cache: false,
                 type: "POST",
                 url: "/org/add_fav/",
-                data: {'fav_id': fav_id, 'fav_type': fav_type},
+                data: JSON.stringify({'fav_id': fav_id, 'fav_type': fav_type}),
                 dataType: "json",
                 //async：true（异步）或 false（同步）
                 async: true,
                 contentType: "application/json; charset=utf-8",
-                beforeSend: function (xhr, settings) {
-                    xhr.setRequestHeader("X-CSRFToken", "5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy");
-                },
+                //beforeSend: function (xhr, settings) {
+                //    xhr.setRequestHeader("X-CSRFToken", "5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy");
+                //},
                 success: function (data) {
                     if (data.status == 'fail') {
                         if (data.msg == '用户未登录') {
@@ -288,30 +288,30 @@
         //课程的收藏
         $('#jsLeftBtn').on('click', function () {
             //课程id
-            add_fav($(this), 10, 1);
+            add_fav($(this), {{ info.course_id }}, 1);
         });
         //机构的收藏
         $('#jsRightBtn').on('click', function () {
             //机构id
-            add_fav($(this), 2, 2);
+            add_fav($(this), {{ school.id }}, 2);
         });
     </script>
 
     <script type="text/javascript">
         //加入购物车操作
-        function add_car(current_elem, fav_id, fav_type) {
+        function add_car(current_elem, fav_id, price) {
             $.ajax({
                 cache: false,
                 type: "POST",
                 url: "/org/add_car/",
-                data: {'fav_id': fav_id, 'fav_type': fav_type},
+                data: JSON.stringify({'fav_id': fav_id, 'price': price}),
                 dataType: "json",
                 //async：true（异步）或 false（同步）
                 async: true,
                 contentType: "application/json; charset=utf-8",
-                beforeSend: function (xhr, settings) {
-                    xhr.setRequestHeader("X-CSRFToken", "5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy");
-                },
+                //beforeSend: function (xhr, settings) {
+                //    xhr.setRequestHeader("X-CSRFToken", "5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy");
+                // },
                 success: function (data) {
                     if (data.status == 'fail') {
                         if (data.msg == '用户未登录') {
@@ -330,7 +330,7 @@
         //课程的收藏
         $('#AddCarBtn').on('click', function () {
             //课程id
-            add_car($(this), 10, 1);
+            add_car($(this), {{ info.course_id }}, {{ info.price }});
         });
     </script>
 {% endblock %}

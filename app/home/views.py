@@ -4,11 +4,12 @@ from . import home
 from app.model import TagList, Tags, Tag, Course, User, UserLog, Comment, Address, \
     Orders, Collect, Detail, BuyCar, School, Teacher
 from app import db
-from app.home.form import UserDetailForm, CommentForm
-import uuid, os, datetime
+from app.home.form import UserDetailForm, CommentForm, PwdForm
+import uuid, os, datetime, json
 from flask_login import login_required
 # 获取当前登录用户对象
 from flask_login import current_user
+from werkzeug.security import generate_password_hash
 
 
 # 首页 推荐课程 推荐机构/学校 ok
@@ -57,7 +58,7 @@ def teacher_detail(teacher_id=None):
                            school=school)
 
 
-# 所有机构 ok 经典课程需要设计
+# 所有机构 ok
 @home.route('/school/<int:page>/')
 def school_list(page=None):
     pagination = School.query.paginate(page=page,
@@ -72,56 +73,63 @@ def school_list(page=None):
 @home.route('/detail/<int:course_id>')
 def course_detail(course_id=None):
     info = Course.query.filter_by(course_id=course_id).first()
-    return render_template('home/course-detail.html', info=info)
+    teacher = Teacher.query.filter_by(teacher_name=info.teacher_name).first()
+    school = School.query.filter_by(school_name=teacher.teacher_company).first()
+    return render_template('home/course-detail.html', info=info,
+                           teacher=teacher, school=school)
 
 
-# 机构主页=首页
-@home.route('/organization/home/<int:org_id>/')
-def ori_homepage(org_id=None):
-    return render_template('home/org-detail-homepage.html')
-
-
-# 机构主页=课程
-@home.route('/organization/course/<int:org_id>')
-def ori_course(org_id=None):
-    return render_template('home/org-detail-course.html')
-
-
-# 机构主页==介绍
-@home.route('/organization/desc/<int:org_id>')
-def ori_desc(org_id=None):
-    return render_template('home/org-detail-desc.html')
-
-
-# 机构主页==讲师
-@home.route('/organization/teacher/<int:org_id>')
-def ori_teacher(org_id=None):
-    return render_template('home/org-detail-teachers.html')
-
-
-@home.route('/user', methods=["POST", "GET"])
+# 个人中心主页
+@home.route('/user/', methods=["POST", "GET"])
 @login_required
 def user():
     if current_user.id == None or current_user.id == "":
         return redirect(url_for('auth.login'))
     user = User.query.filter_by(id=current_user.id).first()
-    form = UserDetailForm(info=user.info)
+    form = UserDetailForm()
     # GET方法 获取个人信息数据
     if request.method == 'GET':
         return render_template('home/usercenter-info.html', user=user, form=form)
     # POST方法 修改个人信息
     if form.validate_on_submit():
-        file = form.image.data
-        filename = user.username + '-' + file.filename.replace(' ', '').replace('/', '').replace('\\', '')
-        file.save('app/static/image/user/' + filename)
+        print("获取到了数据了啊")
+        # file = form.image.data
+        # filename = user.username + '-' + file.filename.replace(' ', '').replace('/', '').replace('\\', '')
+        # file.save('app/static/image/user/' + filename)
+        # user.image = filename
+        # 获取修改后的信息
+        user.username = form.data.get("name")
+        user.birthday = form.data.get("birthday")
+        user.sex = form.data.get("sex")
+        user.phone = form.data.get("phone")
+        user.email = form.data.get("email")
         user.info = form.data.get("info")
-        user.image = filename
+
         db.session.add(user)
         db.session.commit()
         flash('修改成功', 'ok')
         return redirect(url_for('home.user'))
     flash("修改失败！ 简介不能为空")
     return render_template('home/usercenter-info.html', user=user, form=form)
+
+
+# 修改密码界面
+@home.route('/pwd/', methods=['GET', 'POST'])
+@login_required
+def pwd():
+    form = PwdForm()
+    if form.validate_on_submit():
+        data = form.data
+        user = User.query.filter_by(name=session['user']).first()  # 查找账号
+        if not user.check_pwd(data['old_pwd']):
+            flash("旧密码错误", "err")
+            return redirect(url_for('home.pwd'))
+        user.pwd = generate_password_hash(data['new_pwd'])
+        db.session.add(user)
+        db.session.commit()
+        flash("修改成功,请重新登录", "ok")
+        return redirect(url_for('home.logout'))
+    return render_template("home/pwd.html", form=form)
 
 
 # 购买过的课程
@@ -182,39 +190,91 @@ def user_log():
     return render_template('home/user_logs.html', logs=logs)
 
 
-# 添加收藏数据
+# 添加收藏数据 ok
 @home.route('/org/add_fav/', methods=["POST"])
 def add_fav():
-    print(request.data)
     try:
         user_id = current_user.id
-        if user_id != None:
-            print("User:{}".format(user_id))
-            # 将获取到的数据写入到数据库
+        # 将获取到的数据写入到数据库
+        data = json.loads(request.data)
+        fav_id = data["fav_id"]
+        fav_type = data["fav_type"]
+        # 查询是否已经收藏过
+        result = Collect.query.filter_by(col_type=fav_type, course_id=fav_id, users=user_id).count()
+        if result == 0:
+            info = Collect(
+                col_type=fav_type,
+                course_id=fav_id,
+                users=user_id,
+            )
+            db.session.add(info)
+            db.session.commit()
             return jsonify({"status": "success",
                             "msg": "收藏成功啦",
                             })
-    except Exception as e:
-        return jsonify({"status": "fail",
-                        "msg": "用户未登录"
-                        })
-
-
-# 添加到购物车数据
-@home.route('/org/add_car/', methods=["POST"])
-def add_car():
-    print(request.data)
-    try:
-        user_id = current_user.id
-        if user_id != None:
-            print("User:{}".format(user_id))
+        else:
             return jsonify({"status": "success",
-                            "msg": "成功加入购物车啦",
+                            "msg": "您已经收藏过啦",
                             })
     except Exception as e:
         return jsonify({"status": "fail",
                         "msg": "用户未登录"
                         })
+
+
+# 添加到购物车数据 ok
+@home.route('/org/add_car/', methods=["POST"])
+def add_car():
+    try:
+        user_id = current_user.id
+        data = json.loads(request.data)
+        fav_id = data["fav_id"]
+        price = data["price"]
+        # 查询是否已经添加过购物车
+        result = BuyCar.query.filter_by(course_id=fav_id, user_car=user_id).count()
+        if result == 0:
+            info = BuyCar(
+                price=price,
+                course_id=fav_id,
+                user_car=user_id,
+            )
+            db.session.add(info)
+            db.session.commit()
+            return jsonify({"status": "success",
+                            "msg": "成功加入购物车啦",
+                            })
+        else:
+            return jsonify({"status": "success",
+                            "msg": "该商品已经在您的购物车啦",
+                            })
+    except Exception as e:
+        return jsonify({"status": "fail",
+                        "msg": "用户未登录"
+                        })
+
+
+# 机构主页=首页
+@home.route('/organization/home/<int:org_id>/')
+def ori_homepage(org_id=None):
+    return render_template('home/org-detail-homepage.html')
+
+
+# 机构主页=课程
+@home.route('/organization/course/<int:org_id>')
+def ori_course(org_id=None):
+    return render_template('home/org-detail-course.html')
+
+
+# 机构主页==介绍
+@home.route('/organization/desc/<int:org_id>')
+def ori_desc(org_id=None):
+    return render_template('home/org-detail-desc.html')
+
+
+# 机构主页==讲师
+@home.route('/organization/teacher/<int:org_id>')
+def ori_teacher(org_id=None):
+    return render_template('home/org-detail-teachers.html')
 
 
 # 轮播图嵌套页面 传递5个热门资源作为参数

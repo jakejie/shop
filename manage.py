@@ -6,13 +6,15 @@ import multiprocessing,time
 # 引入数据库数据表模型
 from flask_migrate import upgrade
 from app.model import User, Orders, Detail, Course, BuyCar, Collect, \
-    Comment, Address, TagList, Tags, Tag, Count, UserLog
+    Comment, Address, TagList, Tags, Tag, Count, UserLog,Teacher,School
 
 app = create_app()
 manager = Manager(app)
 migrate = Migrate(app, db)
 manager.add_command('db', MigrateCommand)
 # Global variables to jiajia2 environment:==设置为全局变量 在HTML里可以直接使用以下参数
+app.jinja_env.globals['School'] = School
+app.jinja_env.globals['Teacher'] = Teacher
 app.jinja_env.globals['Count'] = Count
 app.jinja_env.globals['Course'] = Course
 app.jinja_env.globals['BuyCar'] = BuyCar
