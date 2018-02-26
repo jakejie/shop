@@ -65,6 +65,7 @@ class User(UserMixin, db.Model):
     user_order = db.relationship('Orders')  # 订单信息外键关系关联
     comment_user = db.relationship('Comment', backref='user')  # 会员评论信息外键关系关联
     user_logs = db.relationship('UserLog', backref='user')  # 会员登陆日志信息外键关系关联
+    user_message = db.relationship('Message', backref='user')  # 会员登陆日志信息外键关系关联
     user_car = db.relationship('BuyCar')  # 购物车外键关系关联
     detail_user = db.relationship('Detail')  # 订单商品购买人 外键关系关联
     col_user = db.relationship('Collect', backref='user')  # 收藏商品对应用户
@@ -140,6 +141,18 @@ class Orders(db.Model):
     user_detail = db.relationship("Detail", backref='orders')  # 该订单对应的商品 外键关联
 
 
+# 订单里面的商品列表 一个订单有多个商品
+class Detail(db.Model):
+    __tablename__ = 'detail'
+    id = db.Column(db.Integer, primary_key=True)
+    add_time = db.Column(db.DATETIME, default=datetime.now())
+    course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))  # 该订单对应的商品id
+    num = db.Column(db.Integer)  # 购买该商品的数量
+    orderId = db.Column(db.Integer, db.ForeignKey('orders.order_id'))  # 该订单的id
+    user = db.Column(db.Integer, db.ForeignKey('user.id'))  # 哪个用户购买了该商品
+    price = db.Column(db.String(32))  # 该订单对应金额
+
+
 # 学校/机构--》老师--》课程
 
 
@@ -157,6 +170,7 @@ class School(db.Model):
 
     school_id = db.relationship('SchoolCourse')
     teacher = db.relationship('Teacher')
+    course_sch = db.relationship('Course')
 
 
 # 老师所属学校/机构
@@ -195,7 +209,7 @@ class Course(db.Model):
     long_time = db.Column(db.String(128))  # 课程时长
     study_num = db.Column(db.Integer)  # 学习人数  购买人数
     teacher_name = db.Column(db.String(512), db.ForeignKey('teacher.teacher_name'))  # 该课程对应讲师
-
+    school_id = db.Column(db.Integer, db.ForeignKey('school.id'))  # 该课程对应的机构/学校
     difficulty = db.Column(db.Integer)  # 难度
     # 1 入门 2 初级 3 中级 4 高级
     chap_num = db.Column(db.Integer)  # 该课程章节数
@@ -218,18 +232,6 @@ class Course(db.Model):
     course_ids = db.relationship('Detail', backref='course')
     car_id = db.relationship('BuyCar', backref='course')
     good_course = db.relationship('SchoolCourse', backref='course')
-
-
-# 订单里面的商品列表 一个订单有多个商品
-class Detail(db.Model):
-    __tablename__ = 'detail'
-    id = db.Column(db.Integer, primary_key=True)
-    add_time = db.Column(db.DATETIME, default=datetime.now())
-    course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))  # 该订单对应的商品id
-    num = db.Column(db.Integer)  # 购买该商品的数量
-    orderId = db.Column(db.Integer, db.ForeignKey('orders.order_id'))  # 该订单的id
-    user = db.Column(db.Integer, db.ForeignKey('user.id'))  # 哪个用户购买了该商品
-    price = db.Column(db.String(32))  # 该订单对应金额
 
 
 # 购物车
@@ -295,6 +297,15 @@ class UserLog(db.Model):
     add_time = db.Column(db.DATETIME, default=datetime.now())  # 记录时间
     user_logs = db.Column(db.Integer, db.ForeignKey('user.id'))  # 登陆用户
     remark = db.Column(db.String(512))  # 操作内容 标记备注
+
+
+# 通知类消息
+class Message(db.Model):
+    __tablename__ = 'message'
+    id = db.Column(db.Integer, primary_key=True)
+    add_time = db.Column(db.DATETIME, default=datetime.now())
+    mark = db.Column(db.Text)  # 消息通知内容
+    user_mess = db.Column(db.Integer, db.ForeignKey('user.id'))  # 对应用户
 
 
 # 登陆的钩子  用户认证的回调函数

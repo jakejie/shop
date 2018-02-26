@@ -20,10 +20,7 @@
 <section class="headerwrap headerwrap2">
     <header>
         <div class="header2 header">
-
             {% include 'home/base.html' %}
-
-
             <div class="middle companyheader">
                 <div class="wp">
                     <img class="fl" style="width: 112px;height: 103px"
@@ -57,14 +54,10 @@
 {% endblock %}
 <section>
     <div class="wp list personal_list comp">
-        <div class="left">
-            <ul>
-                <li class="active2"><a href="{{ url_for('home.ori_homepage',org_id=0) }}">机构首页</a></li>
-                <li class=""><a href="{{ url_for('home.ori_course',org_id=0) }}">机构课程</a></li>
-                <li class=""><a href="{{ url_for('home.ori_desc',org_id=0) }}">机构介绍</a></li>
-                <li class=""><a href="{{ url_for('home.ori_teacher',org_id=0) }}">机构讲师</a></li>
-            </ul>
-        </div>
+        {% block left %}
+
+    {% endblock %}
+
 
         {% block content %}
 
@@ -73,8 +66,9 @@
     </div>
 
 </section>
-
-
+{% block footer %}
+{% include 'home/foot.html' %}
+{% endblock %}
 </body>
 
 {% block script %}

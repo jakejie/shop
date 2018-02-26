@@ -11,20 +11,15 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static',filename='js/plugins/queryCity/css/cityLayout.css') }}">
-
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/lq.datetimepick.css') }}"/>
-
-
     <script src="{{ url_for('static',filename='js/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('static',filename='js/jquery-migrate-1.2.1.min.js') }}" type="text/javascript"></script>
-
 </head>
 <body>
 <section class="headerwrap headerwrap2">
     <header>
         <div class="header2 header">
             {% include 'home/base.html' %}
-
             <div class="middle">
                 <div class="wp">
                     <a href="{{ url_for('home.index') }}"><img class="fl"
@@ -35,35 +30,17 @@
         </div>
     </header>
 </section>
-
 {% block head %}{% endblock %}
-
 
 <section>
     <div class="wp list personal_list">
-        <div class="left">
-            <ul>
-                <li class="active2"><a href="{{ url_for('home.user') }}">个人资料</a></li>
-                <li><a href="{{ url_for('home.mycourse') }}">我的课程</a></li>
-                <li><a href="{{ url_for('home.mycollect') }}">我的收藏</a></li>
-                <li><a href="{{ url_for('home.comment') }}">我的评论</a></li>
-                <li><a href="{{ url_for('home.user_log') }}">操作日志</a></li>
-                <li>
-                    <a href="{{ url_for('home.mymessage') }}" style="position: relative;">
-                        我的消息
-                    </a>
-                </li>
-            </ul>
-        </div>
-        {% block content %}
-
-
+        {% block left %}
         {% endblock %}
 
+        {% block content %}
+        {% endblock %}
     </div>
 </section>
-
-
 <!--sidebar start-->
 <section>
     <ul class="sidebar">
@@ -75,7 +52,7 @@
 </section>
 <!--sidebar end-->
 <!--header start-->
-
+{% include 'home/foot.html' %}
 
 <script src="{{ url_for('static',filename='js/selectUi.js') }}" type='text/javascript'></script>
 <script type="text/javascript" src="{{ url_for('static',filename='js/plugins/laydate/laydate.js') }}"></script>
@@ -98,15 +75,16 @@
         $.ajax({
             cache: false,
             type: "POST",
-            url: "/org/add_fav/",
-            data: {
+            url: "/org/del_fav/",
+            data: JSON.stringify({
                 fav_type: 1,
-                fav_id: favid,
-                csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
-            },
+                fav_id: favid
+            }),
             async: true,
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
-                Dml.fun.winReload();
+                alert(data.msg);
+                //Dml.fun.winReload();
             }
         });
     });
@@ -117,15 +95,16 @@
         $.ajax({
             cache: false,
             type: "POST",
-            url: "/org/add_fav/",
-            data: {
+            url: "/org/del_fav/",
+            data: JSON.stringify({
                 fav_type: 3,
-                fav_id: favid,
-                csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
-            },
+                fav_id: favid
+            }),
             async: true,
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
-                Dml.fun.winReload();
+                alert(data.msg);
+                //Dml.fun.winReload();
             }
         });
     });
@@ -137,15 +116,16 @@
         $.ajax({
             cache: false,
             type: "POST",
-            url: "/org/add_fav/",
-            data: {
+            url: "/org/del_fav/",
+            data: JSON.stringify({
                 fav_type: 2,
-                fav_id: favid,
-                csrfmiddlewaretoken: '799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'
-            },
+                fav_id: favid
+            }),
             async: true,
+            contentType: "application/json; charset=utf-8",
             success: function (data) {
-                Dml.fun.winReload();
+                alert(data.msg);
+                //Dml.fun.winReload();
             }
         });
     });

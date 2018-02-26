@@ -63,28 +63,7 @@
 
 {% endblock %}
 
-<footer>
-    <div class="footer">
-        <div class="wp">
-            <ul class="cont">
-                <li class="logo"><a href=""><img src="{{ url_for('static',filename='images/footlogo.png') }}"/></a></li>
-                <li class="code"><img src="{{ url_for('static',filename='images/code.jpg') }}"/>
-                    <p class="center">扫描关注微信</p></li>
-                <li class="third"><img class="fl" src="{{ url_for('static',filename='images/tell.png') }}"/>
-                    <p class="tell">33333333</p>
-                    <p class="time">周一至周日 9:00-18:00</p></li>
-            </ul>
-
-        </div>
-        <p class="line"></p>
-        <div class="wp clear">
-            <span class="fl">? 2016 www.projectsedu.com 慕学在线-在线学习交流平台 保留所有权利</span>
-            <span class="fr">copyright ? 2016 ICP备案证书号：蜀ICP备xxxxx号-1</span>
-        </div>
-    </div>
-</footer>
-
-
+{% include 'home/foot.html' %}
 <section>
     <ul class="sidebar">
         <li class="qq">

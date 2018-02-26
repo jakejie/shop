@@ -12,7 +12,16 @@
     </section>
 {% endblock %}
 
-
+{% block left %}
+    <div class="left">
+        <ul>
+            <li><a href="{{ url_for('home.ori_homepage',org_id=school.id) }}">机构首页</a></li>
+            <li class=""><a href="{{ url_for('home.ori_course',org_id=school.id) }}">机构课程</a></li>
+            <li  class="active2"><a href="{{ url_for('home.ori_desc',org_id=school.id) }}">机构介绍</a></li>
+            <li class=""><a href="{{ url_for('home.ori_teacher',org_id=school.id) }}">机构讲师</a></li>
+        </ul>
+    </div>
+{% endblock %}
 {% block content %}
     <div class="right companycenter layout">
         <div class="head">

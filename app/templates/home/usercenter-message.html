@@ -1,5 +1,20 @@
 {% extends 'home/user_base.html' %}
-
+{% block left %}
+    <div class="left">
+        <ul>
+            <li><a href="{{ url_for('home.user') }}">个人资料</a></li>
+            <li><a href="{{ url_for('home.mycourse') }}">我的课程</a></li>
+            <li><a href="{{ url_for('home.mycollect') }}">我的收藏</a></li>
+            <li><a href="{{ url_for('home.comment') }}">我的评论</a></li>
+            <li><a href="{{ url_for('home.user_log') }}">操作日志</a></li>
+            <li class="active2">
+                <a href="{{ url_for('home.mymessage') }}" style="position: relative;">
+                    我的消息
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
 {% block head %}
     <section>
         <div class="wp">
@@ -25,38 +40,28 @@
         <div class="personal_des permessage">
             <div class="head">
                 <ul class="tab_header messagehead">
-                    <li class="active"><a href="/user/message/">个人消息</a></li>
+                    <li class="active"><a href="{{ url_for('home.mymessage') }}">个人消息</a></li>
                 </ul>
 
 
             </div>
-            <div class="messagelist">
-
-                <div class="messages">
-                    <div class="fr">
-                        <div class="top"><span class="fl time">2016年11月6日 23:49</span><span
-                                class="fr btn foldbtn"></span></div>
-                        <p>
-                            欢迎注册
-                        </p>
+            {% for mess in messages %}
+                <div class="messagelist">
+                    <div class="messages">
+                        <div class="fr">
+                            <div class="top"><span class="fl time">{{ mess.add_time }}</span><span
+                                    class="fr btn foldbtn"></span></div>
+                            <p>{{ mess.mark }}</p>
+                        </div>
                     </div>
                 </div>
-
-
-            </div>
-
-
+            {% endfor %}
+            <!--分页-->
             <div class="pageturn pagerright">
                 <ul class="pagelist">
-
-
                     <li class="active"><a href="?page=1">1</a></li>
-
-
                 </ul>
             </div>
         </div>
-
     </div>
-
 {% endblock %}

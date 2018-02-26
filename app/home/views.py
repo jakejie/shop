@@ -2,7 +2,7 @@ from flask import render_template, flash, session, redirect, request, \
     url_for, current_app, jsonify
 from . import home
 from app.model import TagList, Tags, Tag, Course, User, UserLog, Comment, Address, \
-    Orders, Collect, Detail, BuyCar, School, Teacher
+    Orders, Collect, Detail, BuyCar, School, Teacher, Message
 from app import db
 from app.home.form import UserDetailForm, CommentForm, PwdForm
 import uuid, os, datetime, json
@@ -79,7 +79,7 @@ def course_detail(course_id=None):
                            teacher=teacher, school=school)
 
 
-# 个人中心主页
+# 个人中心主页====无法修改数据
 @home.route('/user/', methods=["POST", "GET"])
 @login_required
 def user():
@@ -132,49 +132,47 @@ def pwd():
     return render_template("home/pwd.html", form=form)
 
 
-# 购买过的课程
+# 购买过的课程 ok
 @home.route('/mycourse/')
 @login_required
 def mycourse():
-    return render_template('home/usercenter-mycourse.html')
+    course = Detail.query.filter_by(user=current_user.id).all()
+    return render_template('home/usercenter-mycourse.html', course=course)
 
 
-# 收到的消息
+# 收到的消息/通知 ok
 @home.route('/mymessage/')
 @login_required
 def mymessage():
-    return render_template('home/usercenter-message.html')
+    message = Message.query.filter_by(user_mess=current_user.id).all()
+    return render_template('home/usercenter-message.html', messages=message)
 
 
-# 收藏的所有
+# 收藏的课程 ok
 @home.route('/mycollect/')
 @login_required
 def mycollect():
-    return render_template('home/usercenter-fav-course.html')
+    col_course = Collect.query.filter_by(users=current_user.id, col_type=1).all()
+    return render_template('home/usercenter-fav-course.html', col_course=col_course)
 
 
-# 收藏的老师
+# 收藏的老师 ok
 @home.route('/collect_school/')
 @login_required
 def collect_teacher():
-    return render_template('home/usercenter-fav-teacher.html')
+    teacher = Collect.query.filter_by(users=current_user.id, col_type=3).all()
+    return render_template('home/usercenter-fav-teacher.html', teacher=teacher)
 
 
-# 收藏的机构/学校
+# 收藏的机构/学校 ok
 @home.route('/collect_teacher/')
 @login_required
 def collect_school():
-    return render_template('home/usercenter-fav-org.html')
+    school = Collect.query.filter_by(users=current_user.id, col_type=2).all()
+    return render_template('home/usercenter-fav-org.html', school=school)
 
 
-# 收藏的课程
-@home.route('/collect_course/')
-@login_required
-def collect_course():
-    return render_template('home/usercenter-fav-course.html')
-
-
-# 评论记录
+# 评论记录 ok
 @home.route('/comment/')
 @login_required
 def comment():
@@ -182,16 +180,17 @@ def comment():
     return render_template('home/user_comment.html', comments=comments)
 
 
-# 查看登陆日志
+# 查看登陆日志 ok
 @home.route('/userlog/')
 @login_required
 def user_log():
     logs = UserLog.query.filter_by(user_logs=current_user.id).all()
-    return render_template('home/user_logs.html', logs=logs)
+    return render_template('home/user_logs.html', user_log=logs)
 
 
 # 添加收藏数据 ok
 @home.route('/org/add_fav/', methods=["POST"])
+@login_required
 def add_fav():
     try:
         user_id = current_user.id
@@ -218,7 +217,33 @@ def add_fav():
                             })
     except Exception as e:
         return jsonify({"status": "fail",
-                        "msg": "用户未登录"
+                        "msg": "收藏错误：{}".format(e)
+                        })
+
+
+# 删除收藏数据 ok
+@home.route('/org/del_fav/', methods=["POST"])
+@login_required
+def del_fav():
+    try:
+        user_id = current_user.id
+        # 将获取到的数据写入到数据库
+        data = json.loads(request.data)
+        fav_id = data["fav_id"]
+        fav_type = data["fav_type"]
+        info = Collect.query.filter_by(
+            users=user_id,
+            col_type=fav_type,
+            course_id=fav_id
+        ).first()
+        db.session.delete(info)
+        db.session.commit()
+        return jsonify({"status": "success",
+                        "msg": "删除成功",
+                        })
+    except Exception as e:
+        return jsonify({"status": "fail",
+                        "msg": "删除失败：{}".format(e)
                         })
 
 
@@ -256,25 +281,35 @@ def add_car():
 # 机构主页=首页
 @home.route('/organization/home/<int:org_id>/')
 def ori_homepage(org_id=None):
-    return render_template('home/org-detail-homepage.html')
+    school = School.query.filter_by(id=org_id).first()
+    course = Course.query.filter_by(school_id=school.id).all()
+    return render_template('home/org-detail-homepage.html',
+                           school=school,
+                           course=course)
 
 
 # 机构主页=课程
 @home.route('/organization/course/<int:org_id>')
 def ori_course(org_id=None):
-    return render_template('home/org-detail-course.html')
+    school = School.query.filter_by(id=org_id).first()
+    return render_template('home/org-detail-course.html',
+                           school=school)
 
 
 # 机构主页==介绍
 @home.route('/organization/desc/<int:org_id>')
 def ori_desc(org_id=None):
-    return render_template('home/org-detail-desc.html')
+    school = School.query.filter_by(id=org_id).first()
+    return render_template('home/org-detail-desc.html',
+                           school=school)
 
 
 # 机构主页==讲师
 @home.route('/organization/teacher/<int:org_id>')
 def ori_teacher(org_id=None):
-    return render_template('home/org-detail-teachers.html')
+    school = School.query.filter_by(id=org_id).first()
+    return render_template('home/org-detail-teachers.html',
+                           school=school)
 
 
 # 轮播图嵌套页面 传递5个热门资源作为参数
