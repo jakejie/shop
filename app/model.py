@@ -167,6 +167,7 @@ class School(db.Model):
     course_num = db.Column(db.Integer)  # 课程数量
     teacher_num = db.Column(db.Integer, default=1)  # 讲师数量
     student_num = db.Column(db.Integer)  # 学生数量
+    start = db.Column(db.FLOAT)  # 推荐指数 几星级
 
     school_id = db.relationship('SchoolCourse')
     teacher = db.relationship('Teacher')
@@ -186,6 +187,7 @@ class Teacher(db.Model):
     tech_point = db.Column(db.String(512))  # 讲学特点
     teacher_image = db.Column(db.String(512))  # 讲师主页图片
     teacher_course = db.relationship('Course')
+    add_time = db.Column(db.DATETIME, default=datetime.now())
 
 
 # 机构/学校对应经典课程
@@ -232,6 +234,17 @@ class Course(db.Model):
     course_ids = db.relationship('Detail', backref='course')
     car_id = db.relationship('BuyCar', backref='course')
     good_course = db.relationship('SchoolCourse', backref='course')
+    course_chapter = db.relationship('CourseChapters')
+
+
+# 课程章节数 章节列表
+class CourseChapters(db.Model):
+    __tablename__ = 'chapters'
+    id = db.Column(db.Integer, primary_key=True)  # 序号
+    course = db.Column(db.Integer, db.ForeignKey('course.course_id'))
+    chapter_id = db.Column(db.Integer)  # 章节序号
+    chapter_name = db.Column(db.String(512))  # 章节名称
+    long_time = db.Column(db.Integer)  # 该章节时长
 
 
 # 购物车

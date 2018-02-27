@@ -5,4 +5,7 @@
     1.teacher-list.html 讲师排行榜
     2.org-list.html 学校/机构 经典课程
     3.course-detail.html 添加章节列表展示 相关课程推荐
-    4.user-base.html 取消收藏的数据 Ajax代码
+    4.user-base.html 取消收藏的数据 Ajax代码 ok
+    5.usercenter-info.html 修改个人信息 修改密码
+    6.user_buys.html 删除购物车的商品 选择购物车的某些商品去结算
+    7.很多页面的分页没有修改代码

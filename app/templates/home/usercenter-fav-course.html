@@ -3,6 +3,7 @@
     <div class="left">
         <ul>
             <li><a href="{{ url_for('home.user') }}">个人资料</a></li>
+                        <li><a href="{{ url_for('home.buy') }}">购物中心</a></li>
             <li><a href="{{ url_for('home.mycourse') }}">我的课程</a></li>
             <li class="active2"><a href="{{ url_for('home.mycollect') }}">我的收藏</a></li>
             <li><a href="{{ url_for('home.comment') }}">我的评论</a></li>
@@ -46,23 +47,27 @@
             </div>
             <div class="companycenter">
                 <div class="group_list brief">
-{% for cou in col_course %}
-                    <div class="module1_5 box">
-                        <a href="{{ url_for('home.course_detail',course_id=cou.course_id) }}">
-                            <img width="214" height="190"
-                                 src="{{ url_for('static',filename=Course.query.filter_by(course_id=cou.course_id).first().image) }}"/>
-                        </a>
-                        <div class="des">
-                            <a href="{{ url_for('home.course_detail',course_id=cou.course_id) }}"><h2>{{ Course.query.filter_by(course_id=cou.course_id).first().course_name }}</h2></a>
-                            <span class="fl">时长：<i class="key">{{ Course.query.filter_by(course_id=cou.course_id).first().long_time }}</i></span>
-                            <span class="fr">学习人数：{{ Course.query.filter_by(course_id=cou.course_id).first().study_num }}</span>
+                    {% for cou in col_course %}
+                        <div class="module1_5 box">
+                            <a href="{{ url_for('home.course_detail',course_id=cou.course_id) }}">
+                                <img width="214" height="190"
+                                     src="{{ url_for('static',filename=Course.query.filter_by(course_id=cou.course_id).first().image) }}"/>
+                            </a>
+                            <div class="des">
+                                <a href="{{ url_for('home.course_detail',course_id=cou.course_id) }}">
+                                    <h2>{{ Course.query.filter_by(course_id=cou.course_id).first().course_name }}</h2>
+                                </a>
+                                <span class="fl">时长：<i
+                                        class="key">{{ Course.query.filter_by(course_id=cou.course_id).first().long_time }}</i></span>
+                                <span class="fr">学习人数：{{ Course.query.filter_by(course_id=cou.course_id).first().study_num }}</span>
+                            </div>
+                            <div class="bottom">
+                                <span class="fl">{{ Course.query.filter_by(course_id=cou.course_id).first().teacher_name }}</span>
+                                <span class="delete-group fr jsDeleteFav_course"
+                                      data-favid="{{ cou.course_id }}"></span>
+                            </div>
                         </div>
-                        <div class="bottom">
-                            <span class="fl">{{ Course.query.filter_by(course_id=cou.course_id).first().teacher_name }}</span>
-                            <span class="delete-group fr jsDeleteFav_course" data-favid="{{ cou.course_id }}"></span>
-                        </div>
-                    </div>
-{% endfor %}
+                    {% endfor %}
                 </div>
             </div>
         </div>

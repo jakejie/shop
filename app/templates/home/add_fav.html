@@ -1,0 +1,36 @@
+<script type="text/javascript">
+        //加入购物车操作
+        function add_car(current_elem, fav_id, price) {
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "/org/add_car/",
+                data: JSON.stringify({'fav_id': fav_id, 'price': price}),
+                dataType: "json",
+                //async：true（异步）或 false（同步）
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                //beforeSend: function (xhr, settings) {
+                //    xhr.setRequestHeader("X-CSRFToken", "5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy");
+                // },
+                success: function (data) {
+                    if (data.status == 'fail') {
+                        if (data.msg == '用户未登录') {
+                            window.location.href = "/auth/login";
+                        } else {
+                            alert(data.msg)
+                        }
+
+                    } else if (data.status == 'success') {
+                        current_elem.text(data.msg)
+                    }
+                }
+            });
+        }
+
+        //课程的收藏
+        $('#AddCarBtn').on('click', function () {
+            //课程id
+            add_car($(this), {{ info.course_id }}, {{ info.price }});
+        });
+    </script>

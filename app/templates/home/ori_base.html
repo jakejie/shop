@@ -24,21 +24,20 @@
             <div class="middle companyheader">
                 <div class="wp">
                     <img class="fl" style="width: 112px;height: 103px"
-                         src="{{ url_for('static',filename='media/org/2016/11/imooc.png') }}"/>
+                         src="{{ url_for('static',filename=school.school_image) }}"/>
                     <div class="head fl">
                         <h1>
-                            慕课网
+                            {{ school.school_name }}
                             <img src="{{ url_for('static',filename='images/authentication.png') }}"/>
                             <img src="{{ url_for('static',filename='images/gold.png') }}"/>
                         </h1>
                         <p class="fl">
                             <span class="fl" style="margin-top:8px;color:#848484;">推荐指数： </span>
-                            <span class="precision company-credit" data-star-scope="5.0"></span>
-                            <span class="key">5.0</span>
+                            <span class="precision company-credit" data-star-scope="{{ school.start }}"></span>
+                            <span class="key">{{ school.start }}</span>
                         </p>
                     </div>
-                    <div class="btn fr collectionbtn  notlogin
-                 " data-favid="22" data-fav-type="1">
+                    <div class="btn fr collectionbtn" data-favid="{{ school.id }}" data-fav-type="2">
                         收藏
                     </div>
 
@@ -52,11 +51,13 @@
 
 
 {% endblock %}
+
+
 <section>
     <div class="wp list personal_list comp">
         {% block left %}
 
-    {% endblock %}
+        {% endblock %}
 
 
         {% block content %}
@@ -67,7 +68,7 @@
 
 </section>
 {% block footer %}
-{% include 'home/foot.html' %}
+    {% include 'home/foot.html' %}
 {% endblock %}
 </body>
 
@@ -95,34 +96,30 @@
     <script type="text/javascript" src="{{ url_for('static',filename='js/plugins/jquery.raty.js') }}"></script>
     <script type="text/javascript">
         //收藏分享
-        //收藏分享
         function add_fav(current_elem, fav_id, fav_type) {
             $.ajax({
                 cache: false,
                 type: "POST",
                 url: "/org/add_fav/",
-                data: {'fav_id': fav_id, 'fav_type': fav_type},
+                data: JSON.stringify({'fav_id': fav_id, 'fav_type': fav_type}),
                 async: true,
-                beforeSend: function (xhr, settings) {
-                    xhr.setRequestHeader("X-CSRFToken", "5I2SlleZJOMUX9QbwYLUIAOshdrdpRcy");
-                },
+                contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     if (data.status == 'fail') {
                         if (data.msg == '用户未登录') {
-                            window.location.href = "login.html";
+                            window.location.href = "/auth/login";
                         } else {
                             alert(data.msg)
                         }
-
                     } else if (data.status == 'success') {
                         current_elem.text(data.msg)
                     }
-                },
+                }
             });
         }
 
         $('.collectionbtn').on('click', function () {
-            add_fav($(this), 1, 2);
+            add_fav($(this), {{ school.id }}, 2);
         });
 
         $(function () {

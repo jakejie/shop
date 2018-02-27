@@ -132,6 +132,14 @@ def pwd():
     return render_template("home/pwd.html", form=form)
 
 
+@home.route('/buy/')
+@login_required
+def buy():
+    buycar = BuyCar.query.filter_by(user_car=current_user.id).all()
+    return render_template('home/user_buys.html',
+                           buycar=buycar)
+
+
 # 购买过的课程 ok
 @home.route('/mycourse/')
 @login_required
@@ -278,7 +286,7 @@ def add_car():
                         })
 
 
-# 机构主页=首页
+# 机构主页=首页 ok
 @home.route('/organization/home/<int:org_id>/')
 def ori_homepage(org_id=None):
     school = School.query.filter_by(id=org_id).first()
@@ -288,15 +296,16 @@ def ori_homepage(org_id=None):
                            course=course)
 
 
-# 机构主页=课程
+# 机构主页=课程 ok
 @home.route('/organization/course/<int:org_id>')
 def ori_course(org_id=None):
     school = School.query.filter_by(id=org_id).first()
+    course = Course.query.filter_by(school_id=school.id).all()
     return render_template('home/org-detail-course.html',
-                           school=school)
+                           school=school, course=course)
 
 
-# 机构主页==介绍
+# 机构主页==介绍 ok
 @home.route('/organization/desc/<int:org_id>')
 def ori_desc(org_id=None):
     school = School.query.filter_by(id=org_id).first()
@@ -304,12 +313,13 @@ def ori_desc(org_id=None):
                            school=school)
 
 
-# 机构主页==讲师
+# 机构主页==讲师 ok
 @home.route('/organization/teacher/<int:org_id>')
 def ori_teacher(org_id=None):
     school = School.query.filter_by(id=org_id).first()
+    teacher = Teacher.query.filter_by(teacher_company=school.school_name).all()
     return render_template('home/org-detail-teachers.html',
-                           school=school)
+                           school=school, teacher=teacher)
 
 
 # 轮播图嵌套页面 传递5个热门资源作为参数

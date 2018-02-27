@@ -14,6 +14,7 @@
         <li><a href="{{ url_for('home.school_list',page=1) }}">授课机构</a></li>
     </ul>
 {% endblock %}
+
 {% block content %}
     <section>
         <div class="wp">
@@ -23,8 +24,6 @@
             </ul>
         </div>
     </section>
-
-
     <section>
         <div class="wp butler_list_box list">
             <div class='left'>
@@ -50,10 +49,10 @@
                                     <div class="fr btn2 bdsharebuttonbox"
                                          data-text="授课教师-奥巴马-慕学在线"
                                          data-desc="我在#慕课网#发现了教师“奥巴马”，对学习中的小伙伴很有帮助，一起来看看吧。"
-                                         data-comment="奥巴马金牌讲师，从业年限：5年"
-                                    >
-                                        <span class="fl">分享</span>
-                                        <a href="#" class="bds_more" data-cmd="more"></a>
+                                         data-comment="奥巴马金牌讲师，从业年限：5年">
+                                        <span class="fl btn1 Add_FAV" data-favid="{{ teach.id }}" >
+                                     收藏
+                                </span>
                                     </div>
                                 </div>
                             </dt>
@@ -113,4 +112,30 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript">
+        $('.Add_FAV').on('click', function () {
+            var _this = $(this),
+                favid = _this.attr('data-favid');
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "/org/add_fav/",
+                data: JSON.stringify({
+                    fav_type: 3,
+                    fav_id: favid
+                }),
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    alert(data.msg);
+                    //current_elem.text(data.msg)
+                    //Dml.fun.winReload();
+                }
+            });
+        });
+    </script>
 {% endblock %}

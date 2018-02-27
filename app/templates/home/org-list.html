@@ -68,9 +68,9 @@
                     <div class="layout">
                         <div class="head">
                             <ul class="tab_header">
-                                <li class="active"><a href="?ct=&city=">全部</a></li>
-                                <li class=""><a href="?sort=students&ct=&city=">学习人数 &#8595;</a></li>
-                                <li class=""><a href="?sort=courses&ct=&city=">课程数 &#8595;</a></li>
+                                <li class="active"><a href="#">全部</a></li>
+                                <li class=""><a href="#">学习人数 &#8595;</a></li>
+                                <li class=""><a href="#">课程数 &#8595;</a></li>
                             </ul>
                         </div>
                         {% for org in pagination.items %}
@@ -107,7 +107,8 @@
                                         </li>
                                     </ul>
                                 </dd>
-                                <div class="buy start_groupbuy jsShowPerfect2" data-id="22"><br/>联系<br/>服务</div>
+                                <div class="buy start_groupbuy jsShowPerfect2" data-id="22">
+                                    <a href="{{ url_for('home.ori_homepage',org_id=org.id) }}"><br/>联系<br/>服务</a></div>
                             </dl>
                         {% endfor %}
 

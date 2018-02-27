@@ -2,11 +2,12 @@
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 from app import create_app, db
-import multiprocessing,time
+import multiprocessing, time
 # 引入数据库数据表模型
 from flask_migrate import upgrade
 from app.model import User, Orders, Detail, Course, BuyCar, Collect, \
-    Comment, Address, TagList, Tags, Tag, Count, UserLog,Teacher,School
+    Comment, Address, TagList, Tags, Tag, Count, UserLog, Teacher, School, \
+    CourseChapters
 
 app = create_app()
 manager = Manager(app)
@@ -17,9 +18,11 @@ app.jinja_env.globals['School'] = School
 app.jinja_env.globals['Teacher'] = Teacher
 app.jinja_env.globals['Count'] = Count
 app.jinja_env.globals['Course'] = Course
+app.jinja_env.globals['CourseChapters'] = CourseChapters
 app.jinja_env.globals['BuyCar'] = BuyCar
 app.jinja_env.globals['Detail'] = Detail
 app.jinja_env.globals['Orders'] = Orders
+
 
 # app.jinja_env.globals['User'] = User
 
@@ -120,4 +123,3 @@ if __name__ == '__main__':
     # p2.start()
     # p1.join()
     # p2.join()
-

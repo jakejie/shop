@@ -10,77 +10,43 @@
             </ul>
         </div>
     </section>
-
 {% endblock %}
+
 {% block left %}
     <div class="left">
         <ul>
             <li><a href="{{ url_for('home.ori_homepage',org_id=school.id) }}">机构首页</a></li>
-            <li  class="active2"><a href="{{ url_for('home.ori_course',org_id=school.id) }}">机构课程</a></li>
+            <li class="active2"><a href="{{ url_for('home.ori_course',org_id=school.id) }}">机构课程</a></li>
             <li class=""><a href="{{ url_for('home.ori_desc',org_id=school.id) }}">机构介绍</a></li>
             <li class=""><a href="{{ url_for('home.ori_teacher',org_id=school.id) }}">机构讲师</a></li>
         </ul>
     </div>
 {% endblock %}
+
 {% block content %}
     <div class="right companycenter layout grouping">
         <div class="head">
             <h1>全部课程</h1>
         </div>
         <div class="brief group_list">
-
-            <div class="module1_5 box">
-                <a href="course-detail.html"><img width="214"
-                                                  src="{{ url_for('static',filename='media/courses/2016/11/mysql.jpg') }}"/></a>
-                <div class="des">
-                    <a href="course-detail.html"><h2>django入门</h2></a>
-                    <span class="fl">课时：<i class="key">0</i></span>
-                    <span class="fr">参加人数：3</span>
-                </div>
-                <div class="bottom">
-                    <span class="fl">慕课网</span>
-                    <span class="star fr  notlogin
-                            " data-favid="13" data-fav-type="4">
-                            0
+            {% for cou in course %}
+                <div class="module1_5 box">
+                    <a href="{{ url_for('home.course_detail',course_id=cou.course_id) }}"><img width="214"
+                                                      src="{{ url_for('static',filename=cou.image) }}"/></a>
+                    <div class="des">
+                        <a href="{{ url_for('home.course_detail',course_id=cou.course_id) }}"><h2>django入门</h2></a>
+                        <span class="fl">课时：<i class="key">{{ cou.chap_num }}</i></span>
+                        <span class="fr">参加人数：{{ cou.study_num }}</span>
+                    </div>
+                    <div class="bottom">
+                        <span class="fl">慕课网</span>
+                        <span class="star fr  notlogin
+                            " data-favid="{{ cou.course_id }}" data-fav-type="4">
+                            {{ cou.start }}
                         </span>
+                    </div>
                 </div>
-            </div>
-
-            <div class="module1_5 box">
-                <a href="course-detail.html"><img width="214"
-                                                  src="{{ url_for('static',filename='media/courses/2016/11/540e57300001d6d906000338-240-135_mvvGYHL.jpg') }}"/></a>
-                <div class="des">
-                    <a href="course-detail.html"><h2>django实战项目</h2></a>
-                    <span class="fl">课时：<i class="key">0</i></span>
-                    <span class="fr">参加人数：0</span>
-                </div>
-                <div class="bottom">
-                    <span class="fl">慕课网</span>
-                    <span class="star fr  notlogin
-                            " data-favid="13" data-fav-type="4">
-                            0
-                        </span>
-                </div>
-            </div>
-
-            <div class="module1_5 box">
-                <a href="course-detail.html"><img width="214"
-                                                  src="{{ url_for('static',filename='media/courses/2016/12/python错误和异常.jpg') }}"/></a>
-                <div class="des">
-                    <a href="course-detail.html"><h2>python错误和异常</h2></a>
-                    <span class="fl">课时：<i class="key">0</i></span>
-                    <span class="fr">参加人数：0</span>
-                </div>
-                <div class="bottom">
-                    <span class="fl">慕课网</span>
-                    <span class="star fr  notlogin
-                            " data-favid="13" data-fav-type="4">
-                            0
-                        </span>
-                </div>
-            </div>
-
-
+            {% endfor %}
         </div>
     </div>
 
