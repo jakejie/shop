@@ -6,6 +6,7 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
+import time
 
 
 # 大分类列表==一级
@@ -133,19 +134,22 @@ class Address(db.Model):
 class Orders(db.Model):
     __tablename__ = 'orders'
     id = db.Column(db.Integer, primary_key=True)  # 序号
-    add_time = db.Column(db.DATETIME, default=datetime.now())  # 提交订单时间
-    order_id = db.Column(db.Integer, unique=True)  # 订单id 根据user id + 时间戳生成
-    address = db.Column(db.String(512))  # 收件人姓名就行 绑定外键 对应哪个地址的订单
+    add_time = db.Column(db.DATETIME)  # 提交订单时间
+    order_id = db.Column(db.BIGINT, unique=True)  # 订单id 根据user id + 时间戳生成
+    address = db.Column(db.String(512))  # 使用注册的用户的邮箱//收件人姓名就行 绑定外键 对应哪个地址的订单
     remark = db.Column(db.String(512))  # 添加订单备注
     user = db.Column(db.Integer, db.ForeignKey('user.id'))  # 绑定外键 对应哪个用户的订单
     user_detail = db.relationship("Detail", backref='orders')  # 该订单对应的商品 外键关联
+    times = db.Column(db.BIGINT)
+    pay = db.Column(db.Integer, default=0)  # 是否支付成功 0=待支付 1=支付成功
+    cancel = db.Column(db.Integer, default=0)  # 订单是否取消 0=未取消 1=已经取消的订单
 
 
 # 订单里面的商品列表 一个订单有多个商品
 class Detail(db.Model):
     __tablename__ = 'detail'
     id = db.Column(db.Integer, primary_key=True)
-    add_time = db.Column(db.DATETIME, default=datetime.now())
+    add_time = db.Column(db.DATETIME)
     course_id = db.Column(db.Integer, db.ForeignKey('course.course_id'))  # 该订单对应的商品id
     num = db.Column(db.Integer)  # 购买该商品的数量
     orderId = db.Column(db.Integer, db.ForeignKey('orders.order_id'))  # 该订单的id
@@ -232,6 +236,7 @@ class Course(db.Model):
     # 外键关联第二步
     comment_good = db.relationship('Comment', backref='course')
     course_ids = db.relationship('Detail', backref='course')
+    # course_orders = db.relationship('Orders', backref='course')
     car_id = db.relationship('BuyCar', backref='course')
     good_course = db.relationship('SchoolCourse', backref='course')
     course_chapter = db.relationship('CourseChapters')

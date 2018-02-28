@@ -1,9 +1,121 @@
 {% extends 'home/user_base.html' %}
+{% import "home/_macros.html" as macros %}
+
+{% block css %}
+    <link href="{{ url_for('static',filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+    <script src="{{ url_for('static',filename='js/jquery-2.1.1.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static',filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        //修改商品数量
+        $(function () {
+            // 商品+-
+            $('.li-quantity a').click(function () {
+                var self = $(this);
+                var type = self.attr('data-type'),
+                    num = parseFloat(self.siblings('input').val());
+                if (type == 'add') {
+                    num += 1;
+                } else if (type == 'subtr') {
+                    if (num > 1) {
+                        num -= 1;
+                    } else {
+                        return false;
+                    }
+                }
+                self.siblings('input').val(num);
+                tamount();
+            });
+            //checkbox 单选事件
+            $('input[name="chkItem"]:checkbox').click(function () {
+                var isCheck = $('input[name="chkItem"]:not(:checked)').length ? false : true;
+                $('#CheckAll').prop("checked", isCheck);
+                tamount();
+            });
+            //checkbox 全选事件
+            $('#CheckAll').click(function () {
+                var self = $(this);
+                $('input[name="chkItem"]').each(function () {
+                    $(this).prop("checked", self.is(':checked'));
+                });
+                tamount();
+            });
+        });
+        var sum = 0;
+
+        //计算商品总价格
+        function tamount() {
+            sum = 0;
+            $('input[name="chkItem"]:checked').each(function () {
+                var self = $(this),
+                    price = self.attr('data-price'),
+                    index = self.attr('data-index');
+                var quantity = $('#Q' + index).val();
+                sum += (parseFloat(price) * parseFloat(quantity));
+            });
+            $("#money").html('￥' + sum + '.00');
+        }
+    </script>
+    <style type="text/css">
+        .cart-heading {
+            height: 40px;
+            background-color: #EFEDED;
+        }
+
+        .cart-body {
+            background-color: #F7F7F7;
+        }
+
+        .cart-body ul li {
+            list-style-type: none;
+            margin-left: -30px;
+            width: 870px;
+        }
+
+        .cart-body ul li div {
+            float: left;
+            height: 80px;
+        }
+
+        .li-checkbox input {
+            margin: 20px 5px 0 0;
+        }
+
+        .li-img a img {
+            width: 40px;
+            height: 50px;
+        }
+
+        .li-content {
+            margin: 20px 0 0 30px;
+            width: 280px;
+        }
+
+        .li-price {
+            margin: 20px 0 0 60px;
+            width: 100px;
+        }
+
+        .li-quantity {
+            margin: 20px 0 0 130px;
+            width: 100px;
+        }
+
+        .li-del {
+            margin: 20px 0 0 30px;
+            width: 50px;
+        }
+
+        .li-img {
+            margin: 0 0 0 10px;
+        }
+    </style>
+{% endblock %}
+
 {% block left %}
     <div class="left">
         <ul>
             <li><a href="{{ url_for('home.user') }}">个人资料</a></li>
-            <li class="active2"><a href="{{ url_for('home.buy') }}">购物中心</a></li>
+            <li class="active2"><a href="{{ url_for('home.buy',page=1) }}">购物中心</a></li>
             <li><a href="{{ url_for('home.mycourse') }}">我的课程</a></li>
             <li><a href="{{ url_for('home.mycollect') }}">我的收藏</a></li>
             <li><a href="{{ url_for('home.comment') }}">我的评论</a></li>
@@ -36,35 +148,140 @@
                 <h1>我的购物车</h1>
             </div>
         </div>
-        <div class="personal_des permessage">
-            <div class="head">
-                <ul class="tab_header messagehead">
-                    <li class="active"><a href="{{ url_for('home.comment') }}">登陆日志</a></li>
-                </ul>
-            </div>
-            {% for buy in buycar %}
-                <div class="messagelist">
-                    <div class="messages">
-                        <div class="fr">
-                            <div class="top"><span class="fl time">{{ buy.add_time }}</span><span
-                                    class="fr btn foldbtn"></span></div>
-                            <p>
-                                课程名：{{ Course.query.filter_by(course_id=buy.course_id).first().course_name }}</p>
-                            <p>价格：{{ buy.price }}</p>
-                        </div>
-                    </div>
+        <div>
+            <div class="cart-heading">
+                <div style="padding: 10px 0 0 10px">
+                    <span style="margin-right: 200px;">
+                        <input id="CheckAll" type="checkbox"> 全选
+                    </span>
+                    <span style="margin-right: 180px;">商品</span>
+                    <span style="margin-right: 210px;">价格</span>
+                    <span style="margin-right: 80px;">数量</span>
+                    <span style="padding-right: 0px;">操作</span>
                 </div>
-            {% endfor %}
-            <!--分页-->
-            <div class="pageturn pagerright">
-                <ul class="pagelist">
-                    <li class="active"><a href="?page=1">1</a></li>
+            </div>
+            <div class="cart-body">
+                <ul style="margin-left: 40px">
+                    {% for buy in buycar %}
+                        <li>
+                            <div class="li-checkbox">
+                                <span>
+                                    <input data-id="{{ buy.course_id }}" data-index="{{ buy.course_id }}"
+                                           id="{{ buy.course_id }}"
+                                           data-price="{{ buy.price }}" name="chkItem" class="li-checkbox input"
+                                           type="checkbox">
+
+                                </span>
+
+
+                            </div>
+                            <div class="li-img">
+                                <a href="{{ url_for('home.course_detail',course_id=buy.course_id) }}">
+                                    <img class="li-img a img"
+                                         src="{{ url_for('static',filename=  Course.query.filter_by(course_id=buy.course_id).first().image) }}">
+                                </a>
+                            </div>
+                            <div class="li-content">
+                                <a href="{{ url_for('home.course_detail',course_id=buy.course_id) }}">{{ Course.query.filter_by(course_id=buy.course_id).first().course_name }}</a>
+                            </div>
+                            <div class="li-price">
+                                <span>{{ buy.price }}</span>
+                            </div>
+                            <div class="li-quantity">
+                                <a data-type="add" href="javascript:void(0);" class="btn btn-default btn-xs ">+</a>
+                                <input id="Q{{ buy.course_id }}" style="width: 40px;" type="text" value="{{ buy.num }}">
+                                <a data-type='subtr' href="javascript:void(0);" class="btn btn-default btn-xs">-</a>
+                            </div>
+                            <div class="li-del">
+                                <div class="btn">
+                                    <!--<a href="#" class="btn btn-primary btn-xs">删除</a>-->
+                                    <span data-id="{{ buy.course_id }}" class="fl btn1 Del_Car"
+                                    >删除</span>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
                 </ul>
             </div>
+            <div style="float: right;height: 35px;width:330px;">
+                总计：<span id="money" style="color: red;font-size: 25px">￥0.00</span>
+                <input type="button" style="width: 130px;float:right;" class="btn btn-success" onclick=" Clearing();"
+                       value="结 算"/>
+            </div>
+        </div>
+        <!--分页-->
+        <div class="pageturn pagerright">
+
+            <ul class="pagelist">
+                {% if endpoint == '.index' %}
+                    {{ macros.pagination_widget(pagination, endpoint) }}
+                {% else %}
+                    {{ macros.pagination_widget(pagination, endpoint, id=id) }}
+                {% endif %}
+            </ul>
+
         </div>
     </div>
 {% endblock %}
 
-
-
 <!-- 删除购物车的商品 选择购物车的某些商品去结算 -->
+{% block js %}
+    <script type="text/javascript">
+        //删除购物车的商品
+        $('.Del_Car').on('click', function () {
+            var _this = $(this),
+                favid = _this.attr('data-id');
+            $.ajax({
+                cache: false,
+                type: "POST",
+                url: "/org/del_car/",
+                data: JSON.stringify({
+                    course_id: favid
+                }),
+                async: true,
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    alert(data.msg);
+                    //current_elem.text(data.msg)
+                    //Dml.fun.winReload();
+                }
+            });
+        });
+
+        //用户结算
+        function Clearing() {
+            $('input[name="chkItem"]:checked').each(function () {
+                var self = $(this),
+                    index = self.attr('data-index'),
+                    cid = self.attr('data-id');
+                var quantity = $('#Q' + index).val();
+                var data = JSON.stringify({"cid": cid, "cnum": quantity});
+                $.ajax({
+                    cache: false,
+                    url: '/cart/clearing',
+                    type: 'POST',
+                    data: data,
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    async: true,
+                    success: function (data) {
+                        if (data.status == 'error') {
+                            alert(data.msg)
+                        } //else if (data.status == 'success') {
+                            alert(data.msg)
+                        //}
+                        //alert(data)
+                    },
+                    error: function (data, status) {
+                        //alert(data)
+                    }
+                });
+            });
+            //alert('本次共需支付：￥' + sum);
+            location.href = "{{ url_for('home.buy_cart') }}";
+        }
+
+
+    </script>
+{% endblock %}
+

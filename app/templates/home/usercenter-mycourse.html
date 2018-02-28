@@ -6,7 +6,7 @@
     <div class="left">
         <ul>
             <li><a href="{{ url_for('home.user') }}">个人资料</a></li>
-            <li><a href="{{ url_for('home.buy') }}">购物中心</a></li>
+            <li><a href="{{ url_for('home.buy',page=1) }}">购物中心</a></li>
             <li class="active2"><a href="{{ url_for('home.mycourse') }}">我的课程</a></li>
             <li><a href="{{ url_for('home.mycollect') }}">我的收藏</a></li>
             <li><a href="{{ url_for('home.comment') }}">我的评论</a></li>
@@ -39,31 +39,35 @@
         <div class="personal_des Releasecont">
             <div class="head">
                 <h1>我的课程</h1>
+
             </div>
         </div>
         <div class="personal_des permessage">
             <div class="companycenter">
                 <div class="group_list brief">
                     {% for cou in course %}
-                        <div class="module1_5 box">
-                            <a href="{{ url_for('home.course_detail',course_id=cou.course_id) }}">
-                                <img width="214" height="190" class="scrollLoading"
-                                     src="{{ url_for('static',filename=Course.query.filter_by(course_id=cou.course_id).first().image) }}"/>
-                            </a>
-                            <div class="des">
+                        <!--只显示未取消并且 已经成功支付的订单-->
+                        {% if Orders.query.filter_by(order_id=cou.orderId).first().pay==1 and Orders.query.filter_by(order_id=cou.orderId).first().cancel==0 %}
+                            <div class="module1_5 box">
                                 <a href="{{ url_for('home.course_detail',course_id=cou.course_id) }}">
-                                    <h2>{{ Course.query.filter_by(course_id=cou.course_id).first().course_name }}</h2>
+                                    <img width="214" height="190" class="scrollLoading"
+                                         src="{{ url_for('static',filename=Course.query.filter_by(course_id=cou.course_id).first().image) }}"/>
                                 </a>
-                                <span class="fl">课时：<i
-                                        class="key">{{ Course.query.filter_by(course_id=cou.course_id).first().chap_num }}</i></span>
-                                <span class="fr">学习人数：{{ Course.query.filter_by(course_id=cou.course_id).first().study_num }}</span>
+                                <div class="des">
+                                    <a href="{{ url_for('home.course_detail',course_id=cou.course_id) }}">
+                                        <h2>{{ Course.query.filter_by(course_id=cou.course_id).first().course_name }}</h2>
+                                    </a>
+                                    <span class="fl">课时：<i
+                                            class="key">{{ Course.query.filter_by(course_id=cou.course_id).first().chap_num }}</i></span>
+                                    <span class="fr">学习人数：{{ Course.query.filter_by(course_id=cou.course_id).first().study_num }}</span>
+                                </div>
+                                <div class="bottom">
+                                    <span class="fl">{{ Course.query.filter_by(course_id=cou.course_id).first().teacher_name }}</span>
+                                    <span class="star fr  notlogin"
+                                          data-favid="15">{{ Course.query.filter_by(course_id=cou.course_id).first().start }}</span>
+                                </div>
                             </div>
-                            <div class="bottom">
-                                <span class="fl">{{ Course.query.filter_by(course_id=cou.course_id).first().teacher_name }}</span>
-                                <span class="star fr  notlogin"
-                                      data-favid="15">{{ Course.query.filter_by(course_id=cou.course_id).first().start }}</span>
-                            </div>
-                        </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>

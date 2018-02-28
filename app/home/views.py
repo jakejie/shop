@@ -5,7 +5,7 @@ from app.model import TagList, Tags, Tag, Course, User, UserLog, Comment, Addres
     Orders, Collect, Detail, BuyCar, School, Teacher, Message
 from app import db
 from app.home.form import UserDetailForm, CommentForm, PwdForm
-import uuid, os, datetime, json
+import uuid, os, datetime, json, time
 from flask_login import login_required
 # 获取当前登录用户对象
 from flask_login import current_user
@@ -132,11 +132,15 @@ def pwd():
     return render_template("home/pwd.html", form=form)
 
 
-@home.route('/buy/')
+@home.route('/buy/<int:page>')
 @login_required
-def buy():
-    buycar = BuyCar.query.filter_by(user_car=current_user.id).all()
+def buy(page=None):
+    pagination = BuyCar.query.filter_by(user_car=current_user.id). \
+        paginate(page=page, per_page=current_app.config['DATA_PER_PAGE'], error_out=False)
+    buycar = pagination.items
     return render_template('home/user_buys.html',
+                           pagination=pagination,
+                           endpoint='.buy',
                            buycar=buycar)
 
 
@@ -257,6 +261,7 @@ def del_fav():
 
 # 添加到购物车数据 ok
 @home.route('/org/add_car/', methods=["POST"])
+@login_required
 def add_car():
     try:
         user_id = current_user.id
@@ -284,6 +289,108 @@ def add_car():
         return jsonify({"status": "fail",
                         "msg": "用户未登录"
                         })
+
+
+# 删除购物车的商品数据
+@home.route('/org/del_car/', methods=["POST"])
+@login_required
+def del_car():
+    try:
+        user_id = current_user.id
+        data = json.loads(request.data)
+        fav_id = data["course_id"]
+        info = BuyCar.query.filter_by(
+            course_id=fav_id, user_car=user_id
+        ).first()
+        db.session.delete(info)
+        db.session.commit()
+        return jsonify({"status": "success",
+                        "msg": "删除成功",
+                        })
+    except Exception as e:
+        return jsonify({"status": "fail",
+                        "msg": "删除失败：{}".format(e)
+                        })
+
+
+# 接受需要结算的商品列表 写入数据表 生成订单号
+@home.route('/cart/clearing', methods=["POST"])
+@login_required
+def cart_clearing():
+    data = json.loads(request.data)
+    add_time = int(time.time())
+    # 提交订单之前 确认之前是否购买过该课程
+    buy_or = Detail.query.filter_by(
+        course_id=data["cid"],
+        user=current_user.id
+    ).count()
+    # 购买过该商品
+    if buy_or == 1:
+        return jsonify({"status": "fail",
+                        "msg": "您已经购买过该商品啦!"})
+    # 没有购买过 进行订单结算并从购物车移除 等操作
+    else:
+        result = Orders.query.filter_by(user=current_user.id, order_id=add_time).count()
+        if result == 1:
+            pass
+            # print(result)
+            # 直接使用该订单号 写入其他商品
+        else:
+            # 写入订单号
+            info = Orders(
+                order_id=add_time,
+                address=current_user.email,
+                user=current_user.id,
+                times=add_time,
+                add_time=datetime.datetime.now()
+            )
+            db.session.add(info)
+            db.session.commit()
+        # 写入商品到detail
+        det = Detail(
+            add_time=datetime.datetime.now(),
+            course_id=data["cid"],
+            num=data["cnum"],
+            orderId=add_time,
+            user=current_user.id,
+            price=Course.query.filter_by(course_id=data["cid"]).first().price,
+        )
+        db.session.add(det)
+        db.session.commit()
+        # 成功提交订单之后 将商品从购物车中删除
+        cart = BuyCar.query.filter_by(course_id=data["cid"], user_car=current_user.id).first()
+        db.session.delete(cart)
+        db.session.commit()
+        return jsonify({"status": "success",
+                        "msg": "订单提交成功 去支付吧!"})
+
+
+# 待支付订单中心 所有待支付订单
+@home.route('/cart/waitpay/', methods=["POST", "GET"])
+@login_required
+def wait_pay():
+    if request.method == "GET":
+        return "待支付中心"
+    else:
+        print("取消该订单的支付")
+
+
+# 购物车结算中心
+@home.route('/buy/cart/')
+@login_required
+def buy_cart():
+    # 先查询数据表 是否存在多个待支付订单
+    # 先处理已经存在的待支付订单
+    orde = Orders.query.filter_by(pay=0, cancel=0, user=current_user.id).count()
+    if orde > 1:
+        print("有多个订单没有支付哦")
+        return render_template('home/user-wait-pay.html')
+    # 取出唯一待支付订单 进行支付
+    order_id = Orders.query.filter_by(user=current_user.id, pay=0, cancel=0).first()
+    money = 0
+    for price in Detail.query.filter_by(orderId=order_id.order_id).all():
+        money = float(money) + float(price.price)
+    return render_template('home/user-pay.html', money=money)
 
 
 # 机构主页=首页 ok
