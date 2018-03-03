@@ -78,6 +78,7 @@ var verify = verifyDialogSubmit(
 $(function(){
     //个人资料修改密码
     $('#jsUserResetPwd').on('click', function(){
+        alter("修改密码啊")
         Dml.fun.showDialog('#jsResetDialog', '#jsResetPwdTips');
     });
 

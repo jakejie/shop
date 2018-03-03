@@ -47,17 +47,17 @@
         <div class="personal_des permessage">
             <div class="head">
                 <ul class="tab_header messagehead">
-                    <li class="active"><a href="{{ url_for('home.mycourse') }}">支付成功</a></li>
+                    <li><a href="{{ url_for('home.mycourse') }}">支付成功</a></li>
                     <li><a href="{{ url_for('home.wait_pay') }}">待支付</a></li>
-                    <li><a href="{{ url_for('home.cancel') }}">已取消 </a></li>
+                    <li class="active"><a href="{{ url_for('home.cancel') }}">已取消 </a></li>
                 </ul>
-
             </div>
-            <div class="companycenter">
-                <div class="group_list brief">
-                    {% for cou in course %}
-                        <!--只显示未取消并且 已经成功支付的订单-->
-                        {% if Orders.query.filter_by(order_id=cou.orderId).first().pay==1 and Orders.query.filter_by(order_id=cou.orderId).first().cancel==0 %}
+            {% for ord in order %}
+                <div class="companycenter">
+                    <div class="group_list brief">
+                        <div>订单号：{{ ord.order_id }}</div>
+                        {% for cou in Detail.query.filter_by(orderId=ord.order_id).all() %}
+                            <!--只显示 未取消 并且 没有成功支付的订单-->
                             <div class="module1_5 box">
                                 <a href="{{ url_for('home.course_detail',course_id=cou.course_id) }}">
                                     <img width="214" height="190" class="scrollLoading"
@@ -77,9 +77,9 @@
                                           data-favid="15">{{ Course.query.filter_by(course_id=cou.course_id).first().start }}</span>
                                 </div>
                             </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
+                        {% endfor %}
+            {% endfor %}
+            </div>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@ from . import home
 from app.model import TagList, Tags, Tag, Course, User, UserLog, Comment, Address, \
     Orders, Collect, Detail, BuyCar, School, Teacher, Message
 from app import db
-from app.home.form import UserDetailForm, CommentForm, PwdForm
+from app.home.form import UserDetailForm, CommentForm, PwdForm, BuyCart
 import uuid, os, datetime, json, time
 from flask_login import login_required
 # 获取当前登录用户对象
@@ -83,16 +83,12 @@ def course_detail(course_id=None):
 @home.route('/user/', methods=["POST", "GET"])
 @login_required
 def user():
-    if current_user.id == None or current_user.id == "":
-        return redirect(url_for('auth.login'))
-    user = User.query.filter_by(id=current_user.id).first()
     form = UserDetailForm()
-    # GET方法 获取个人信息数据
-    if request.method == 'GET':
-        return render_template('home/usercenter-info.html', user=user, form=form)
+
+    user = User.query.filter_by(id=current_user.id).first()
+
     # POST方法 修改个人信息
     if form.validate_on_submit():
-        print("获取到了数据了啊")
         # file = form.image.data
         # filename = user.username + '-' + file.filename.replace(' ', '').replace('/', '').replace('\\', '')
         # file.save('app/static/image/user/' + filename)
@@ -104,34 +100,60 @@ def user():
         user.phone = form.data.get("phone")
         user.email = form.data.get("email")
         user.info = form.data.get("info")
-
-        db.session.add(user)
         db.session.commit()
         flash('修改成功', 'ok')
         return redirect(url_for('home.user'))
-    flash("修改失败！ 简介不能为空")
-    return render_template('home/usercenter-info.html', user=user, form=form)
+
+    else:
+        # GET方法 获取个人信息数据
+        return render_template('home/usercenter-info.html', user=user, form=form)
+
+
+allowed_file = ['png', 'jpg']
+# UPLOAD_FOLDER = os.path.abspath(os.path.pardir) + '/app/static/tmp/'
+UPLOAD_FOLDER = r'C:\20180128\shop\app\static\media\image\2016\11'
+
+
+# 修改个人图像 ok
+@home.route('/users/image/upload/', methods=["POST", "GET"])
+@login_required
+def upload_image():
+    if request.method == "POST":
+        # print("上传图片啦")
+        file = request.files['file']
+        # print(file.filename)
+        # if file.filename[-3] in allowed_file:
+        file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+        file_name = 'media/image/2016/11/' + file.filename
+        info = User.query.filter_by(id=current_user.id).first()
+        info.image = file_name
+        db.session.commit()
+    return redirect(url_for('home.user'))
 
 
 # 修改密码界面
-@home.route('/pwd/', methods=['GET', 'POST'])
+@home.route('/change_pwd/', methods=['GET', 'POST'])
 @login_required
-def pwd():
+def change_pwd():
     form = PwdForm()
-    if form.validate_on_submit():
+    # if form.validate_on_submit():
+    if request.method == "POST":
+        print("提交了密码")
         data = form.data
-        user = User.query.filter_by(name=session['user']).first()  # 查找账号
+        user = User.query.filter_by(id=current_user.id).first()  # 查找账号
         if not user.check_pwd(data['old_pwd']):
             flash("旧密码错误", "err")
-            return redirect(url_for('home.pwd'))
+            return redirect(url_for('home.change_pwd'))
         user.pwd = generate_password_hash(data['new_pwd'])
-        db.session.add(user)
+        # db.session.add(user)
         db.session.commit()
         flash("修改成功,请重新登录", "ok")
         return redirect(url_for('home.logout'))
-    return render_template("home/pwd.html", form=form)
+    else:
+        return render_template("home/user-change_pwd.html", form=form)
 
 
+# 我的购物车页面 ok
 @home.route('/buy/<int:page>')
 @login_required
 def buy(page=None):
@@ -144,12 +166,35 @@ def buy(page=None):
                            buycar=buycar)
 
 
-# 购买过的课程 ok
+# 购买过的课程/已支付课程 ok
 @home.route('/mycourse/')
 @login_required
 def mycourse():
     course = Detail.query.filter_by(user=current_user.id).all()
     return render_template('home/usercenter-mycourse.html', course=course)
+
+
+# 待支付订单中心 所有待支付订单 ok
+@home.route('/cart/waitpay/', methods=["POST", "GET"])
+@login_required
+def wait_pay():
+    if request.method == "GET":
+        order = Orders.query.filter_by(user=current_user.id, pay=0, cancel=0).all()
+        return render_template('home/user-wait-pay.html', order=order)
+    else:
+        print("取消该订单的支付")
+
+
+# 已经取消订单的对应课程
+@home.route('/cancel/', methods=["POST", "GET"])
+@login_required
+def cancel():
+    if request.method == "GET":
+        order = Orders.query.filter_by(user=current_user.id, cancel=1).all()
+        return render_template('home/user-cancel.html', order=order)
+    else:
+        # 接收需要取消的订单的订单号 修改数据表的是否取消订单的标记
+        pass
 
 
 # 收到的消息/通知 ok
@@ -291,7 +336,7 @@ def add_car():
                         })
 
 
-# 删除购物车的商品数据
+# 删除购物车的商品数据 ok
 @home.route('/org/del_car/', methods=["POST"])
 @login_required
 def del_car():
@@ -313,7 +358,7 @@ def del_car():
                         })
 
 
-# 接受需要结算的商品列表 写入数据表 生成订单号
+# 接受需要结算的商品列表 写入数据表 生成订单号 ok
 @home.route('/cart/clearing', methods=["POST"])
 @login_required
 def cart_clearing():
@@ -365,32 +410,24 @@ def cart_clearing():
                         "msg": "订单提交成功 去支付吧!"})
 
 
-# 待支付订单中心 所有待支付订单
-@home.route('/cart/waitpay/', methods=["POST", "GET"])
+# 购物车结算中心 ok
+@home.route('/buy/cart/<int:order_id>', methods=["POST", "GET"])
 @login_required
-def wait_pay():
+def buy_cart(order_id=None):
+    form = BuyCart()
     if request.method == "GET":
-        return "待支付中心"
-    else:
-        print("取消该订单的支付")
+        if order_id == 1:
+            order_id = Orders.query.filter_by(user=current_user.id, pay=0, cancel=0).first().order_id
+        return render_template('home/user-pay.html', form=form, order_id=order_id)
 
-
-# 购物车结算中心
-@home.route('/buy/cart/')
-@login_required
-def buy_cart():
-    # 先查询数据表 是否存在多个待支付订单
-    # 先处理已经存在的待支付订单
-    orde = Orders.query.filter_by(pay=0, cancel=0, user=current_user.id).count()
-    if orde > 1:
-        print("有多个订单没有支付哦")
-        return render_template('home/user-wait-pay.html')
-    # 取出唯一待支付订单 进行支付
-    order_id = Orders.query.filter_by(user=current_user.id, pay=0, cancel=0).first()
-    money = 0
-    for price in Detail.query.filter_by(orderId=order_id.order_id).all():
-        money = float(money) + float(price.price)
-    return render_template('home/user-pay.html', money=money)
+    if form.validate_on_submit():
+        data = form.data
+        info = Orders.query.filter_by(user=current_user.id, order_id=order_id).first()
+        info.alipay = data["alipay"],
+        info.pay_remark = data["remark"],
+        info.pay = 1
+        db.session.commit()
+        return redirect(url_for('home.mycourse'))
 
 
 # 机构主页=首页 ok
@@ -429,162 +466,6 @@ def ori_teacher(org_id=None):
                            school=school, teacher=teacher)
 
 
-# 轮播图嵌套页面 传递5个热门资源作为参数
-# @home.route('/animation')
-# def animation():
-#     return render_template('home/animation.html')
-
-# tag_list = TagList.query.all()
-# tags = Tags.query.all()
-# tag = Tag.query.all()
-# shops = Course.query.all()
-# return render_template('home/index.html', tag_list=tag_list,
-#                        shops=shops, tags=tags, tag=tag)
-
-
-# 分类列表页 二级
-# @home.route('/tag=<int:tag>')
-# def tag(tag):
-#     name = TagList.query.filter_by(id=tag).first()
-#     tags = Tags.query.filter_by(f_name=name.name).all()
-#     tag = Tag.query.filter_by(t_name=tags[0].name).first()
-#     shops = Course.query.filter_by(good_tag=tag.name).all()
-#     return render_template('home/tag.html', title=name.name,
-#                            shops=shops, tags=tags, Tag=Tag)
-
-
-# 分类列表页 三级
-# @home.route('/tag=<int:tag>/tags=<int:tags>')
-# def theree_tag(tag, tags):
-#     info = Tag.query.filter_by(id=tags).first()  # 根据该标签 查找改标签的中文名字
-#     shop = Course.query.filter_by(good_tag=info.name).all()  # 该分类下的商品信息
-#     return render_template('home/tag.html', title=info.name, shops=shop)
-
-
-# @home.route('/detail/goods=<string:goods_id>')
-# def detail(goods_id):
-#     info = Course.query.filter_by(good_id=goods_id).first()
-#     comments = Comment.query.filter_by(comment_good_id=goods_id).all()  # 该商品评论信息
-#     who_buy = Detail.query.filter_by(goods_id=goods_id).all()  # 谁购买过该商品
-#     who_col = Collect.query.filter_by(good_id=goods_id).all()  # 谁收藏过该商品
-#     if info == None:
-#         return render_template('home/detail.html', info=info)
-#     return render_template('home/detail.html', title=info.name, comments=comments,
-#                            buys=who_buy, cols=who_col, info=info)
-
-
-# # 结算页
-# @home.route('/pay/<int:order_id>')
-# @login_required
-# def pay(order_id=None):
-#     return ""
-#
-#
-# # 搜索页
-# @home.route('/search')
-# def search():
-#     return ""
-
-
-# 个人中心 修改图像 修改个人简介
-
-# # 查看收货地址==分页完成
-# @home.route('/address/')
-# @login_required
-# def address():
-#     page = request.args.get('page', 1, type=int)
-#     pagination = Address.query.filter_by(users_id=current_user.id). \
-#         order_by(Address.id.desc()).paginate(
-#         page, per_page=current_app.config['DATA_PER_PAGE'],
-#         error_out=False)
-#     address = pagination.items
-#     return render_template('home/address.html', address=address,
-#                            pagination=pagination, endpoint='home.address')
-
-
-# ----需要ajax----
-# 提交订单页面 也可以是购物车页面 生成订单号
-# 购物车页 可以选择商品直接去结算 点击按钮 去结算 自动根据用户id+时间戳生成订单号
-# @home.route('/buy/', methods=["POST", "GET"])
-# @home.route('/refer', methods=["POST", "GET"])
-# @login_required
-# def buy():
-#     buy_s = BuyCar.query.filter_by(user_car=current_user.id).all()
-#     if request.method == "GET":
-#         return render_template('home/buy.html', buys=buy_s)
-#     if request.method == "POST":
-#         print(request.args.get('name'))
-#         print(request.get_json())
-#         print(type(request.get_data()))
-#         print("哈哈哈：{}".format(request.data))
-#         return "成功加入购物车！！！！！"
-
-
-# @home.route('/car/product=<int:good_id>/num=<string:num>/', methods=["POST"])
-# @login_required
-# def car(good_id, num):
-#     # 判断用户是否在购物车中已经存在该商品
-#     print("商品：{} 数量：{}".format(good_id, num))
-#     return "加入购物车成功！"
-
-
-# 查看订单详情页==并且可以对购买过的商品添加评论=ok
-# @home.route('/order/<int:order_id>', methods=["POST", "GET"])
-# @login_required
-# def order_detail(order_id=None):
-#     form = CommentForm()
-#     if order_id == None:
-#         return redirect('home.order_list')
-#     if request.method == "GET":
-#         info = Orders.query.filter_by(order_id=order_id, user=current_user.id).first()
-#         goods = Detail.query.filter_by(orderId=order_id).all()
-#         return render_template('home/order_detail.html', info=info, goods=goods)
-#     if form.validate_on_submit():
-#         data = form.data
-#         content = data['content']
-#         comment_good_id = data['comment_good_id']
-#         com = Comment(
-#             content=content,
-#             comment_good_id=comment_good_id,
-#             users=current_user.id,
-#         )
-#         db.session.add(com)
-#         db.session.commit()
-#         # 提交评论之后 继续展示该订单信息
-#         info = Orders.query.filter_by(order_id=order_id, user=current_user.id).first()
-#         goods = Detail.query.filter_by(orderId=order_id).all()
-#         return render_template('home/order_detail.html', info=info, goods=goods)
-
-
-# 我的订单 查看所有的历史订单信息
-# @home.route('/order_list/')
-# @home.route('/order/')
-# @login_required
-# def order_list():
-#     orders = Orders.query.filter_by(user=current_user.id).all()
-#     return render_template('home/order_list.html', orders=orders)
-#
-
-# 收藏商品列表 查看所有收藏过的商品 以及 点击收藏之后 接收post请求 收藏
-# @home.route('/collect', methods=["POST", "GET"])
-# @login_required
-# def collect():
-#     collects = Collect.query.filter_by(users=current_user.id).all()
-#     if request.method == "GET":
-#         return render_template('home/collect.html', collects=collects)
-#     else:
-#         good_id = request.form.get('goods_id')
-#         goods = request.form.get('goods')
-#         inf = Collect(
-#             users=current_user.id,
-#             good_id=good_id,
-#             goods=goods,
-#         )
-#         db.session.add(inf)
-#         db.session.commit()
-#         flash("收藏成功 可以在收藏列表查看所有收藏的商品")
-
-
 # --------------------------静态固定页面----------------------------------#
 # 联系我们
 @home.route('/connect')
@@ -614,13 +495,6 @@ def how_to_buy():
 @home.route('/question')
 def question():
     return "常见问题"
-
-
-# 取消订单
-@home.route('/cancel')
-@login_required
-def cancel_order():
-    return "取消订单"
 
 
 # 售后服务

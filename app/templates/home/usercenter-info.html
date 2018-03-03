@@ -39,24 +39,31 @@
                 <!--左侧数据 图像 + 密码 -->
                 <div class="left" style="width:242px;">
                     <iframe id='frameFile' name='frameFile' style='display: none;'></iframe>
-                    <!--修改个人图像 -->
-                    <form class="clearfix" id="jsAvatarForm" enctype="multipart/form-data" autocomplete="off"
-                          method="post" action="/users/image/upload/" target='frameFile'>
+                    <!--修改个人图像  id="jsAvatarForm" enctype="multipart/form-data" autocomplete="off"-->
+                    <form class="clearfix"
+                          method="post"  target='frameFile'>
                         <label class="changearea" for="avatarUp">
                             <span id="avatardiv" class="pic">
-                                <img width="100" height="100" class="js-img-show" id="avatarShow"
-                                     src="{{ url_for('static',filename='media/image/2016/12/default_big_14.png') }}"/>
+                                {% if user.image %}
+                                    <img width="100" height="100" class="js-img-show" id="avatarShow"
+                                         src="{{ url_for('static',filename= user.image) }}"/>
+                                {% else %}
+                                    <img width="100" height="100" class="js-img-show" id="avatarShow"
+                                         src="{{ url_for('static',filename='media/image/2016/11/default_middile_8.png') }}"/>
+                                {% endif %}
                             </span>
-                            <span class="fl upload-inp-box" style="margin-left:70px;">
-                                <span class="button btn-green btn-w100" id="jsAvatarBtn">修改头像</span>
-                                <input type="file" name="image" id="avatarUp" class="js-img-up"/>
-                            </span>
+
                         </label>
-                        <input type='hidden' name='csrfmiddlewaretoken' value='799Y6iPeEDNSGvrTu3noBrO4MBLv6enY'/>
+
+                    </form>
+                    <!--修改图-->
+                    <form action="{{ url_for('home.upload_image') }}" method="post" enctype=multipart/form-data>
+                        <input type="file" name=file>
+                        <input type="submit" value=上传>
                     </form>
                     <!--修改个人密码 -->
                     <div style="border-top:1px solid #eaeaea;margin-top:30px;">
-                        <a class="button btn-green btn-w100" id="jsUserResetPwd" style="margin:80px auto;width:100px;">修改密码</a>
+                        <a class="button btn-green btn-w100" href="{{ url_for('home.change_pwd') }}" style="margin:80px auto;width:100px;">修改密码</a>
                     </div>
                 </div>
                 <!-- 右侧表单数据 -->

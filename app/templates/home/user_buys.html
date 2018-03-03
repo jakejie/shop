@@ -278,7 +278,7 @@
                 });
             });
             //alert('本次共需支付：￥' + sum);
-            location.href = "{{ url_for('home.buy_cart') }}";
+            location.href = "{{ url_for('home.buy_cart',order_id=1) }}";
         }
 
 

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <title>密码修改</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/reset.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/animate.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+
+<body>
+<div class="wp">
+    <div class="resetpassword" id="resetPwdForm">
+        <h1>修改密码</h1>
+        <p>已经通过安全验证，请设置新密码</p>
+        {% for msg in get_flashed_messages(category_filter=["err"]) %}
+            <p class="login-box-msg" style="color: red">{{ msg }}</p>
+        {% endfor %}
+        {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+            <p class="login-box-msg" style="color: green">{{ msg }}</p>
+        {% endfor %}
+        <form method="post">
+            <fieldset>
+                <ul>
+                    <li>
+                        <span class="">{{ form.old_pwd.label }}</span>
+                        {{ form.old_pwd }}
+                        <i></i>
+                    </li>
+                    <li>
+                        <span class="">{{ form.new_pwd.label }}</span>
+                        {{ form.new_pwd }}
+                        <i></i>
+                    </li>
+                    <li>
+                        <span class="">{{ form.re_pwd.label }}</span>
+                        {{ form.re_pwd }}
+                        <i></i>
+                    </li>
+                    <li class="button">
+
+                        {{ form.submit }}
+                    </li>
+                </ul>
+            </fieldset>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>

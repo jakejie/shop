@@ -10,91 +10,70 @@ from app.model import User
 class UserDetailForm(FlaskForm):
     name = StringField(
         label='昵称',
-        validators=[
-            DataRequired("请输入昵称")
-        ],
+        validators=[DataRequired("请输入昵称")],
         description="昵称",
-        render_kw={
-            "class": "form-control",
-            "rows": 10,
-
-        }
+        render_kw={"class": "form-control",
+                   "rows": 10, }
     )
     birthday = DateField(
         label="生日",
-        validators=[
-            DataRequired("请输入生日")
-        ],
+        validators=[DataRequired("请输入生日")],
     )
     sex = StringField(
         label="性别",
-        validators=[
-            DataRequired("请输入性别")
-        ],
+        validators=[DataRequired("请输入性别")],
     )
     phone = StringField(
         label='电话',
-        validators=[
-            DataRequired("请输入电话"),
-            Regexp('1[3578]\\d{9}', message='手机格式不正确')
-        ],
+        validators=[DataRequired("请输入电话"),
+                    Regexp('1[3578]\\d{9}', message='手机格式不正确')],
         description="电话",
-        render_kw={
-            "class": "form-control",
-            "rows": 10,
-        }
+        render_kw={"class": "form-control",
+                   "rows": 10, }
     )
     email = StringField(
         label='邮箱',
-        validators=[
-            DataRequired("请输入邮箱"),
-            Email('邮箱格式不正确')
-        ],
+        validators=[DataRequired("请输入邮箱"),
+                    Email('邮箱格式不正确')],
         description="邮箱",
-        render_kw={
-            "class": "form-control",
-            "rows": 10,
-        }
+        render_kw={"class": "form-control",
+                   "rows": 10, }
     )
-
     info = StringField(
         label='简介',
-        validators=[
-            DataRequired("请输入简介")
-        ],
+        validators=[DataRequired("请输入简介")],
         description="简介",
         render_kw={
             "class": "form-control",
-            "rows": 10,
-
-        }
+            "rows": 10, }
     )
     submit = SubmitField(
         '保存修改',
-        render_kw={"class": "btn btn-success  ", }
+        render_kw={"class": "btn btn-green",
+                   "id": "jsEmailRegBtn", }
     )
 
-    def validate_name(self, field):
-        name = field.data
-        user = User.query.filter_by(username=name).count()
-        if user == 1:
-            raise ValidationError("昵称已经存在")
 
-    def validate_email(self, field):
-        email = field.data
-        user = User.query.filter_by(email=email).count()
-        if user == 1:
-            raise ValidationError("邮箱已经存在")
+# def validate_name(self, field):
+#     name = field.data
+#     user = User.query.filter_by(username=name).count()
+#     if user == 1:
+#         raise ValidationError("昵称已经存在")
+#
+# def validate_email(self, field):
+#     email = field.data
+#     user = User.query.filter_by(email=email).count()
+#     if user == 1:
+#         raise ValidationError("邮箱已经存在")
+#
+# def validate_phone(self, field):
+#     phone = field.data
+#     user = User.query.filter_by(phone=phone).count()
+#     if user == 1:
+#         raise ValidationError("手机已经存在")
+#
 
-    def validate_phone(self, field):
-        phone = field.data
-        user = User.query.filter_by(phone=phone).count()
-        if user == 1:
-            raise ValidationError("手机已经存在")
-
-    # 修改密码
-
-
+# 修改密码
 class PwdForm(FlaskForm):
     old_pwd = PasswordField(
         label="旧密码",
@@ -118,6 +97,17 @@ class PwdForm(FlaskForm):
             "placeholder": "请输入新密码！",
         }
     )
+    re_pwd = PasswordField(
+        label="再次输入",
+        validators=[
+            DataRequired("请输入新密码！")
+        ],
+        description="新密码",
+        render_kw={
+            "class": "form-control",
+            "placeholder": "请输入新密码！",
+        }
+    )
     submit = SubmitField(
         '修改密码',
         render_kw={
@@ -125,15 +115,16 @@ class PwdForm(FlaskForm):
         }
     )
 
-    # image = FileField(
-    #     label="头像",
-    #     validators=[
-    #         DataRequired("请上传头像"),
-    #         FileAllowed(['jpg', 'png', 'jpeg', 'gif', 'bmp'], "只能上传图片！"),
-    #         FileRequired("文件未选择！"),
-    #     ],
-    #     description="头像",
-    # )
+
+# image = FileField(
+#     label="头像",
+#     validators=[
+#         DataRequired("请上传头像"),
+#         FileAllowed(['jpg', 'png', 'jpeg', 'gif', 'bmp'], "只能上传图片！"),
+#         FileRequired("文件未选择！"),
+#     ],
+#     description="头像",
+# )
 
 
 # 添加评论记录
@@ -167,6 +158,69 @@ class CommentForm(FlaskForm):
 # 购物车选中商品去结算
 class Buy(FlaskForm):
     pass
+
+
+# 提交支付订单的订单号
+class BuyCart(FlaskForm):
+    alipay = StringField(
+        label='支付订单',
+        validators=[
+            DataRequired("请输入支付订单号"),
+            # Regexp('1[3578]\\d{9}', message='手机格式不正确')
+
+        ],
+        description="支付订单",
+        render_kw={
+            "class": "form-control input-lg",
+            "placeholder": "请输入支付订单名！",
+        }
+    )
+    remark = PasswordField(
+        label="备注信息",
+        validators=[
+            DataRequired("请输入备注信息")
+        ],
+        description="备注信息",
+        render_kw={
+            "class": "form-control input-lg",
+            "placeholder": "请输入备注信息！",
+
+        }
+    )
+    submit = SubmitField(
+        '提交',
+        render_kw={"class": "btn btn-green",
+                   }
+    )
+
+    # data = StringField(
+    #     label='支付宝订单号',
+    #     validators=[
+    #         DataRequired("请输入支付宝支付订单号")
+    #
+    #     ],
+    #     description="订单号",
+    #     render_kw={
+    #         "class": "form-control",
+    #         "rows": 10,
+    #     }
+    # )
+    # remark = StringField(
+    #     label='备注',
+    #     validators=[
+    #         DataRequired("请输入备注信息")
+    #
+    #     ],
+    #     description="备注",
+    #     render_kw={
+    #         "class": "form-control",
+    #         "rows": 10,
+    #     }
+    # )
+    # submit = SubmitField(
+    #     '提交订单号',
+    #     render_kw={"class": "btn btn-success  ", }
+    # )
 
 
 # 添加收货地址表单

@@ -143,6 +143,8 @@ class Orders(db.Model):
     times = db.Column(db.BIGINT)
     pay = db.Column(db.Integer, default=0)  # 是否支付成功 0=待支付 1=支付成功
     cancel = db.Column(db.Integer, default=0)  # 订单是否取消 0=未取消 1=已经取消的订单
+    alipay = db.Column(db.String(256))  # 支付宝支付后的订单号 用来验证是否收款
+    pay_remark = db.Column(db.String(1024))  # 用户提交支付状态的时候的备注信息
 
 
 # 订单里面的商品列表 一个订单有多个商品
