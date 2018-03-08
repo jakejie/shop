@@ -10,7 +10,7 @@ class Config():
     MAIL_PORT = 465
     MAIL_USE_SSL = True
     MAIL_USERNAME = "jakejie@163.com"
-    MAIL_PASSWORD = "zhujie165102"
+    MAIL_PASSWORD = "******"
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flask]'
     FLASKY_MAIL_SENDER = 'jakejie@163.com'
     # 数据库配置
@@ -18,7 +18,7 @@ class Config():
     DRIVER = 'pymysql'
     USERNAME = 'root'
     PASSWORD = 'roottoor'
-    HOST = '59.110.230.99'
+    HOST = '******'
     PORT = 3306
     DATABASE = 'shopping'
 
