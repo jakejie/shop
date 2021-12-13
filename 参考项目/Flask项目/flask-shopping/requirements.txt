@@ -38,7 +38,7 @@ itsdangerous==0.24
 Jinja2==2.9.6
 jsonify==0.5
 livereload==2.3.2
-lxml==4.1.1
+lxml==4.6.5
 Mako==1.0.7
 Markdown==2.6.2
 MarkupSafe==1.0
