@@ -8,4 +8,4 @@ Flask-Mail==0.9.1
 Flask-Security==1.7.5
 Flask-Babel==0.11.1
 Flask-Uploads==0.2.1
-Pillow==3.4.2
+Pillow==9.0.1
