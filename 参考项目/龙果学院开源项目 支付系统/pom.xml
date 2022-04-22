@@ -56,7 +56,7 @@
 
 		<!-- libs -->
 		<junit.version>4.11</junit.version>
-		<spring.version>3.2.4.RELEASE</spring.version>
+		<spring.version>5.3.19</spring.version>
 		<mybatis-spring.version>1.3.0</mybatis-spring.version>
 		<mybatis.version>3.4.0</mybatis.version>
 		<slf4j_version>1.7.21</slf4j_version>
