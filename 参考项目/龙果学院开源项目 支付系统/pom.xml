@@ -68,7 +68,7 @@
 		<dbcp.version>1.4</dbcp.version>
 		<jstl.version>1.2</jstl.version>
 		<druid.version>1.0.19</druid.version>
-		<fastjson.version>1.2.11</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 		<javaee-api.version>7.0</javaee-api.version>
 		<commons-lang.version>2.6</commons-lang.version>
 		<commons-io.version>2.5</commons-io.version>
