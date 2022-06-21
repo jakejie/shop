@@ -9,7 +9,7 @@ djangorestframework==3.6.3
 future==0.16.0
 httplib2==0.10.3
 Markdown==2.6.8
-numpy==1.12.1
+numpy==1.22.0
 olefile==0.44
 Pillow==4.2.0
 PyMySQL==0.7.11
